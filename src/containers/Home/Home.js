@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
 import logo from '../../assets/logo.svg';
 import planet1 from '../../assets/planet1.svg';
@@ -44,26 +45,28 @@ export const Home = () => {
     }
 
     setStarElements(stars);
-  }, [setStarElements]);
+  }, []);
 
   const MainContainer = () => {
     return (
       <div className="main-container full-page-container">
         <img src={logo} className="logo" alt="Logo" />
-        <button
+        <a
           className="button1 button btn"
           onClick={() => setIsShowingProjectDesc(true)}
+          target="_blank"
+          rel="noopener noreferrer"
         >
           Personal&nbsp;Project
-        </button>
-        <button
+        </a>
+        <a
           className="button2 button btn"
           href="https://github.com/OllieFranklin"
           target="_blank"
           rel="noopener noreferrer"
         >
           Github
-        </button>
+        </a>
       </div>
     );
   };
@@ -80,7 +83,7 @@ export const Home = () => {
         <div className="project-description">
           <h1>Tetris Project</h1>
           <p>
-            As a fan of the classic Tetris World Championships, a competition
+            As a fan of the Classic Tetris World Championships, a competition
             which uses the classic NES version of the game, I started playing
             classic Tetris in my free time. However, I was not a fan of the
             limited accessibility and outdated interface that the over
