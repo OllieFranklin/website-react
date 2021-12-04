@@ -5,36 +5,42 @@
   --c-secondary: #02ee60;
   --c-secondary-light: #69ff91;
   --c-secondary-dark: #00ba2f;
+  --c-text: black;
 }
 
 h1 {
   font-family: 'Nunito', sans-serif;
   font-weight: 600 !important;
   font-size: 3.2rem !important;
+  color: var(--c-text);
 }
 
 h2 {
   font-family: 'Nunito', sans-serif;
   font-weight: 400 !important;
   font-size: 2.6rem;
+  color: var(--c-text);
 }
 
 h3 {
   font-family: 'Nunito', sans-serif;
   font-weight: 400 !important;
   font-size: 2rem !important;
+  color: var(--c-text);
 }
 
 h4 {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400 !important;
   font-size: 1.6rem !important;
+  color: var(--c-text);
 }
 
 p {
   font-family: 'Montserrat', sans-serif;
   font-weight: 400 !important;
   font-size: 1.3rem !important;
+  color: var(--c-text);
 }
 
 .button {
@@ -48,7 +54,7 @@ p {
   -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
   text-decoration: none;
   text-align: center;
-  color: black;
+  color: var(--c-text);
   border: none;
   line-height: normal !important;
 }

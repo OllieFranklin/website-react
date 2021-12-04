@@ -142,6 +142,7 @@
   top: 1rem;
   right: 1rem;
   font-size: 4rem;
+  color: var(--c-text);
 }
 
 .project-description {
