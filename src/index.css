@@ -1,13 +1,102 @@
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+:root {
+  --c-primary: #5db0f2;
+  --c-primary-light: #94e2ff;
+  --c-primary-dark: #1281bf;
+  --c-secondary: #02ee60;
+  --c-secondary-light: #69ff91;
+  --c-secondary-dark: #00ba2f;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+h1 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600 !important;
+  font-size: 3.2rem !important;
+}
+
+h2 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400 !important;
+  font-size: 2.6rem;
+}
+
+h3 {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400 !important;
+  font-size: 2rem !important;
+}
+
+h4 {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400 !important;
+  font-size: 1.6rem !important;
+}
+
+p {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400 !important;
+  font-size: 1.3rem !important;
+}
+
+.button {
+  font-family: 'Nunito', sans-serif;
+  font-weight: 600 !important;
+  font-size: 2rem;
+  padding: 0.7rem;
+  border-radius: 10px;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+  -webkit-box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+  -moz-box-shadow: 0 0 8px rgba(0, 0, 0, 0.25);
+  text-decoration: none;
+  text-align: center;
+  color: black;
+  border: none;
+  line-height: normal !important;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+/* Slider styling */
+input[type='range'] {
+  margin: 10px 0;
+  width: 100%;
+  border: none;
+  box-shadow: none;
+  cursor: pointer;
+
+  --thumb-size: 1.4rem;
+  --track-height: 0.5rem;
+  --thumb-colour: var(--c-primary-dark);
+  --track-colour: var(--c-primary);
+}
+input[type='range']:focus {
+  outline: none;
+}
+input[type='range']::-webkit-slider-runnable-track {
+  height: var(--track-height);
+  border-radius: var(--track-height);
+  background: var(--track-colour);
+}
+input[type='range']::-webkit-slider-thumb {
+  height: var(--thumb-size);
+  width: var(--thumb-size);
+  border-radius: var(--thumb-size);
+  background: var(--thumb-colour);
+}
+input[type='range']::-moz-range-track {
+  height: var(--track-height);
+  border-radius: var(--track-height);
+  background: var(--track-colour);
+}
+input[type='range']::-moz-range-thumb {
+  height: var(--thumb-size);
+  width: var(--thumb-size);
+  border-radius: var(--thumb-size);
+  background: var(--thumb-colour);
+}
+input[type='range']::-ms-track {
+  height: var(--track-height);
+  border-radius: var(--track-height);
+  background: var(--track-colour);
 }
