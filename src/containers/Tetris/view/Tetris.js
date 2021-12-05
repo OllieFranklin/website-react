@@ -13,7 +13,7 @@ export const Tetris = () => {
     <>
       <nav id="navigation"></nav>
 
-      <div id="page" class="container-fluid align-items-center vh-100">
+      <div id="page" className="container-fluid align-items-center vh-100">
         {gameState === GameStates.LEVEL_SELECT && <LevelSelect />}
         {gameState === GameStates.PLAYING && <GameBoard />}
         {gameState === GameStates.GAME_OVER && <GameOver />}

@@ -2,9 +2,9 @@ import React from 'react';
 
 export const GameOver = () => {
   return (
-    <div id="game-over-container" class="row h-100">
-      <div class="col-3"></div>
-      <div id="game-over-page" class="d-flex col-6">
+    <div id="game-over-container" className="row h-100">
+      <div className="col-3"></div>
+      <div id="game-over-page" className="d-flex col-6">
         <h1>Game Over</h1>
         <h4>Score: TODO</h4>
         <h4>Lines: TODO</h4>
@@ -18,11 +18,11 @@ export const GameOver = () => {
         <h4>&nbsp;</h4>
         <p>[Bar chart of piece distribution]</p>
 
-        <button id="select-level-btn" class="button">
+        <button id="select-level-btn" className="button">
           <b>Continue</b>
         </button>
       </div>
-      <div class="col-3"></div>
+      <div className="col-3"></div>
     </div>
   );
 };
