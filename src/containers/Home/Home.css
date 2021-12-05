@@ -18,18 +18,19 @@
   position: fixed;
   animation: twinkle linear alternate infinite;
   transform: scale(0);
-  opacity: 30%;
+  opacity: 0.3;
+  height: 2%;
 }
 
 @keyframes twinkle {
   0% {
     transform: scale(0);
-    opacity: 30%;
+    opacity: 0.3;
   }
 
   50% {
     transform: scale(1);
-    opacity: 100%;
+    opacity: 1;
   }
 }
 

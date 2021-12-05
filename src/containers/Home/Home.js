@@ -22,7 +22,6 @@ export const Home = () => {
         animationDelay: `${10 * (0.5 - Math.random())}s`,
         left: `${left * 100}%`,
         top: `${top * 100}%`,
-        height: '2%',
       };
 
       return (
