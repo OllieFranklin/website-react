@@ -2,11 +2,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import logo from '../../assets/logo.svg';
-import planet1 from '../../assets/planet1.svg';
-import planet2 from '../../assets/planet2.svg';
-import star1 from '../../assets/star1.svg';
-import star2 from '../../assets/star2.svg';
+import logo from '../../assets/Home/logo.svg';
+import planet1 from '../../assets/Home/planet1.svg';
+import planet2 from '../../assets/Home/planet2.svg';
+import star1 from '../../assets/Home/star1.svg';
+import star2 from '../../assets/Home/star2.svg';
 import './Home.css';
 
 export const Home = () => {

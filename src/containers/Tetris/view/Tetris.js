@@ -1,14 +1,23 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { GameOver } from './GameOver';
+import { LevelSelect } from './LevelSelect';
+import { GameBoard } from './GameBoard';
+import { useTetrisHook } from './useTetrisHook';
 
 import './Tetris.css';
 
 export const Tetris = () => {
+  const { GameStates, gameState } = useTetrisHook();
+
   return (
-    <div>
-      <p>Tetris page</p>
-      <Link to="/">Home</Link>
-    </div>
+    <>
+      <nav id="navigation"></nav>
+
+      <div id="page" class="container-fluid align-items-center vh-100">
+        {gameState === GameStates.LEVEL_SELECT && <LevelSelect />}
+        {gameState === GameStates.PLAYING && <GameBoard />}
+        {gameState === GameStates.GAME_OVER && <GameOver />}
+      </div>
+    </>
   );
 };
