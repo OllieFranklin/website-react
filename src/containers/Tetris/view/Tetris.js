@@ -5,9 +5,14 @@ import { GameBoard } from './GameBoard';
 import { useTetrisHook } from './useTetrisHook';
 
 import './Tetris.css';
+import testOutput from '../test-output.json';
 
 export const Tetris = () => {
   const { GameStates, gameState } = useTetrisHook();
+
+  React.useEffect(() => {
+    console.log(testOutput);
+  }, []);
 
   return (
     <>
