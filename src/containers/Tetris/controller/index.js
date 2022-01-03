@@ -1,3 +1,3 @@
-import useTetrisController from './useTetrisController';
+import { useTetrisController } from './useTetrisController';
 
 export { useTetrisController };

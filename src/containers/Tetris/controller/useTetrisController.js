@@ -1,22 +1,18 @@
-/* eslint-disable no-restricted-globals */
 import React from 'react';
 
 import { Game, KeyState } from '../model';
 
-const useTetrisHook = () => {
-  // const [isPaused, setIsPaused] = React.useState(false);
-
+export const useTetrisController = () => {
   const game = React.useRef(null);
   const timer = React.useRef(null);
-
   const gameState = React.useRef(null);
   const keyState = React.useRef(
     new KeyState(false, false, false, false, false),
   );
 
   React.useEffect(() => {
-    document.addEventListener('keydown', e => handleKeyPress(e, true));
-    document.addEventListener('keyup', e => handleKeyPress(e, false));
+    document.addEventListener('keydown', event => handleKeyPress(event, true));
+    document.addEventListener('keyup', event => handleKeyPress(event, false));
   }, []);
 
   const nextFrame = async () => {
@@ -28,7 +24,7 @@ const useTetrisHook = () => {
     }
   };
 
-  const togglePlayPause = () => {
+  const pauseGame = () => {
     clearInterval(timer.current);
   };
 
@@ -61,7 +57,5 @@ const useTetrisHook = () => {
     }
   };
 
-  return { gameState, startGame, togglePlayPause, nextFrame };
+  return { gameState, startGame, togglePlayPause: pauseGame, nextFrame };
 };
-
-export default useTetrisHook;

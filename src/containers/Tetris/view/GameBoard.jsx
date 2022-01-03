@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useTetrisController } from '../controller';
-import textures from './textures';
+import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 
 export const GameBoard = () => {
   const [canvasStyles, setCanvasStyles] = React.useState({});
@@ -64,9 +64,11 @@ export const GameBoard = () => {
         for (let col = 0; col < cols; col++) {
           const x = col * cellSize;
 
-          const str = board[row][col];
-          if (textures.has(str)) {
-            ctx.drawImage(textures.get(str), x, y, cellSize, cellSize);
+          const tetromino = board[row][col];
+          const texture = tetrominoTexturesDefault[tetromino];
+
+          if (texture) {
+            ctx.drawImage(texture, x, y, cellSize, cellSize);
           }
         }
       }
