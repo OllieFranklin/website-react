@@ -1,11 +1,17 @@
 import React from 'react';
 
+import { useTetrisController } from '../controller';
+import textures from './textures';
+
 export const GameBoard = () => {
   const [canvasStyles, setCanvasStyles] = React.useState({});
 
   const canvasRef = React.useRef();
   const pageRef = React.useRef();
 
+  const { gameState, startGame, nextFrame } = useTetrisController();
+
+  // setup
   React.useEffect(() => {
     const handleResize = () => {
       // find a width for the board that's divisible by 10
@@ -32,7 +38,44 @@ export const GameBoard = () => {
     };
 
     window.addEventListener('resize', handleResize);
-    handleResize();
+
+    setTimeout(handleResize, 10);
+  }, []);
+
+  React.useEffect(() => {
+    startGame(18);
+    nextFrame();
+
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext('2d');
+
+    const renderBoard = () => {
+      const board = gameState.current.board;
+
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      const rows = board?.length || 0;
+      const cols = (board && board[0]?.length) || 0;
+
+      const cellSize = canvas.width / cols;
+
+      for (let row = 0; row < rows; row++) {
+        const y = row * cellSize;
+
+        for (let col = 0; col < cols; col++) {
+          const x = col * cellSize;
+
+          const str = board[row][col];
+          if (textures.has(str)) {
+            ctx.drawImage(textures.get(str), x, y, cellSize, cellSize);
+          }
+        }
+      }
+      requestAnimationFrame(renderBoard);
+    };
+
+    renderBoard();
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
