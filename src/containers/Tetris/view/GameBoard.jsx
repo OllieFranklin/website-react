@@ -4,14 +4,15 @@ import { useTetrisController } from '../controller';
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 
 export const GameBoard = () => {
+  const [boardHasLoaded, setBoardHasLoaded] = React.useState(false);
   const [canvasStyles, setCanvasStyles] = React.useState({});
 
   const canvasRef = React.useRef();
   const pageRef = React.useRef();
 
-  const { gameState, startGame, nextFrame } = useTetrisController();
+  const { board, stats, startGame } = useTetrisController();
 
-  // setup
+  // resize function for board
   React.useEffect(() => {
     const handleResize = () => {
       // find a width for the board that's divisible by 10
@@ -35,6 +36,8 @@ export const GameBoard = () => {
       // // also update the stats container to be the same height as the board
       // document.querySelector('#stats-container').style.height =
       //   this.canvas.style.height;
+
+      setBoardHasLoaded(true);
     };
 
     window.addEventListener('resize', handleResize);
@@ -42,19 +45,24 @@ export const GameBoard = () => {
     setTimeout(handleResize, 10);
   }, []);
 
+  // render function called each frame of game
+  // handles displaying the game at the native framerate decided by requestAnimationFrame
+  // the game logic (i.e. what to show at any given moment) is run in a separate loop
   React.useEffect(() => {
     startGame(18);
-    nextFrame();
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
     const renderBoard = () => {
-      const board = gameState.current.board;
+      if (!board.current) {
+        requestAnimationFrame(renderBoard);
+        return;
+      }
 
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const rows = board?.length || 0;
-      const cols = (board && board[0]?.length) || 0;
+      const rows = board.current.length;
+      const cols = board.current[0].length;
 
       const cellSize = canvas.width / cols;
 
@@ -64,7 +72,7 @@ export const GameBoard = () => {
         for (let col = 0; col < cols; col++) {
           const x = col * cellSize;
 
-          const tetromino = board[row][col];
+          const tetromino = board.current[row][col];
           const texture = tetrominoTexturesDefault[tetromino];
 
           if (texture) {
@@ -72,13 +80,15 @@ export const GameBoard = () => {
           }
         }
       }
+
       requestAnimationFrame(renderBoard);
     };
 
     renderBoard();
 
+    // ignore startGame dependency
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [board]);
 
   return (
     <div className="align-items-center h-100" id="game-container" ref={pageRef}>
@@ -90,7 +100,7 @@ export const GameBoard = () => {
           ref={canvasRef}
         ></canvas>
 
-        {false && (
+        {boardHasLoaded && (
           <div id="stats-container" className="d-none d-md-flex">
             <div className="row my-card shadow-sm" id="stats-panel-1">
               <div style={{ height: '20%' }}>
@@ -106,30 +116,30 @@ export const GameBoard = () => {
                   <b>Level</b>
                   <span className="stat-sm">
                     <span>&nbsp;–&nbsp;&nbsp;</span>
-                    <span className="level-stat"></span>
+                    <span className="level-stat">{stats.level}</span>
                   </span>
                 </h4>
-                <h4 className="stat-lg level-stat">&lt;LEVEL_STAT&gt;</h4>
+                <h4 className="stat-lg level-stat">{stats.level}</h4>
               </div>
               <div style={{ height: '33%' }}>
                 <h4>
                   <b>Lines</b>
                   <span className="stat-sm">
                     <span>&nbsp;–&nbsp;&nbsp;</span>
-                    <span className="lines-stat"></span>
+                    <span className="lines-stat">{stats.lines}</span>
                   </span>
                 </h4>
-                <h4 className="stat-lg lines-stat">&lt;LINES_STAT&gt;</h4>
+                <h4 className="stat-lg lines-stat">{stats.lines}</h4>
               </div>
               <div style={{ height: '33%' }}>
                 <h4>
                   <b>Score</b>
                   <span className="stat-sm">
                     <span>&nbsp;–&nbsp;&nbsp;</span>
-                    <span className="score-stat"></span>
+                    <span className="score-stat">{stats.score}</span>
                   </span>
                 </h4>
-                <h4 className="stat-lg score-stat">&lt;SCORE_STAT&gt;</h4>
+                <h4 className="stat-lg score-stat">{stats.score}</h4>
               </div>
             </div>
             <div className="row my-card shadow-sm" id="stats-panel-3">
@@ -138,11 +148,12 @@ export const GameBoard = () => {
                   <b>Tetris Rate</b>
                   <span className="stat-sm">
                     <span>&nbsp;–&nbsp;&nbsp;</span>
-                    <span className="tetris-rate-stat"></span>%
+                    <span className="tetris-rate-stat">{stats.tetrisRate}</span>
+                    %
                   </span>
                 </h4>
                 <h4 className="stat-lg">
-                  <span className="tetris-rate-stat"></span>%
+                  <span className="tetris-rate-stat">{stats.tetrisRate}</span>%
                 </h4>
               </div>
               <div style={{ height: '33%' }}>
@@ -150,20 +161,20 @@ export const GameBoard = () => {
                   <b>Drought</b>
                   <span className="stat-sm">
                     <span>&nbsp;–&nbsp;&nbsp;</span>
-                    <span className="drought-stat"></span>
+                    <span className="drought-stat">{stats.drought}</span>
                   </span>
                 </h4>
-                <h4 className="stat-lg drought-stat">&lt;DROUGHT_STAT&gt;</h4>
+                <h4 className="stat-lg drought-stat">{stats.drought}</h4>
               </div>
               <div style={{ height: '33%' }}>
                 <h4>
                   <b>Burn</b>
                   <span className="stat-sm">
                     <span>&nbsp;–&nbsp;&nbsp;</span>
-                    <span className="burn-stat"></span>
+                    <span className="burn-stat">{stats.burn}</span>
                   </span>
                 </h4>
-                <h4 className="stat-lg burn-stat">&lt;BURN_STAT&gt;</h4>
+                <h4 className="stat-lg burn-stat">{stats.burn}</h4>
               </div>
             </div>
           </div>

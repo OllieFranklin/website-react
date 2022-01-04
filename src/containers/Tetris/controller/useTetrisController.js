@@ -1,37 +1,60 @@
 import React from 'react';
+import { isEqual, pick } from 'lodash';
 
 import { Game, KeyState } from '../model';
 
 export const useTetrisController = () => {
+  const [isPaused, setIsPaused] = React.useState(true);
+
   const game = React.useRef(null);
-  const timer = React.useRef(null);
-  const gameState = React.useRef(null);
   const keyState = React.useRef(
     new KeyState(false, false, false, false, false),
   );
+
+  const board = React.useRef(null);
+  const [stats, setStats] = React.useState({});
 
   React.useEffect(() => {
     document.addEventListener('keydown', event => handleKeyPress(event, true));
     document.addEventListener('keyup', event => handleKeyPress(event, false));
   }, []);
 
-  const nextFrame = async () => {
-    gameState.current = game.current.nextFrame(keyState.current);
+  const nextFrame = React.useCallback(() => {
+    if (isPaused) return;
 
-    if (game.current.isGameOver) {
-      clearInterval(timer);
+    const gameState = game.current.nextFrame(keyState.current);
+    board.current = gameState.board;
+
+    const statsFields = [
+      'nextPiece',
+      'level',
+      'lines',
+      'score',
+      'tetrisRate',
+      'drought',
+      'burn',
+    ];
+
+    const newStats = pick(gameState, statsFields);
+
+    if (!isEqual(stats, newStats)) {
+      setStats(newStats);
+    }
+
+    if (gameState.isGameOver) {
+      setIsPaused(true);
       // WebpageController.gameOver();
     }
-  };
+  }, [stats, setStats, isPaused, setIsPaused]);
 
   const pauseGame = () => {
-    clearInterval(timer.current);
+    setIsPaused(true);
   };
 
   const startGame = level => {
     game.current = new Game(level);
-
-    timer.current = setInterval(nextFrame, 1000 / 60);
+    nextFrame();
+    setIsPaused(false);
   };
 
   const handleKeyPress = (event, isPressed) => {
@@ -57,5 +80,18 @@ export const useTetrisController = () => {
     }
   };
 
-  return { gameState, startGame, togglePlayPause: pauseGame, nextFrame };
+  React.useEffect(() => {
+    const timer = setInterval(nextFrame, 1000 / 60);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [nextFrame]);
+
+  return {
+    stats,
+    board,
+    startGame,
+    pauseGame,
+  };
 };
