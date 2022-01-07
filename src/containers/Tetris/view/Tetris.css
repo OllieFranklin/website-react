@@ -1,13 +1,22 @@
+:root {
+  --nav-height: 45px;
+}
+
 #page {
   background: #ededed;
   min-height: 500px;
-  padding-top: 4rem;
+  padding-top: var(--nav-height);
   overflow-y: inherit;
 }
 
 #navigation {
+  position: fixed;
+  height: var(--nav-height);
+  width: 100%;
+  top: 0px;
+  left: 0px;
   margin: 0px;
-  border-radius: 0px;
+  background: #2c2c2c;
 }
 
 #game-container {
@@ -126,16 +135,6 @@
 
 .texture {
   display: none;
-}
-
-#navigation {
-  position: fixed;
-  height: 4rem;
-  width: 100%;
-  top: 0px;
-  left: 0px;
-  margin: 0px;
-  background: #2c2c2c;
 }
 
 @media screen and (max-height: 825px) {
