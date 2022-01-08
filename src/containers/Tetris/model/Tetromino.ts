@@ -1,19 +1,26 @@
-import { Orientation } from './Orientation';
 import { TETROMINO_INIT_ROW, TETROMINO_INIT_COL } from './constants';
 
-export abstract class Tetromino {
-  protected orientations: Orientation[];
-  protected orientationIndex: number;
-  protected orientation: Orientation;
-  protected row: number;
-  protected col: number;
-  protected letter: string;
-  protected state!: string[][];
+type Point = {
+  x: number;
+  y: number;
+};
 
-  protected constructor(letter: string) {
+type Orientation = Point[];
+
+export class Tetromino {
+  public row: number;
+  public col: number;
+  public letter: string;
+  public state!: string[][];
+  public orientation: Orientation;
+
+  private orientations: Orientation[];
+  private orientationIndex: number;
+
+  public constructor(letter: string, orientations: Orientation[]) {
     this.letter = letter;
     this.orientations = [];
-    this.initOrientations();
+    this.orientations = orientations;
     this.orientationIndex = 0;
     this.orientation = this.orientations[this.orientationIndex];
     this.row = TETROMINO_INIT_ROW;
@@ -26,8 +33,6 @@ export abstract class Tetromino {
      */
     this.initState();
   }
-
-  protected abstract initOrientations(): void;
 
   /**
    * A horrible method to convert a tetromino to string form...
@@ -44,13 +49,13 @@ export abstract class Tetromino {
     let maxX = -Infinity;
     let maxY = -Infinity;
 
-    for (let i = 0; i < this.orientation.cellOffsets.length; i++) {
-      const cellOffset = this.orientation.cellOffsets[i];
+    for (let i = 0; i < this.orientation.length; i++) {
+      const cellOffset = this.orientation[i];
 
-      if (cellOffset.getX() < minX) minX = cellOffset.getX();
-      if (cellOffset.getX() > maxX) maxX = cellOffset.getX();
-      if (cellOffset.getY() < minY) minY = cellOffset.getY();
-      if (cellOffset.getY() > maxY) maxY = cellOffset.getY();
+      if (cellOffset.x < minX) minX = cellOffset.x;
+      if (cellOffset.x > maxX) maxX = cellOffset.x;
+      if (cellOffset.y < minY) minY = cellOffset.y;
+      if (cellOffset.y > maxY) maxY = cellOffset.y;
     }
 
     // construct an array of the appropriate size
@@ -59,13 +64,19 @@ export abstract class Tetromino {
     this.state = Array.from(Array(rows), () => Array(cols).fill(' '));
 
     // put the letters into their spots
-    for (let i = 0; i < this.orientation.cellOffsets.length; i++) {
-      const cellOffset = this.orientation.cellOffsets[i];
+    for (let i = 0; i < this.orientation.length; i++) {
+      const cellOffset = this.orientation[i];
 
-      this.state[rows - (cellOffset.getY() - minY + 1)][
-        cellOffset.getX() - minX
-      ] = this.letter;
+      this.state[rows - (cellOffset.y - minY + 1)][cellOffset.x - minX] =
+        this.letter;
     }
+  }
+
+  public reset(): void {
+    this.orientation = this.orientations[0];
+    this.orientationIndex = 0;
+    this.row = TETROMINO_INIT_ROW;
+    this.col = TETROMINO_INIT_COL;
   }
 
   public rotateClockwise(): void {
@@ -90,106 +101,139 @@ export abstract class Tetromino {
     this.row = row;
     this.col = col;
   }
-
-  public getRow(): number {
-    return this.row;
-  }
-
-  public getCol(): number {
-    return this.col;
-  }
-
-  public getLetter(): string {
-    return this.letter;
-  }
-
-  public getState(): string[][] {
-    return this.state;
-  }
-
-  public getOrientation(): Orientation {
-    return this.orientation;
-  }
 }
 
-export class I_Tetromino extends Tetromino {
-  public constructor() {
-    super('I');
-  }
+export const I_Tetromino = new Tetromino('I', [
+  [
+    { x: -2, y: 0 },
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+  ],
+  [
+    { x: 0, y: -1 },
+    { x: 0, y: 0 },
+    { x: 0, y: 1 },
+    { x: 0, y: 2 },
+  ],
+]);
 
-  protected initOrientations() {
-    this.orientations.push(new Orientation(-2, 0, -1, 0, 0, 0, 1, 0));
-    this.orientations.push(new Orientation(0, -1, 0, 0, 0, 1, 0, 2));
-  }
-}
+export const J_Tetromino = new Tetromino('J', [
+  [
+    { x: 1, y: -1 },
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+  ],
+  [
+    { x: 0, y: -1 },
+    { x: 0, y: 0 },
+    { x: 0, y: 1 },
+    { x: 1, y: 1 },
+  ],
+  [
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: -1, y: 1 },
+  ],
+  [
+    { x: -1, y: -1 },
+    { x: 0, y: -1 },
+    { x: 0, y: 0 },
+    { x: 0, y: 1 },
+  ],
+]);
 
-export class J_Tetromino extends Tetromino {
-  public constructor() {
-    super('J');
-  }
+export const L_Tetromino = new Tetromino('L', [
+  [
+    { x: -1, y: -1 },
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+  ],
+  [
+    { x: 0, y: -1 },
+    { x: 1, y: -1 },
+    { x: 0, y: 0 },
+    { x: 0, y: 1 },
+  ],
+  [
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: 1, y: 1 },
+  ],
+  [
+    { x: 0, y: -1 },
+    { x: 0, y: 0 },
+    { x: -1, y: 1 },
+    { x: 0, y: 1 },
+  ],
+]);
 
-  protected initOrientations() {
-    this.orientations.push(new Orientation(1, -1, -1, 0, 0, 0, 1, 0));
-    this.orientations.push(new Orientation(0, -1, 0, 0, 0, 1, 1, 1));
-    this.orientations.push(new Orientation(-1, 0, 0, 0, 1, 0, -1, 1));
-    this.orientations.push(new Orientation(-1, -1, 0, -1, 0, 0, 0, 1));
-  }
-}
+export const O_Tetromino = new Tetromino('O', [
+  [
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: -1, y: -1 },
+    { x: 0, y: -1 },
+  ],
+]);
 
-export class L_Tetromino extends Tetromino {
-  public constructor() {
-    super('L');
-  }
+export const S_Tetromino = new Tetromino('S', [
+  [
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: -1, y: -1 },
+    { x: 0, y: -1 },
+  ],
+  [
+    { x: 0, y: 1 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: 1, y: -1 },
+  ],
+]);
 
-  protected initOrientations() {
-    this.orientations.push(new Orientation(-1, -1, -1, 0, 0, 0, 1, 0));
-    this.orientations.push(new Orientation(0, -1, 1, -1, 0, 0, 0, 1));
-    this.orientations.push(new Orientation(-1, 0, 0, 0, 1, 0, 1, 1));
-    this.orientations.push(new Orientation(0, -1, 0, 0, -1, 1, 0, 1));
-  }
-}
+export const T_Tetromino = new Tetromino('T', [
+  [
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: 0, y: -1 },
+  ],
+  [
+    { x: 0, y: 1 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: 0, y: -1 },
+  ],
+  [
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: 0, y: 1 },
+  ],
+  [
+    { x: 0, y: 1 },
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: -1 },
+  ],
+]);
 
-export class O_Tetromino extends Tetromino {
-  public constructor() {
-    super('O');
-  }
-
-  protected initOrientations() {
-    this.orientations.push(new Orientation(-1, 0, 0, 0, -1, -1, 0, -1));
-  }
-}
-
-export class S_Tetromino extends Tetromino {
-  public constructor() {
-    super('S');
-  }
-
-  protected initOrientations() {
-    this.orientations.push(new Orientation(0, 0, 1, 0, -1, -1, 0, -1));
-    this.orientations.push(new Orientation(0, 1, 0, 0, 1, 0, 1, -1));
-  }
-}
-
-export class T_Tetromino extends Tetromino {
-  public constructor() {
-    super('T');
-  }
-
-  protected initOrientations() {
-    this.orientations.push(new Orientation(-1, 0, 0, 0, 1, 0, 0, -1));
-    this.orientations.push(new Orientation(0, 1, 0, 0, 1, 0, 0, -1));
-    this.orientations.push(new Orientation(-1, 0, 0, 0, 1, 0, 0, 1));
-    this.orientations.push(new Orientation(0, 1, -1, 0, 0, 0, 0, -1));
-  }
-}
-
-export class Z_Tetromino extends Tetromino {
-  public constructor() {
-    super('Z');
-  }
-
-  protected initOrientations() {
-    this.orientations.push(new Orientation(-1, 0, 0, 0, 0, -1, 1, -1));
-    this.orientations.push(new Orientation(1, 1, 0, 0, 1, 0, 0, -1));
-  }
-}
+export const Z_Tetromino = new Tetromino('Z', [
+  [
+    { x: -1, y: 0 },
+    { x: 0, y: 0 },
+    { x: 0, y: -1 },
+    { x: 1, y: -1 },
+  ],
+  [
+    { x: 1, y: 1 },
+    { x: 0, y: 0 },
+    { x: 1, y: 0 },
+    { x: 0, y: -1 },
+  ],
+]);

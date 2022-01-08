@@ -11,7 +11,6 @@ import {
   RotateCW,
   MoveDown,
 } from './Move';
-import { I_Tetromino } from './Tetromino';
 
 export let FRAME_NUM = 1;
 
@@ -90,7 +89,7 @@ export class Game {
     return {
       isGameOver: this.state === State.GAME_OVER,
       board: this.board.getState(),
-      nextPiece: this.board.getNextTetromino().getState(),
+      nextPiece: this.board.nextTetromino.state,
       level: this.level,
       lines: this.totalLinesCleared,
       score: this.score,
@@ -177,7 +176,7 @@ export class Game {
         this.state = canPlaceTetromino ? State.PLAYING : State.GAME_OVER;
 
         // update drought counter
-        if (this.board.getNextTetromino() instanceof I_Tetromino) {
+        if (this.board.nextTetromino.letter === 'I') {
           this.drought = 0;
         } else {
           this.drought++;
@@ -261,7 +260,7 @@ export class Game {
 
       this.incrementScore(numLinesToClear);
     } else {
-      const activeTetrominoRow = this.board.getActiveTetromino().getRow();
+      const activeTetrominoRow = this.board.activeTetromino.row;
       this.entryDelay = Game.getEntryDelay(activeTetrominoRow);
       this.state = State.ARE;
     }

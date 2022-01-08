@@ -3,12 +3,12 @@ import { Board } from './Board';
 export type Move = (board: Board) => boolean;
 
 export const MoveDown: Move = (board: Board) => {
-  const tetromino = board.getActiveTetromino();
-  const newRow = tetromino.getRow() - 1;
+  const tetromino = board.activeTetromino;
+  const newRow = tetromino.row - 1;
 
-  if (board.canPlaceActiveTetromino(newRow, tetromino.getCol())) {
+  if (board.canPlaceActiveTetromino(newRow, tetromino.col)) {
     board.clearActiveTetromino();
-    board.placeActiveTetromino(newRow, tetromino.getCol());
+    board.placeActiveTetromino(newRow, tetromino.col);
     return true;
   }
 
@@ -16,12 +16,12 @@ export const MoveDown: Move = (board: Board) => {
 };
 
 export const MoveLeft: Move = (board: Board) => {
-  const tetromino = board.getActiveTetromino();
-  const newCol = tetromino.getCol() - 1;
+  const tetromino = board.activeTetromino;
+  const newCol = tetromino.col - 1;
 
-  if (board.canPlaceActiveTetromino(tetromino.getRow(), newCol)) {
+  if (board.canPlaceActiveTetromino(tetromino.row, newCol)) {
     board.clearActiveTetromino();
-    board.placeActiveTetromino(tetromino.getRow(), newCol);
+    board.placeActiveTetromino(tetromino.row, newCol);
     return true;
   }
 
@@ -29,12 +29,12 @@ export const MoveLeft: Move = (board: Board) => {
 };
 
 export const MoveRight: Move = (board: Board) => {
-  const tetromino = board.getActiveTetromino();
-  const newCol = tetromino.getCol() + 1;
+  const tetromino = board.activeTetromino;
+  const newCol = tetromino.col + 1;
 
-  if (board.canPlaceActiveTetromino(tetromino.getRow(), newCol)) {
+  if (board.canPlaceActiveTetromino(tetromino.row, newCol)) {
     board.clearActiveTetromino();
-    board.placeActiveTetromino(tetromino.getRow(), newCol);
+    board.placeActiveTetromino(tetromino.row, newCol);
     return true;
   }
 
@@ -50,21 +50,21 @@ export const RotateACW: Move = (board: Board) => {
 };
 
 function rotate(board: Board, isClockwise: boolean): boolean {
-  const tetromino = board.getActiveTetromino();
+  const tetromino = board.activeTetromino;
 
   // remove active tetromino from board, then update its orientation
   board.clearActiveTetromino();
   isClockwise ? tetromino.rotateClockwise() : tetromino.rotateAntiClockwise();
 
   // if tetromino can be placed in new orientation, place it and return true
-  if (board.canPlaceActiveTetromino(tetromino.getRow(), tetromino.getCol())) {
-    board.placeActiveTetromino(tetromino.getRow(), tetromino.getCol());
+  if (board.canPlaceActiveTetromino(tetromino.row, tetromino.col)) {
+    board.placeActiveTetromino(tetromino.row, tetromino.col);
     return true;
   }
 
   // otherwise, revert orientation and place back MoveDown
   isClockwise ? tetromino.rotateAntiClockwise() : tetromino.rotateClockwise();
-  board.placeActiveTetromino(tetromino.getRow(), tetromino.getCol());
+  board.placeActiveTetromino(tetromino.row, tetromino.col);
 
   return false;
 }
