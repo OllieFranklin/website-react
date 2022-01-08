@@ -1,10 +1,14 @@
 export class GravityBuilder {
-  withLevel(level: number): Gravity {
+  public withLevel(level: number): Gravity {
     const framesPerCell = this.getFramesForLevel(level);
-    return new Gravity(framesPerCell);
+    return new GravityImpl(framesPerCell);
   }
 
-  getFramesForLevel(level: number): number {
+  public withSpeed(framesPerCell: number): Gravity {
+    return new GravityImpl(framesPerCell);
+  }
+
+  private getFramesForLevel(level: number): number {
     if (level === 0) return 48;
     else if (level === 1) return 43;
     else if (level === 2) return 38;
@@ -22,22 +26,23 @@ export class GravityBuilder {
 
     return 1;
   }
-
-  withSpeed(framesPerCell: number): Gravity {
-    return new Gravity(framesPerCell);
-  }
 }
 
-export class Gravity {
-  counter: number;
-  framesPerCell: number;
+export interface Gravity {
+  isDropping(): boolean;
+  setCounter(value: number): void;
+}
 
-  constructor(framesPerCell: number) {
+class GravityImpl implements Gravity {
+  private counter: number;
+  private framesPerCell: number;
+
+  public constructor(framesPerCell: number) {
     this.framesPerCell = framesPerCell;
     this.counter = 0;
   }
 
-  isDropping(): boolean {
+  public isDropping(): boolean {
     this.counter++;
 
     if (this.counter >= this.framesPerCell) {
@@ -48,7 +53,7 @@ export class Gravity {
     return false;
   }
 
-  setCounter(value: number): void {
+  public setCounter(value: number): void {
     this.counter = value;
   }
 }

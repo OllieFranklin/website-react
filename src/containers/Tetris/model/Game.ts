@@ -22,9 +22,9 @@ enum State {
   GAME_OVER,
 }
 
-export class Game {
-  private static pointsPerLine = Game.initPointsPerLine();
+const pointsPerLine = [0, 40, 100, 300, 1200];
 
+export class Game {
   private moves: Move[];
   private DAS: AutoShift;
   private board: Board;
@@ -268,7 +268,7 @@ export class Game {
   }
 
   private incrementScore(numLinesCleared: number): void {
-    const linePoints = Game.pointsPerLine.get(numLinesCleared) || 0;
+    const linePoints = pointsPerLine[numLinesCleared] || 0;
     this.score += linePoints * (this.level + 1);
   }
 
@@ -287,16 +287,5 @@ export class Game {
     if (initLevel < 16) return 100;
 
     return 10 * initLevel - 50;
-  }
-
-  private static initPointsPerLine(): Map<number, number> {
-    const output = new Map<number, number>();
-
-    output.set(1, 40);
-    output.set(2, 100);
-    output.set(3, 300);
-    output.set(4, 1200);
-
-    return output;
   }
 }

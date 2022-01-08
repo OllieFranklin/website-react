@@ -1,17 +1,17 @@
 export class Point {
-  x: number;
-  y: number;
+  private x: number;
+  private y: number;
 
-  constructor(x: number, y: number) {
+  public constructor(x: number, y: number) {
     this.x = x;
     this.y = y;
   }
 
-  getX() {
+  public getX() {
     return this.x;
   }
 
-  getY() {
+  public getY() {
     return this.y;
   }
 }

@@ -19,13 +19,13 @@ import {
 } from './Tetromino';
 
 export class Board {
-  cells: Cell[][];
-  activeTetromino!: Tetromino;
-  nextTetromino!: Tetromino;
-  numRowsToMoveBy: number[];
-  linesToClear: number[];
+  private cells: Cell[][];
+  private activeTetromino!: Tetromino;
+  private nextTetromino!: Tetromino;
+  private numRowsToMoveBy: number[];
+  private linesToClear: number[];
 
-  constructor() {
+  public constructor() {
     this.cells = new Array(ROWS);
 
     this.newActiveTetromino();
@@ -36,25 +36,25 @@ export class Board {
     for (let row = 0; row < ROWS; row++) {
       this.cells[row] = new Array(COLS);
       for (let col = 0; col < COLS; col++) {
-        this.cells[row][col] = new Cell(row, col);
+        this.cells[row][col] = new Cell();
       }
     }
   }
 
-  pieceLock(): void {
+  public pieceLock(): void {
     for (
       let i = 0;
-      i < this.activeTetromino.orientation.cellOffsets.length;
+      i < this.activeTetromino.getOrientation().cellOffsets.length;
       i++
     ) {
-      const cellOffset = this.activeTetromino.orientation.cellOffsets[i];
-      const row = this.activeTetromino.getRow() + cellOffset.y;
-      const col = this.activeTetromino.getCol() + cellOffset.x;
+      const cellOffset = this.activeTetromino.getOrientation().cellOffsets[i];
+      const row = this.activeTetromino.getRow() + cellOffset.getY();
+      const col = this.activeTetromino.getCol() + cellOffset.getX();
       this.cells[row][col].isActiveTetromino = false;
     }
   }
 
-  findLinesToClear(): number {
+  public findLinesToClear(): number {
     this.numRowsToMoveBy = [];
     this.linesToClear = [];
 
@@ -77,7 +77,7 @@ export class Board {
     return this.linesToClear.length;
   }
 
-  clearLines(columnIndex: number): void {
+  public clearLines(columnIndex: number): void {
     for (let i = 0; i < this.linesToClear.length; i++) {
       const row = this.linesToClear[i];
 
@@ -88,7 +88,7 @@ export class Board {
     }
   }
 
-  moveLinesDown(): void {
+  public moveLinesDown(): void {
     for (let row = 1; row < ROWS; row++) {
       const numRows = this.numRowsToMoveBy[row];
       if (numRows === 0) continue;
@@ -105,7 +105,7 @@ export class Board {
     }
   }
 
-  newActiveTetromino(): boolean {
+  public newActiveTetromino(): boolean {
     this.activeTetromino = this.nextTetromino;
 
     const tetrominoes = [
@@ -133,20 +133,21 @@ export class Board {
     return false;
   }
 
-  canPlaceActiveTetromino(row: number, col: number): boolean {
+  public canPlaceActiveTetromino(row: number, col: number): boolean {
     if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
       return false;
     }
 
     for (
       let i = 0;
-      i < this.activeTetromino.orientation.cellOffsets.length;
+      i < this.activeTetromino.getOrientation().cellOffsets.length;
       i++
     ) {
-      const cellOffset = this.activeTetromino.orientation.cellOffsets[i];
+      const cellOffset = this.activeTetromino.getOrientation().cellOffsets[i];
 
       try {
-        const cell = this.cells[row + cellOffset.y][col + cellOffset.x];
+        const cell =
+          this.cells[row + cellOffset.getY()][col + cellOffset.getX()];
 
         if (cell.isOccupied && !cell.isActiveTetromino) return false;
       } catch (error) {
@@ -157,7 +158,7 @@ export class Board {
     return true;
   }
 
-  placeActiveTetromino(row: number, col: number): void {
+  public placeActiveTetromino(row: number, col: number): void {
     if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
       throw new Error('Out of bounds value for tetromino position');
     }
@@ -165,45 +166,45 @@ export class Board {
     this.activeTetromino.setPos(row, col);
     for (
       let i = 0;
-      i < this.activeTetromino.orientation.cellOffsets.length;
+      i < this.activeTetromino.getOrientation().cellOffsets.length;
       i++
     ) {
-      const cellOffset = this.activeTetromino.orientation.cellOffsets[i];
-      const cell = this.cells[row + cellOffset.y][col + cellOffset.x];
+      const cellOffset = this.activeTetromino.getOrientation().cellOffsets[i];
+      const cell = this.cells[row + cellOffset.getY()][col + cellOffset.getX()];
 
       cell.occupy(this.activeTetromino.getLetter());
       cell.isActiveTetromino = true;
     }
   }
 
-  clearActiveTetromino(): void {
+  public clearActiveTetromino(): void {
     for (
       let i = 0;
-      i < this.activeTetromino.orientation.cellOffsets.length;
+      i < this.activeTetromino.getOrientation().cellOffsets.length;
       i++
     ) {
-      const cellOffset = this.activeTetromino.orientation.cellOffsets[i];
-      const row = this.activeTetromino.getRow() + cellOffset.y;
-      const col = this.activeTetromino.getCol() + cellOffset.x;
+      const cellOffset = this.activeTetromino.getOrientation().cellOffsets[i];
+      const row = this.activeTetromino.getRow() + cellOffset.getY();
+      const col = this.activeTetromino.getCol() + cellOffset.getX();
       const cell = this.cells[row][col];
 
       cell.clear();
     }
   }
 
-  getActiveTetromino(): Tetromino {
+  public getActiveTetromino(): Tetromino {
     return this.activeTetromino;
   }
 
-  getNextTetromino(): Tetromino {
+  public getNextTetromino(): Tetromino {
     return this.nextTetromino;
   }
 
-  getNumLinesCleared(): number {
+  public getNumLinesCleared(): number {
     return this.linesToClear.length;
   }
 
-  getState(): string[][] {
+  public getState(): string[][] {
     const state = new Array<string[]>(VISIBLE_ROWS);
 
     for (let row = 0; row < VISIBLE_ROWS; row++) {

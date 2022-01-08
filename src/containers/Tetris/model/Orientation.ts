@@ -1,9 +1,9 @@
 import { Point } from './Point';
 
 export class Orientation {
-  cellOffsets: Point[];
+  public cellOffsets: Point[];
 
-  constructor(...args: number[]) {
+  public constructor(...args: number[]) {
     if (args.length % 2 !== 0)
       throw new Error('Orientation must recieve an even number of arguments');
 

@@ -5,7 +5,7 @@ export interface Move {
 }
 
 export class MoveDown implements Move {
-  apply(board: Board): boolean {
+  public apply(board: Board): boolean {
     const tetromino = board.getActiveTetromino();
     const newRow = tetromino.getRow() - 1;
 
@@ -20,7 +20,7 @@ export class MoveDown implements Move {
 }
 
 export class MoveLeft implements Move {
-  apply(board: Board): boolean {
+  public apply(board: Board): boolean {
     const tetromino = board.getActiveTetromino();
     const newCol = tetromino.getCol() - 1;
 
@@ -35,7 +35,7 @@ export class MoveLeft implements Move {
 }
 
 export class MoveRight implements Move {
-  apply(board: Board): boolean {
+  public apply(board: Board): boolean {
     const tetromino = board.getActiveTetromino();
     const newCol = tetromino.getCol() + 1;
 
@@ -50,7 +50,7 @@ export class MoveRight implements Move {
 }
 
 class Rotation {
-  rotate(board: Board, isClockwise: boolean): boolean {
+  protected rotate(board: Board, isClockwise: boolean): boolean {
     const tetromino = board.getActiveTetromino();
 
     // remove active tetromino from board, then update its orientation
@@ -72,13 +72,13 @@ class Rotation {
 }
 
 export class RotateCW extends Rotation implements Move {
-  apply(board: Board): boolean {
+  public apply(board: Board): boolean {
     return this.rotate(board, true);
   }
 }
 
 export class RotateACW extends Rotation implements Move {
-  apply(board: Board): boolean {
+  public apply(board: Board): boolean {
     return this.rotate(board, false);
   }
 }
