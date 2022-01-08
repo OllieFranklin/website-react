@@ -53,8 +53,7 @@ export class Board {
   }
 
   public pieceLock(): void {
-    for (let i = 0; i < this.activeTetromino.orientation.length; i++) {
-      const cellOffset = this.activeTetromino.orientation[i];
+    for (const cellOffset of this.activeTetromino.orientation) {
       const row = this.activeTetromino.row + cellOffset.y;
       const col = this.activeTetromino.col + cellOffset.x;
       this.cells[row][col].isActiveTetromino = false;
@@ -85,9 +84,7 @@ export class Board {
   }
 
   public clearLines(columnIndex: number): void {
-    for (let i = 0; i < this.linesToClear.length; i++) {
-      const row = this.linesToClear[i];
-
+    for (const row of this.linesToClear) {
       const col1 = Math.floor(COLS / 2) - 1 - columnIndex;
       const col2 = Math.floor(COLS / 2) + columnIndex;
       this.cells[row][col1].clear();
@@ -137,9 +134,7 @@ export class Board {
       return false;
     }
 
-    for (let i = 0; i < this.activeTetromino.orientation.length; i++) {
-      const cellOffset = this.activeTetromino.orientation[i];
-
+    for (const cellOffset of this.activeTetromino.orientation) {
       try {
         const cell = this.cells[row + cellOffset.y][col + cellOffset.x];
 
@@ -158,8 +153,7 @@ export class Board {
     }
 
     this.activeTetromino.setPos(row, col);
-    for (let i = 0; i < this.activeTetromino.orientation.length; i++) {
-      const cellOffset = this.activeTetromino.orientation[i];
+    for (const cellOffset of this.activeTetromino.orientation) {
       const cell = this.cells[row + cellOffset.y][col + cellOffset.x];
 
       cell.occupy(this.activeTetromino.letter);
@@ -168,8 +162,7 @@ export class Board {
   }
 
   public clearActiveTetromino(): void {
-    for (let i = 0; i < this.activeTetromino.orientation.length; i++) {
-      const cellOffset = this.activeTetromino.orientation[i];
+    for (const cellOffset of this.activeTetromino.orientation) {
       const row = this.activeTetromino.row + cellOffset.y;
       const col = this.activeTetromino.col + cellOffset.x;
       const cell = this.cells[row][col];

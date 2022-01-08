@@ -49,9 +49,7 @@ export class Tetromino {
     let maxX = -Infinity;
     let maxY = -Infinity;
 
-    for (let i = 0; i < this.orientation.length; i++) {
-      const cellOffset = this.orientation[i];
-
+    for (const cellOffset of this.orientation) {
       if (cellOffset.x < minX) minX = cellOffset.x;
       if (cellOffset.x > maxX) maxX = cellOffset.x;
       if (cellOffset.y < minY) minY = cellOffset.y;
@@ -64,9 +62,7 @@ export class Tetromino {
     this.state = Array.from(Array(rows), () => Array(cols).fill(' '));
 
     // put the letters into their spots
-    for (let i = 0; i < this.orientation.length; i++) {
-      const cellOffset = this.orientation[i];
-
+    for (const cellOffset of this.orientation) {
       this.state[rows - (cellOffset.y - minY + 1)][cellOffset.x - minX] =
         this.letter;
     }
