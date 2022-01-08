@@ -1,19 +1,23 @@
 import { Orientation } from './Orientation';
 import { TETROMINO_INIT_ROW, TETROMINO_INIT_COL } from './constants';
 
-export class Tetromino {
-  constructor() {
-    if (this.constructor === Tetromino) {
-      throw new Error("Can't instantiate abstract class Tetromino");
-    }
+export abstract class Tetromino {
+  orientations: Orientation[];
+  orientationIndex: number;
+  orientation: Orientation;
+  row: number;
+  col: number;
+  letter: string;
+  state!: string[][];
 
+  constructor(letter: string) {
+    this.letter = letter;
     this.orientations = [];
     this.initOrientations();
     this.orientationIndex = 0;
     this.orientation = this.orientations[this.orientationIndex];
     this.row = TETROMINO_INIT_ROW;
     this.col = TETROMINO_INIT_COL;
-    this.letter = this.constructor.name.charAt(0);
 
     /**
      * State represents the shape of a tetromino, as a String[][]
@@ -23,9 +27,7 @@ export class Tetromino {
     this.initState();
   }
 
-  initOrientations() {
-    throw new Error("Method 'initOrientations()' must be implemented");
-  }
+  abstract initOrientations(): void;
 
   /**
    * A horrible method to convert a tetromino to string form...
@@ -35,7 +37,7 @@ export class Tetromino {
    * To do this, we must convert from an orientation to a regular array,
    * which turns out to be pretty yucky
    */
-  initState() {
+  initState(): void {
     // find the furthest left/right/up/down cells in the orientation
     let minX = Infinity;
     let minY = Infinity;
@@ -65,7 +67,7 @@ export class Tetromino {
     }
   }
 
-  rotateClockwise() {
+  rotateClockwise(): void {
     this.orientationIndex--;
 
     if (this.orientationIndex < 0)
@@ -74,7 +76,7 @@ export class Tetromino {
     this.orientation = this.orientations[this.orientationIndex];
   }
 
-  rotateAntiClockwise() {
+  rotateAntiClockwise(): void {
     this.orientationIndex++;
 
     if (this.orientationIndex >= this.orientations.length)
@@ -83,29 +85,32 @@ export class Tetromino {
     this.orientation = this.orientations[this.orientationIndex];
   }
 
-  setPos(row, col) {
+  setPos(row: number, col: number): void {
     this.row = row;
     this.col = col;
   }
 
-  getRow() {
+  getRow(): number {
     return this.row;
   }
 
-  getCol() {
+  getCol(): number {
     return this.col;
   }
 
-  getLetter() {
+  getLetter(): string {
     return this.letter;
   }
 
-  getState() {
+  getState(): string[][] {
     return this.state;
   }
 }
 
 export class I_Tetromino extends Tetromino {
+  constructor() {
+    super('I');
+  }
   initOrientations() {
     this.orientations.push(new Orientation(-2, 0, -1, 0, 0, 0, 1, 0));
     this.orientations.push(new Orientation(0, -1, 0, 0, 0, 1, 0, 2));
@@ -113,6 +118,9 @@ export class I_Tetromino extends Tetromino {
 }
 
 export class J_Tetromino extends Tetromino {
+  constructor() {
+    super('J');
+  }
   initOrientations() {
     this.orientations.push(new Orientation(1, -1, -1, 0, 0, 0, 1, 0));
     this.orientations.push(new Orientation(0, -1, 0, 0, 0, 1, 1, 1));
@@ -122,6 +130,9 @@ export class J_Tetromino extends Tetromino {
 }
 
 export class L_Tetromino extends Tetromino {
+  constructor() {
+    super('L');
+  }
   initOrientations() {
     this.orientations.push(new Orientation(-1, -1, -1, 0, 0, 0, 1, 0));
     this.orientations.push(new Orientation(0, -1, 1, -1, 0, 0, 0, 1));
@@ -131,12 +142,18 @@ export class L_Tetromino extends Tetromino {
 }
 
 export class O_Tetromino extends Tetromino {
+  constructor() {
+    super('O');
+  }
   initOrientations() {
     this.orientations.push(new Orientation(-1, 0, 0, 0, -1, -1, 0, -1));
   }
 }
 
 export class S_Tetromino extends Tetromino {
+  constructor() {
+    super('S');
+  }
   initOrientations() {
     this.orientations.push(new Orientation(0, 0, 1, 0, -1, -1, 0, -1));
     this.orientations.push(new Orientation(0, 1, 0, 0, 1, 0, 1, -1));
@@ -144,6 +161,9 @@ export class S_Tetromino extends Tetromino {
 }
 
 export class T_Tetromino extends Tetromino {
+  constructor() {
+    super('T');
+  }
   initOrientations() {
     this.orientations.push(new Orientation(-1, 0, 0, 0, 1, 0, 0, -1));
     this.orientations.push(new Orientation(0, 1, 0, 0, 1, 0, 0, -1));
@@ -153,6 +173,9 @@ export class T_Tetromino extends Tetromino {
 }
 
 export class Z_Tetromino extends Tetromino {
+  constructor() {
+    super('Z');
+  }
   initOrientations() {
     this.orientations.push(new Orientation(-1, 0, 0, 0, 0, -1, 1, -1));
     this.orientations.push(new Orientation(1, 1, 0, 0, 1, 0, 0, -1));

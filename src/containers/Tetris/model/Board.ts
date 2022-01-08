@@ -1,10 +1,11 @@
-import { TETROMINO_TYPES } from './constants';
 import {
+  TETROMINO_TYPES,
   TETROMINO_INIT_COL,
   TETROMINO_INIT_ROW,
   VISIBLE_ROWS,
+  ROWS,
+  COLS,
 } from './constants';
-import { ROWS, COLS } from './constants';
 import { Cell } from './Cell';
 import {
   I_Tetromino,
@@ -12,15 +13,20 @@ import {
   L_Tetromino,
   O_Tetromino,
   S_Tetromino,
+  Tetromino,
   T_Tetromino,
   Z_Tetromino,
 } from './Tetromino';
 
 export class Board {
+  cells: Cell[][];
+  activeTetromino!: Tetromino;
+  nextTetromino!: Tetromino;
+  numRowsToMoveBy: number[];
+  linesToClear: number[];
+
   constructor() {
     this.cells = new Array(ROWS);
-    this.activeTetromino = null;
-    this.nextTetromino = null;
 
     this.newActiveTetromino();
 
@@ -35,7 +41,7 @@ export class Board {
     }
   }
 
-  pieceLock() {
+  pieceLock(): void {
     for (
       let i = 0;
       i < this.activeTetromino.orientation.cellOffsets.length;
@@ -48,7 +54,7 @@ export class Board {
     }
   }
 
-  findLinesToClear() {
+  findLinesToClear(): number {
     this.numRowsToMoveBy = [];
     this.linesToClear = [];
 
@@ -71,7 +77,7 @@ export class Board {
     return this.linesToClear.length;
   }
 
-  clearLines(columnIndex) {
+  clearLines(columnIndex: number): void {
     for (let i = 0; i < this.linesToClear.length; i++) {
       const row = this.linesToClear[i];
 
@@ -82,7 +88,7 @@ export class Board {
     }
   }
 
-  moveLinesDown() {
+  moveLinesDown(): void {
     for (let row = 1; row < ROWS; row++) {
       const numRows = this.numRowsToMoveBy[row];
       if (numRows === 0) continue;
@@ -99,7 +105,7 @@ export class Board {
     }
   }
 
-  newActiveTetromino() {
+  newActiveTetromino(): boolean {
     this.activeTetromino = this.nextTetromino;
 
     const tetrominoes = [
@@ -115,7 +121,7 @@ export class Board {
     const randomIndex = Math.floor(Math.random() * TETROMINO_TYPES.length);
     this.nextTetromino = tetrominoes[randomIndex];
 
-    if (this.activeTetromino == null) {
+    if (!this.activeTetromino) {
       return false;
     }
 
@@ -127,7 +133,7 @@ export class Board {
     return false;
   }
 
-  canPlaceActiveTetromino(row, col) {
+  canPlaceActiveTetromino(row: number, col: number): boolean {
     if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
       return false;
     }
@@ -151,7 +157,7 @@ export class Board {
     return true;
   }
 
-  placeActiveTetromino(row, col) {
+  placeActiveTetromino(row: number, col: number): void {
     if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
       throw new Error('Out of bounds value for tetromino position');
     }
@@ -170,7 +176,7 @@ export class Board {
     }
   }
 
-  clearActiveTetromino() {
+  clearActiveTetromino(): void {
     for (
       let i = 0;
       i < this.activeTetromino.orientation.cellOffsets.length;
@@ -185,23 +191,23 @@ export class Board {
     }
   }
 
-  getActiveTetromino() {
+  getActiveTetromino(): Tetromino {
     return this.activeTetromino;
   }
 
-  getNextTetromino() {
+  getNextTetromino(): Tetromino {
     return this.nextTetromino;
   }
 
-  getNumLinesCleared() {
+  getNumLinesCleared(): number {
     return this.linesToClear.length;
   }
 
-  getState() {
-    const state = new Array(VISIBLE_ROWS);
+  getState(): string[][] {
+    const state = new Array<string[]>(VISIBLE_ROWS);
 
     for (let row = 0; row < VISIBLE_ROWS; row++) {
-      state[row] = new Array(COLS);
+      state[row] = new Array<string>(COLS);
       for (let col = 0; col < COLS; col++) {
         state[row][col] = this.cells[VISIBLE_ROWS - (row + 1)][col].toString();
       }

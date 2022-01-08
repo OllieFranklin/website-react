@@ -1,37 +1,70 @@
 import { GameState } from './GameState';
 import { AutoShift } from './AutoShift';
 import { Board } from './Board';
-import { Gravity } from './Gravity';
+import { GravityBuilder, Gravity } from './Gravity';
 import { KeyState } from './KeyState';
-import { MoveLeft, MoveRight, RotateACW, RotateCW, MoveDown } from './Move';
+import {
+  Move,
+  MoveLeft,
+  MoveRight,
+  RotateACW,
+  RotateCW,
+  MoveDown,
+} from './Move';
 import { I_Tetromino } from './Tetromino';
 
 export let FRAME_NUM = 1;
 
+enum State {
+  ARE,
+  PLAYING,
+  LINE_CLEAR,
+  GAME_OVER,
+}
+
 export class Game {
-  static State = {
-    ARE: 'ARE',
-    PLAYING: 'PLAYING',
-    LINE_CLEAR: 'LINE_CLEAR',
-    GAME_OVER: 'GAME_OVER',
-  };
+  private static pointsPerLine = Game.initPointsPerLine();
 
-  static pointsPerLine = Game.initPointsPerLine();
+  private moves: Move[];
+  private DAS: AutoShift;
+  private board: Board;
+  private gravity: Gravity;
+  private softDrop: Gravity;
+  private keyStates: KeyState;
+  private state: State;
+  private lineClearAnimationFrame: number;
+  private initialLevel: number;
+  private level: number;
+  private linesBeforeFirstLevelUp: number;
+  private totalLinesCleared: number;
+  private score: number;
+  private linesClearedThroughTetris: number;
+  private tetrisRate: number;
+  private drought: number;
+  private burn: number;
+  private entryDelay: number;
 
-  constructor(initialLevel) {
+  public constructor(initialLevel: number) {
     this.moves = [];
     this.DAS = new AutoShift();
     this.board = new Board();
-    this.gravity = new Gravity().withLevel(initialLevel);
-    this.softDrop = new Gravity().withSpeed(2);
+    this.gravity = new GravityBuilder().withLevel(initialLevel);
+    this.softDrop = new GravityBuilder().withSpeed(2);
 
-    this.keyStates = new KeyState(false, false, false, false, false);
+    this.keyStates = {
+      down: false,
+      left: false,
+      right: false,
+      rotateCW: false,
+      rotateACW: false,
+    };
 
-    this.state = Game.State.ARE;
+    this.state = State.ARE;
     this.lineClearAnimationFrame = 0;
+    this.entryDelay = 0;
 
-    this.initialLevel = Number(initialLevel);
-    this.level = Number(initialLevel);
+    this.initialLevel = initialLevel;
+    this.level = initialLevel;
     this.linesBeforeFirstLevelUp = Game.getLinesUntilFirstLevelUp(initialLevel);
     this.totalLinesCleared = 0;
     this.score = 0;
@@ -46,28 +79,28 @@ export class Game {
    *
    * Returns a GameState object representing the current state of the game.
    */
-  nextFrame(inputs) {
+  public nextFrame(inputs: KeyState): GameState {
     this.handleKeysPressed(inputs);
     this.handleKeysReleased(inputs);
 
-    this.keyStates = inputs.copy();
+    this.keyStates = { ...inputs };
 
     this.doFrame();
 
-    return new GameState(
-      this.state === Game.State.GAME_OVER,
-      this.board.getState(),
-      this.board.getNextTetromino().getState(),
-      this.level,
-      this.totalLinesCleared,
-      this.score,
-      this.tetrisRate,
-      this.drought,
-      this.burn,
-    );
+    return {
+      isGameOver: this.state === State.GAME_OVER,
+      board: this.board.getState(),
+      nextPiece: this.board.getNextTetromino().getState(),
+      level: this.level,
+      lines: this.totalLinesCleared,
+      score: this.score,
+      tetrisRate: this.tetrisRate,
+      drought: this.drought,
+      burn: this.burn,
+    };
   }
 
-  handleKeysPressed(inputs) {
+  private handleKeysPressed(inputs: KeyState): void {
     const downPressed = !this.keyStates.down && inputs.down;
     const leftPressed = !this.keyStates.left && inputs.left;
     const rightPressed = !this.keyStates.right && inputs.right;
@@ -107,7 +140,7 @@ export class Game {
     }
   }
 
-  handleKeysReleased(inputs) {
+  private handleKeysReleased(inputs: KeyState): void {
     // const downReleased = this.keyStates.down && !inputs.down;
     const leftReleased = this.keyStates.left && !inputs.left;
     const rightReleased = this.keyStates.right && !inputs.right;
@@ -131,19 +164,17 @@ export class Game {
     }
   }
 
-  doFrame() {
+  private doFrame(): void {
     FRAME_NUM++;
 
-    if (this.state === Game.State.LINE_CLEAR) {
+    if (this.state === State.LINE_CLEAR) {
       this.doLineClearFrame();
-    } else if (this.state === Game.State.ARE) {
+    } else if (this.state === State.ARE) {
       if (this.entryDelay > 1) {
         this.entryDelay--;
       } else {
         const canPlaceTetromino = this.board.newActiveTetromino();
-        this.state = canPlaceTetromino
-          ? Game.State.PLAYING
-          : Game.State.GAME_OVER;
+        this.state = canPlaceTetromino ? State.PLAYING : State.GAME_OVER;
 
         // update drought counter
         if (this.board.getNextTetromino() instanceof I_Tetromino) {
@@ -152,7 +183,7 @@ export class Game {
           this.drought++;
         }
       }
-    } else if (this.state === Game.State.PLAYING) {
+    } else if (this.state === State.PLAYING) {
       if (
         this.gravity.isDropping() ||
         (this.keyStates.down && this.softDrop.isDropping())
@@ -175,7 +206,7 @@ export class Game {
     }
   }
 
-  doLineClearFrame() {
+  private doLineClearFrame(): void {
     if (this.lineClearAnimationFrame < 20) {
       if (this.lineClearAnimationFrame % 4 === 3) {
         let columnIndex = (this.lineClearAnimationFrame + 1) / 4 - 1;
@@ -214,42 +245,43 @@ export class Game {
         (100 * this.linesClearedThroughTetris) / this.totalLinesCleared,
       );
 
-      this.state = Game.State.ARE;
+      this.state = State.ARE;
     }
   }
 
-  onLockDown() {
+  private onLockDown(): void {
     this.keyStates.down = false;
     this.board.pieceLock();
 
     const numLinesToClear = this.board.findLinesToClear();
 
     if (numLinesToClear > 0) {
-      this.state = Game.State.LINE_CLEAR;
+      this.state = State.LINE_CLEAR;
       this.lineClearAnimationFrame = 0;
 
       this.incrementScore(numLinesToClear);
     } else {
       const activeTetrominoRow = this.board.getActiveTetromino().getRow();
       this.entryDelay = Game.getEntryDelay(activeTetrominoRow);
-      this.state = Game.State.ARE;
+      this.state = State.ARE;
     }
   }
 
-  incrementScore(numLinesCleared) {
-    this.score += Game.pointsPerLine.get(numLinesCleared) * (this.level + 1);
+  private incrementScore(numLinesCleared: number): void {
+    const linePoints = Game.pointsPerLine.get(numLinesCleared) || 0;
+    this.score += linePoints * (this.level + 1);
   }
 
-  levelUp() {
+  private levelUp(): void {
     this.level++;
-    this.gravity = new Gravity().withLevel(this.level);
+    this.gravity = new GravityBuilder().withLevel(this.level);
   }
 
-  static getEntryDelay(activeTetrominoRow) {
+  private static getEntryDelay(activeTetrominoRow: number): number {
     return 10 + Math.floor((Math.min(activeTetrominoRow, 17) + 2) / 4) * 2;
   }
 
-  static getLinesUntilFirstLevelUp(initLevel) {
+  private static getLinesUntilFirstLevelUp(initLevel: number): number {
     if (initLevel < 9) return 10 * initLevel + 10;
 
     if (initLevel < 16) return 100;
@@ -257,8 +289,8 @@ export class Game {
     return 10 * initLevel - 50;
   }
 
-  static initPointsPerLine() {
-    const output = new Map();
+  private static initPointsPerLine(): Map<number, number> {
+    const output = new Map<number, number>();
 
     output.set(1, 40);
     output.set(2, 100);

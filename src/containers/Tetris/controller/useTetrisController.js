@@ -1,15 +1,19 @@
 import React from 'react';
 import { isEqual, pick } from 'lodash';
 
-import { Game, KeyState } from '../model';
+import { Game } from '../model';
 
 export const useTetrisController = () => {
   const [isPaused, setIsPaused] = React.useState(true);
 
   const game = React.useRef(null);
-  const keyState = React.useRef(
-    new KeyState(false, false, false, false, false),
-  );
+  const keyState = React.useRef({
+    down: false,
+    left: false,
+    right: false,
+    rotateCW: false,
+    rotateACW: false,
+  });
 
   const board = React.useRef(null);
   const [stats, setStats] = React.useState({});

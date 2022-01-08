@@ -1,17 +1,11 @@
-class Move {
-  constructor() {
-    if (this.constructor === Move) {
-      throw new Error("Can't instantiate abstract class Move");
-    }
-  }
+import { Board } from './Board';
 
-  apply() {
-    throw new Error("Method 'apply()' must be implemented");
-  }
+export interface Move {
+  apply(board: Board): boolean;
 }
 
-export class MoveDown extends Move {
-  apply(board) {
+export class MoveDown implements Move {
+  apply(board: Board): boolean {
     const tetromino = board.getActiveTetromino();
     const newRow = tetromino.getRow() - 1;
 
@@ -25,8 +19,8 @@ export class MoveDown extends Move {
   }
 }
 
-export class MoveLeft extends Move {
-  apply(board) {
+export class MoveLeft implements Move {
+  apply(board: Board): boolean {
     const tetromino = board.getActiveTetromino();
     const newCol = tetromino.getCol() - 1;
 
@@ -40,8 +34,8 @@ export class MoveLeft extends Move {
   }
 }
 
-export class MoveRight extends Move {
-  apply(board) {
+export class MoveRight implements Move {
+  apply(board: Board): boolean {
     const tetromino = board.getActiveTetromino();
     const newCol = tetromino.getCol() + 1;
 
@@ -55,15 +49,8 @@ export class MoveRight extends Move {
   }
 }
 
-class Rotation extends Move {
-  constructor() {
-    super();
-    if (this.constructor === Rotation) {
-      throw new Error("Can't instantiate abstract class Rotation");
-    }
-  }
-
-  rotate(board, isClockwise) {
+class Rotation {
+  rotate(board: Board, isClockwise: boolean): boolean {
     const tetromino = board.getActiveTetromino();
 
     // remove active tetromino from board, then update its orientation
@@ -84,14 +71,14 @@ class Rotation extends Move {
   }
 }
 
-export class RotateCW extends Rotation {
-  apply(board) {
+export class RotateCW extends Rotation implements Move {
+  apply(board: Board): boolean {
     return this.rotate(board, true);
   }
 }
 
-export class RotateACW extends Rotation {
-  apply(board) {
+export class RotateACW extends Rotation implements Move {
+  apply(board: Board): boolean {
     return this.rotate(board, false);
   }
 }
