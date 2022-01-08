@@ -25,7 +25,7 @@ export class AutoShift {
     if (this.counter < 16) return null;
 
     this.counter = 10;
-    return this.direction === Direction.LEFT ? new MoveLeft() : new MoveRight();
+    return this.direction === Direction.LEFT ? MoveLeft : MoveRight;
   }
 
   public startMovingLeft(): void {

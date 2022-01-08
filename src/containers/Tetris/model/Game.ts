@@ -111,7 +111,7 @@ export class Game {
       if (inputs.right) {
         this.DAS.disable();
       } else {
-        this.moves.push(new MoveLeft());
+        this.moves.push(MoveLeft);
         this.DAS.startMovingLeft();
       }
     }
@@ -120,23 +120,23 @@ export class Game {
       if (inputs.left) {
         this.DAS.disable();
       } else {
-        this.moves.push(new MoveRight());
+        this.moves.push(MoveRight);
         this.DAS.startMovingRight();
       }
     }
 
     if (rotateCWPressed) {
-      this.moves.push(new RotateCW());
+      this.moves.push(RotateCW);
     }
 
     if (rotateACWPressed) {
-      this.moves.push(new RotateACW());
+      this.moves.push(RotateACW);
     }
 
     if (downPressed) {
       this.softDrop.setCounter(-1);
       this.gravity.setCounter(0);
-      this.moves.push(new MoveDown());
+      this.moves.push(MoveDown);
     }
   }
 
@@ -150,7 +150,7 @@ export class Game {
     if (leftReleased) {
       this.DAS.disable();
       if (inputs.right) {
-        this.moves.push(new MoveRight());
+        this.moves.push(MoveRight);
         this.DAS.startMovingRight();
       }
     }
@@ -158,7 +158,7 @@ export class Game {
     if (rightReleased) {
       this.DAS.disable();
       if (inputs.left) {
-        this.moves.push(new MoveLeft());
+        this.moves.push(MoveLeft);
         this.DAS.startMovingLeft();
       }
     }
@@ -188,12 +188,12 @@ export class Game {
         this.gravity.isDropping() ||
         (this.keyStates.down && this.softDrop.isDropping())
       ) {
-        this.moves.push(new MoveDown());
+        this.moves.push(MoveDown);
       }
 
       for (const move of this.moves) {
-        let moveWasSuccessful = move.apply(this.board);
-        if (!moveWasSuccessful && move instanceof MoveDown) {
+        let moveWasSuccessful = move(this.board);
+        if (!moveWasSuccessful && move === MoveDown) {
           this.onLockDown();
         }
       }

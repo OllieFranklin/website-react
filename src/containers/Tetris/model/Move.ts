@@ -1,84 +1,70 @@
 import { Board } from './Board';
 
-export interface Move {
-  apply(board: Board): boolean;
-}
+export type Move = (board: Board) => boolean;
 
-export class MoveDown implements Move {
-  public apply(board: Board): boolean {
-    const tetromino = board.getActiveTetromino();
-    const newRow = tetromino.getRow() - 1;
+export const MoveDown: Move = (board: Board) => {
+  const tetromino = board.getActiveTetromino();
+  const newRow = tetromino.getRow() - 1;
 
-    if (board.canPlaceActiveTetromino(newRow, tetromino.getCol())) {
-      board.clearActiveTetromino();
-      board.placeActiveTetromino(newRow, tetromino.getCol());
-      return true;
-    }
-
-    return false;
-  }
-}
-
-export class MoveLeft implements Move {
-  public apply(board: Board): boolean {
-    const tetromino = board.getActiveTetromino();
-    const newCol = tetromino.getCol() - 1;
-
-    if (board.canPlaceActiveTetromino(tetromino.getRow(), newCol)) {
-      board.clearActiveTetromino();
-      board.placeActiveTetromino(tetromino.getRow(), newCol);
-      return true;
-    }
-
-    return false;
-  }
-}
-
-export class MoveRight implements Move {
-  public apply(board: Board): boolean {
-    const tetromino = board.getActiveTetromino();
-    const newCol = tetromino.getCol() + 1;
-
-    if (board.canPlaceActiveTetromino(tetromino.getRow(), newCol)) {
-      board.clearActiveTetromino();
-      board.placeActiveTetromino(tetromino.getRow(), newCol);
-      return true;
-    }
-
-    return false;
-  }
-}
-
-class Rotation {
-  protected rotate(board: Board, isClockwise: boolean): boolean {
-    const tetromino = board.getActiveTetromino();
-
-    // remove active tetromino from board, then update its orientation
+  if (board.canPlaceActiveTetromino(newRow, tetromino.getCol())) {
     board.clearActiveTetromino();
-    isClockwise ? tetromino.rotateClockwise() : tetromino.rotateAntiClockwise();
+    board.placeActiveTetromino(newRow, tetromino.getCol());
+    return true;
+  }
 
-    // if tetromino can be placed in new orientation, place it and return true
-    if (board.canPlaceActiveTetromino(tetromino.getRow(), tetromino.getCol())) {
-      board.placeActiveTetromino(tetromino.getRow(), tetromino.getCol());
-      return true;
-    }
+  return false;
+};
 
-    // otherwise, revert orientation and place back MoveDown
-    isClockwise ? tetromino.rotateAntiClockwise() : tetromino.rotateClockwise();
+export const MoveLeft: Move = (board: Board) => {
+  const tetromino = board.getActiveTetromino();
+  const newCol = tetromino.getCol() - 1;
+
+  if (board.canPlaceActiveTetromino(tetromino.getRow(), newCol)) {
+    board.clearActiveTetromino();
+    board.placeActiveTetromino(tetromino.getRow(), newCol);
+    return true;
+  }
+
+  return false;
+};
+
+export const MoveRight: Move = (board: Board) => {
+  const tetromino = board.getActiveTetromino();
+  const newCol = tetromino.getCol() + 1;
+
+  if (board.canPlaceActiveTetromino(tetromino.getRow(), newCol)) {
+    board.clearActiveTetromino();
+    board.placeActiveTetromino(tetromino.getRow(), newCol);
+    return true;
+  }
+
+  return false;
+};
+
+export const RotateCW: Move = (board: Board) => {
+  return rotate(board, true);
+};
+
+export const RotateACW: Move = (board: Board) => {
+  return rotate(board, false);
+};
+
+function rotate(board: Board, isClockwise: boolean): boolean {
+  const tetromino = board.getActiveTetromino();
+
+  // remove active tetromino from board, then update its orientation
+  board.clearActiveTetromino();
+  isClockwise ? tetromino.rotateClockwise() : tetromino.rotateAntiClockwise();
+
+  // if tetromino can be placed in new orientation, place it and return true
+  if (board.canPlaceActiveTetromino(tetromino.getRow(), tetromino.getCol())) {
     board.placeActiveTetromino(tetromino.getRow(), tetromino.getCol());
-
-    return false;
+    return true;
   }
-}
 
-export class RotateCW extends Rotation implements Move {
-  public apply(board: Board): boolean {
-    return this.rotate(board, true);
-  }
-}
+  // otherwise, revert orientation and place back MoveDown
+  isClockwise ? tetromino.rotateAntiClockwise() : tetromino.rotateClockwise();
+  board.placeActiveTetromino(tetromino.getRow(), tetromino.getCol());
 
-export class RotateACW extends Rotation implements Move {
-  public apply(board: Board): boolean {
-    return this.rotate(board, false);
-  }
+  return false;
 }
