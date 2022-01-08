@@ -1,11 +1,5 @@
 import { TETROMINO_INIT_ROW, TETROMINO_INIT_COL } from './constants';
-
-type Point = {
-  x: number;
-  y: number;
-};
-
-type Orientation = Point[];
+import { Orientation, TetrominoData } from './TetrominoData';
 
 export class Tetromino {
   public row: number;
@@ -17,12 +11,12 @@ export class Tetromino {
   private orientations: Orientation[];
   private orientationIndex: number;
 
-  public constructor(letter: string, orientations: Orientation[]) {
+  public constructor({ letter, orientations }: TetrominoData) {
     this.letter = letter;
-    this.orientations = [];
     this.orientations = orientations;
+
     this.orientationIndex = 0;
-    this.orientation = this.orientations[this.orientationIndex];
+    this.orientation = this.orientations[0];
     this.row = TETROMINO_INIT_ROW;
     this.col = TETROMINO_INIT_COL;
 
@@ -68,13 +62,6 @@ export class Tetromino {
     }
   }
 
-  public reset(): void {
-    this.orientation = this.orientations[0];
-    this.orientationIndex = 0;
-    this.row = TETROMINO_INIT_ROW;
-    this.col = TETROMINO_INIT_COL;
-  }
-
   public rotateClockwise(): void {
     this.orientationIndex--;
 
@@ -98,138 +85,3 @@ export class Tetromino {
     this.col = col;
   }
 }
-
-export const I_Tetromino = new Tetromino('I', [
-  [
-    { x: -2, y: 0 },
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-  ],
-  [
-    { x: 0, y: -1 },
-    { x: 0, y: 0 },
-    { x: 0, y: 1 },
-    { x: 0, y: 2 },
-  ],
-]);
-
-export const J_Tetromino = new Tetromino('J', [
-  [
-    { x: 1, y: -1 },
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-  ],
-  [
-    { x: 0, y: -1 },
-    { x: 0, y: 0 },
-    { x: 0, y: 1 },
-    { x: 1, y: 1 },
-  ],
-  [
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: -1, y: 1 },
-  ],
-  [
-    { x: -1, y: -1 },
-    { x: 0, y: -1 },
-    { x: 0, y: 0 },
-    { x: 0, y: 1 },
-  ],
-]);
-
-export const L_Tetromino = new Tetromino('L', [
-  [
-    { x: -1, y: -1 },
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-  ],
-  [
-    { x: 0, y: -1 },
-    { x: 1, y: -1 },
-    { x: 0, y: 0 },
-    { x: 0, y: 1 },
-  ],
-  [
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: 1, y: 1 },
-  ],
-  [
-    { x: 0, y: -1 },
-    { x: 0, y: 0 },
-    { x: -1, y: 1 },
-    { x: 0, y: 1 },
-  ],
-]);
-
-export const O_Tetromino = new Tetromino('O', [
-  [
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: -1, y: -1 },
-    { x: 0, y: -1 },
-  ],
-]);
-
-export const S_Tetromino = new Tetromino('S', [
-  [
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: -1, y: -1 },
-    { x: 0, y: -1 },
-  ],
-  [
-    { x: 0, y: 1 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: 1, y: -1 },
-  ],
-]);
-
-export const T_Tetromino = new Tetromino('T', [
-  [
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: 0, y: -1 },
-  ],
-  [
-    { x: 0, y: 1 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: 0, y: -1 },
-  ],
-  [
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: 0, y: 1 },
-  ],
-  [
-    { x: 0, y: 1 },
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: -1 },
-  ],
-]);
-
-export const Z_Tetromino = new Tetromino('Z', [
-  [
-    { x: -1, y: 0 },
-    { x: 0, y: 0 },
-    { x: 0, y: -1 },
-    { x: 1, y: -1 },
-  ],
-  [
-    { x: 1, y: 1 },
-    { x: 0, y: 0 },
-    { x: 1, y: 0 },
-    { x: 0, y: -1 },
-  ],
-]);

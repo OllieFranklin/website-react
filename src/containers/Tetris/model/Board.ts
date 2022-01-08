@@ -7,25 +7,25 @@ import {
   COLS,
 } from './constants';
 import { Cell } from './Cell';
+import { Tetromino } from './Tetromino';
 import {
-  Tetromino,
-  I_Tetromino,
-  J_Tetromino,
-  L_Tetromino,
-  O_Tetromino,
-  S_Tetromino,
-  T_Tetromino,
-  Z_Tetromino,
-} from './Tetromino';
+  I_TetrominoData,
+  J_TetrominoData,
+  L_TetrominoData,
+  O_TetrominoData,
+  S_TetrominoData,
+  T_TetrominoData,
+  Z_TetrominoData,
+} from './TetrominoData';
 
-const tetrominos = [
-  I_Tetromino,
-  J_Tetromino,
-  L_Tetromino,
-  O_Tetromino,
-  S_Tetromino,
-  T_Tetromino,
-  Z_Tetromino,
+const tetrominoData = [
+  I_TetrominoData,
+  J_TetrominoData,
+  L_TetrominoData,
+  O_TetrominoData,
+  S_TetrominoData,
+  T_TetrominoData,
+  Z_TetrominoData,
 ];
 
 export class Board {
@@ -114,8 +114,7 @@ export class Board {
 
     const randomIndex = Math.floor(Math.random() * TETROMINO_TYPES.length);
 
-    this.nextTetromino = tetrominos[randomIndex];
-    this.nextTetromino.reset();
+    this.nextTetromino = new Tetromino(tetrominoData[randomIndex]);
 
     if (!this.activeTetromino) {
       return false;
