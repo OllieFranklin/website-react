@@ -28,6 +28,16 @@ const tetrominoData = [
   Z_TetrominoData,
 ];
 
+const tetrominoDataObject = {
+  [I_TetrominoData.letter]: I_TetrominoData,
+  [J_TetrominoData.letter]: J_TetrominoData,
+  [L_TetrominoData.letter]: L_TetrominoData,
+  [O_TetrominoData.letter]: O_TetrominoData,
+  [S_TetrominoData.letter]: S_TetrominoData,
+  [T_TetrominoData.letter]: T_TetrominoData,
+  [Z_TetrominoData.letter]: Z_TetrominoData,
+};
+
 export class Board {
   public activeTetromino!: Tetromino;
   public nextTetromino!: Tetromino;
@@ -36,7 +46,17 @@ export class Board {
   private numRowsToMoveBy: number[];
   private linesToClear: number[];
 
-  public constructor() {
+  /**
+   * Used for automated testing. Allows a predefined piece order to be used
+   * instead of a random piece each time
+   */
+  private pieceOrder: string[] | undefined;
+  private pieceIndex: number;
+
+  public constructor(pieceOrder?: string[]) {
+    this.pieceOrder = pieceOrder;
+    this.pieceIndex = 0;
+
     this.cells = new Array(ROWS);
 
     this.newActiveTetromino();
@@ -112,9 +132,14 @@ export class Board {
   public newActiveTetromino(): boolean {
     this.activeTetromino = this.nextTetromino;
 
-    const randomIndex = Math.floor(Math.random() * TETROMINO_TYPES.length);
-
-    this.nextTetromino = new Tetromino(tetrominoData[randomIndex]);
+    if (this.pieceOrder) {
+      const index = Math.min(this.pieceIndex++, this.pieceOrder.length - 1);
+      const data = tetrominoDataObject[this.pieceOrder[index]];
+      this.nextTetromino = new Tetromino(data);
+    } else {
+      const randomIndex = Math.floor(Math.random() * TETROMINO_TYPES.length);
+      this.nextTetromino = new Tetromino(tetrominoData[randomIndex]);
+    }
 
     if (!this.activeTetromino) {
       return false;

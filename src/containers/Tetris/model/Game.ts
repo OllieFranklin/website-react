@@ -43,10 +43,10 @@ export class Game {
   private burn: number;
   private entryDelay: number;
 
-  public constructor(initialLevel: number) {
+  public constructor(initialLevel: number, pieceOrder?: string[]) {
     this.moves = [];
     this.DAS = new AutoShift();
-    this.board = new Board();
+    this.board = new Board(pieceOrder);
     this.gravity = new GravityBuilder().withLevel(initialLevel);
     this.softDrop = new GravityBuilder().withSpeed(2);
 
