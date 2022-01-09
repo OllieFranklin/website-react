@@ -1,20 +1,10 @@
-import { Game, GameState } from '../';
+import { Game } from '../';
 import testOutput from '../../test-output.json';
 
-function gameStateBoardToJsonFileBoard(board: string[][]) {
-  let output = '';
-  for (const row of board) {
-    for (const cell of row) {
-      if (cell === ' ') {
-        output += '0';
-      } else {
-        output += '1';
-      }
-    }
-    output += '\n';
-  }
-
-  return output;
+function gameStateBoardToJsonFileBoard(board: string[][]): string {
+  return board
+    .map(row => row.map(cell => (cell === ' ' ? '0' : '1')).join('') + '\n')
+    .join('');
 }
 
 test('First frames are the same', () => {
