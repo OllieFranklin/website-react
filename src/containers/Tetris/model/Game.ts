@@ -42,12 +42,13 @@ export class Game {
   private drought: number;
   private burn: number;
   private entryDelay: number;
+  private downPressed: boolean;
 
   public constructor(initialLevel: number, pieceOrder?: string[]) {
     this.moves = [];
     this.DAS = new AutoShift();
     this.board = new Board(pieceOrder);
-    this.gravity = new GravityBuilder().withLevel(initialLevel);
+    this.gravity = new GravityBuilder().withSpeed(Infinity);
     this.softDrop = new GravityBuilder().withSpeed(2);
 
     this.keyStates = {
@@ -57,6 +58,8 @@ export class Game {
       rotateCW: false,
       rotateACW: false,
     };
+
+    this.downPressed = false;
 
     this.state = State.ARE;
     this.lineClearAnimationFrame = 0;
@@ -136,11 +139,15 @@ export class Game {
       this.softDrop.setCounter(-1);
       this.gravity.setCounter(0);
       this.moves.push(MoveDown);
+
+      // the user just pressed down
+      // this gets reset when a new piece drops
+      this.downPressed = true;
     }
   }
 
   private handleKeysReleased(inputs: KeyState): void {
-    // const downReleased = this.keyStates.down && !inputs.down;
+    const downReleased = this.keyStates.down && !inputs.down;
     const leftReleased = this.keyStates.left && !inputs.left;
     const rightReleased = this.keyStates.right && !inputs.right;
     // const rotateCWReleased = this.keyStates.rotateCW && !inputs.rotateCW;
@@ -161,10 +168,19 @@ export class Game {
         this.DAS.startMovingLeft();
       }
     }
+
+    if (downReleased) {
+      this.downPressed = false;
+    }
   }
 
   private doFrame(): void {
     FRAME_NUM++;
+
+    // gravity doesn't kick in until frame 91
+    if (FRAME_NUM === 91) {
+      this.gravity = new GravityBuilder().withLevel(this.initialLevel);
+    }
 
     if (this.state === State.LINE_CLEAR) {
       this.doLineClearFrame();
@@ -175,6 +191,8 @@ export class Game {
         const canPlaceTetromino = this.board.newActiveTetromino();
         this.state = canPlaceTetromino ? State.PLAYING : State.GAME_OVER;
 
+        this.downPressed = false;
+
         // update drought counter
         if (this.board.nextTetromino.letter === 'I') {
           this.drought = 0;
@@ -183,10 +201,10 @@ export class Game {
         }
       }
     } else if (this.state === State.PLAYING) {
-      if (
-        this.gravity.isDropping() ||
-        (this.keyStates.down && this.softDrop.isDropping())
-      ) {
+      const gravityDropping = !this.downPressed && this.gravity.isDropping();
+      const softDropping = this.downPressed && this.softDrop.isDropping();
+
+      if (gravityDropping || softDropping) {
         this.moves.push(MoveDown);
       }
 
@@ -249,7 +267,6 @@ export class Game {
   }
 
   private onLockDown(): void {
-    this.keyStates.down = false;
     this.board.pieceLock();
 
     const numLinesToClear = this.board.findLinesToClear();

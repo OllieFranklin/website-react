@@ -15,6 +15,7 @@ export const GameBoard = () => {
   const { board, startGame, stats } = useTetrisController();
 
   // resize function for board
+
   React.useEffect(() => {
     const handleResize = () => {
       // find a width for the board that's divisible by 10
@@ -53,7 +54,7 @@ export const GameBoard = () => {
   // handles displaying the game at the native framerate decided by requestAnimationFrame
   // the game logic (i.e. what to show at any given moment) is run in a separate loop
   React.useEffect(() => {
-    startGame(18);
+    startGame(8);
 
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
