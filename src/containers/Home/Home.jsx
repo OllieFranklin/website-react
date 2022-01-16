@@ -1,7 +1,8 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import React from 'react';
+import Box from '@mui/material/Box';
 import { Link } from 'react-router-dom';
 
+import OllieButton from '../../components/OllieButton';
 import logo from '../../assets/Home/logo.svg';
 import planet1 from '../../assets/Home/planet1.svg';
 import planet2 from '../../assets/Home/planet2.svg';
@@ -48,31 +49,52 @@ export const Home = () => {
 
   const MainContainer = () => {
     return (
-      <div className="main-container full-page-container">
+      <Box
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: '100%',
+          height: '100%',
+          zIndex: 1,
+        }}
+      >
         <img src={logo} className="logo" alt="Logo" />
-        <Link to="/project" className="button1 button btn">
-          Personal&nbsp;Project
-        </Link>
-        <a
-          className="button2 button btn"
-          href="https://github.com/OllieFranklin"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Github
-        </a>
-      </div>
+
+        <Box mt={6} sx={{ width: 300 }}>
+          <OllieButton component={Link} to="/project" color="secondary">
+            Personal Project
+          </OllieButton>
+        </Box>
+        <Box mt={4} sx={{ width: 300 }}>
+          <OllieButton
+            color="primary"
+            href="https://github.com/OllieFranklin"
+            target="_blank"
+          >
+            Github
+          </OllieButton>
+        </Box>
+      </Box>
     );
   };
 
   return (
-    <div className="background">
+    <Box
+      sx={{
+        backgroundColor: '#2f3742',
+        position: 'fixed',
+        width: '100%',
+        height: '100%',
+      }}
+    >
       <img src={planet1} className="planet planet1" alt="Planet 1" />
       <img src={planet2} className="planet planet2" alt="Planet 2" />
 
       {starElements}
 
       <MainContainer />
-    </div>
+    </Box>
   );
 };

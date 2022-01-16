@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const useTetrisHook = () => {
+export const useTetrisView = () => {
   const GameStates = {
     LEVEL_SELECT: 'LEVEL_SELECT',
     PLAYING: 'PLAYING',

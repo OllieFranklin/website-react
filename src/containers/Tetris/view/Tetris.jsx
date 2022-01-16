@@ -2,12 +2,12 @@ import React from 'react';
 import { GameOver } from './GameOver';
 import { LevelSelect } from './LevelSelect';
 import { GameBoard } from './GameBoard';
-import { useTetrisHook } from './useTetrisHook';
+import { useTetrisView } from './useTetrisView';
 
 import './Tetris.css';
 
 export const Tetris = () => {
-  const { GameStates, gameState } = useTetrisHook();
+  const { GameStates, gameState } = useTetrisView();
 
   return (
     <>
