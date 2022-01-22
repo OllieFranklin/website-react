@@ -23,12 +23,12 @@ const theme = createTheme({
     h1: {
       fontFamily: 'Nunito',
       fontWeight: 600,
-      fontSize: '3.2rem',
+      fontSize: '5rem',
     },
     h2: {
       fontFamily: 'Nunito',
-      fontWeight: 400,
-      fontSize: '2.6rem',
+      fontWeight: 500,
+      fontSize: '2.5rem',
     },
     h3: {
       fontFamily: 'Nunito',
