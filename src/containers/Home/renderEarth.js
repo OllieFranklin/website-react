@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
-import earthImage from '../../assets/HomePage/earth.png';
-import cloudModel from '../../assets/HomePage/cloud.glb';
+import earthImage from '../../assets/Home/earth.png';
+import cloudModel from '../../assets/Home/cloud.glb';
 
 export default function renderEarth() {
   const scene = new THREE.Scene();

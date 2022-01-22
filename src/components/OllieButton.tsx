@@ -1,17 +1,28 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
+import Box from '@mui/material/Box';
 import { styled } from '@mui/material/styles';
 
-const StyledButton = styled(Button)(({ theme }) => ({
+const StyledButton = styled(Button)(() => ({
   textTransform: 'none',
-  fontFamily: theme.typography.fontFamily,
+  fontFamily: 'Montserrat',
   fontWeight: 600,
-  fontSize: '2rem',
-  borderRadius: 10,
+  fontSize: '1.6rem',
+  lineHeight: '3.2rem',
+  borderRadius: 60,
   maxWidth: 300,
   width: '100%',
+  color: '#181c22',
 }));
 
-export default function OllieButton(props: React.ReactPropTypes) {
-  return <StyledButton color="secondary" variant="contained" {...props} />;
+type Props = {};
+
+export default function OllieButton(props: React.PropsWithChildren<Props>) {
+  const { children, ...rest } = props;
+
+  return (
+    <StyledButton color="secondary" variant="contained" {...rest}>
+      <Box mx={2}>{children}</Box>
+    </StyledButton>
+  );
 }

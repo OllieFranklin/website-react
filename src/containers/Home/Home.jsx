@@ -1,11 +1,11 @@
 import React from 'react';
 import Box from '@mui/material/Box';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
+import Earth from './Earth';
 import OllieButton from '../../components/OllieButton';
-import logo from '../../assets/Home/logo.svg';
-import planet1 from '../../assets/Home/planet1.svg';
-import planet2 from '../../assets/Home/planet2.svg';
 import star1 from '../../assets/Home/star1.svg';
 import star2 from '../../assets/Home/star2.svg';
 import './Home.css';
@@ -50,32 +50,42 @@ export const Home = () => {
   const MainContainer = () => {
     return (
       <Box
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          width: '100%',
-          height: '100%',
-          zIndex: 1,
-        }}
+        display="flex"
+        alignContent="center"
+        justifyContent="center"
+        height="100%"
+        width="100%"
+        flexWrap="wrap"
+        gap={16}
+        zIndex={1}
       >
-        <img src={logo} className="logo" alt="Logo" />
-
-        <Box mt={6} sx={{ width: 300 }}>
-          <OllieButton component={Link} to="/project" color="secondary">
-            Personal Project
-          </OllieButton>
+        <Box width={500}>
+          <Typography variant="h1" color="white">
+            Ollie Franklin
+          </Typography>
+          <Box mt={4}>
+            <Typography variant="h2" color="white">
+              A Wellington-based developer with a passion for front-end
+            </Typography>
+          </Box>
+          <Grid container gap={4} mt={10}>
+            <Grid item>
+              <OllieButton component={Link} to="/project" color="secondary">
+                Personal Project
+              </OllieButton>
+            </Grid>
+            <Grid item>
+              <OllieButton
+                color="primary"
+                href="https://github.com/OllieFranklin"
+                target="_blank"
+              >
+                Github
+              </OllieButton>
+            </Grid>
+          </Grid>
         </Box>
-        <Box mt={4} sx={{ width: 300 }}>
-          <OllieButton
-            color="primary"
-            href="https://github.com/OllieFranklin"
-            target="_blank"
-          >
-            Github
-          </OllieButton>
-        </Box>
+        <Earth width={663} height={404} />
       </Box>
     );
   };
@@ -89,9 +99,6 @@ export const Home = () => {
         height: '100%',
       }}
     >
-      <img src={planet1} className="planet planet1" alt="Planet 1" />
-      <img src={planet2} className="planet planet2" alt="Planet 2" />
-
       {starElements}
 
       <MainContainer />
