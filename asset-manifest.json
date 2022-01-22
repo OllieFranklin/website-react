@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/website-react/static/css/main.a4ca43a5.chunk.css",
-    "main.js": "/website-react/static/js/main.4ba2e06d.chunk.js",
-    "main.js.map": "/website-react/static/js/main.4ba2e06d.chunk.js.map",
+    "main.css": "/website-react/static/css/main.a497d296.chunk.css",
+    "main.js": "/website-react/static/js/main.24530ed6.chunk.js",
+    "main.js.map": "/website-react/static/js/main.24530ed6.chunk.js.map",
     "runtime-main.js": "/website-react/static/js/runtime-main.cd8da4bb.js",
     "runtime-main.js.map": "/website-react/static/js/runtime-main.cd8da4bb.js.map",
-    "static/js/2.c1af2113.chunk.js": "/website-react/static/js/2.c1af2113.chunk.js",
-    "static/js/2.c1af2113.chunk.js.map": "/website-react/static/js/2.c1af2113.chunk.js.map",
+    "static/js/2.d9830185.chunk.js": "/website-react/static/js/2.d9830185.chunk.js",
+    "static/js/2.d9830185.chunk.js.map": "/website-react/static/js/2.d9830185.chunk.js.map",
     "index.html": "/website-react/index.html",
-    "static/css/main.a4ca43a5.chunk.css.map": "/website-react/static/css/main.a4ca43a5.chunk.css.map",
-    "static/js/2.c1af2113.chunk.js.LICENSE.txt": "/website-react/static/js/2.c1af2113.chunk.js.LICENSE.txt",
-    "static/media/logo.fe97aba4.svg": "/website-react/static/media/logo.fe97aba4.svg",
-    "static/media/planet1.f48b1146.svg": "/website-react/static/media/planet1.f48b1146.svg",
-    "static/media/planet2.95457eba.svg": "/website-react/static/media/planet2.95457eba.svg",
+    "static/css/main.a497d296.chunk.css.map": "/website-react/static/css/main.a497d296.chunk.css.map",
+    "static/js/2.d9830185.chunk.js.LICENSE.txt": "/website-react/static/js/2.d9830185.chunk.js.LICENSE.txt",
+    "static/media/cloud.d910dd8b.glb": "/website-react/static/media/cloud.d910dd8b.glb",
+    "static/media/earth.f1cdf21a.png": "/website-react/static/media/earth.f1cdf21a.png",
+    "static/media/index.css": "/website-react/static/media/nunito-v20-latin-regular.f0f97349.woff2",
     "static/media/star1.03f333b6.svg": "/website-react/static/media/star1.03f333b6.svg",
     "static/media/star2.e76a0ee1.svg": "/website-react/static/media/star2.e76a0ee1.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.cd8da4bb.js",
-    "static/js/2.c1af2113.chunk.js",
-    "static/css/main.a4ca43a5.chunk.css",
-    "static/js/main.4ba2e06d.chunk.js"
+    "static/js/2.d9830185.chunk.js",
+    "static/css/main.a497d296.chunk.css",
+    "static/js/main.24530ed6.chunk.js"
   ]
 }
