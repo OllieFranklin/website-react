@@ -47,61 +47,81 @@ export const Home = () => {
     setStarElements(stars);
   }, []);
 
-  const MainContainer = () => {
+  const Background = () => {
     return (
       <Box
-        display="flex"
-        alignContent="center"
-        justifyContent="center"
-        height="100%"
-        width="100%"
-        flexWrap="wrap"
-        gap={16}
-        zIndex={1}
+        sx={{
+          backgroundColor: '#2f3742',
+          position: 'fixed',
+          width: '100vw',
+          height: '100vh',
+          top: 0,
+          left: 0,
+          zIndex: -1,
+        }}
       >
-        <Box width={500}>
-          <Typography variant="h1" color="white">
-            Ollie Franklin
-          </Typography>
-          <Box mt={4}>
-            <Typography variant="h2" color="white">
-              A Wellington-based developer with a passion for front-end
-            </Typography>
-          </Box>
-          <Grid container gap={4} mt={10}>
-            <Grid item>
-              <OllieButton component={Link} to="/project" color="secondary">
-                Personal Project
-              </OllieButton>
-            </Grid>
-            <Grid item>
-              <OllieButton
-                color="primary"
-                href="https://github.com/OllieFranklin"
-                target="_blank"
-              >
-                Github
-              </OllieButton>
-            </Grid>
-          </Grid>
-        </Box>
-        <Earth width={663} height={404} />
+        {starElements}
       </Box>
     );
   };
 
+  // const MainContainer = () => {
   return (
-    <Box
-      sx={{
-        backgroundColor: '#2f3742',
-        position: 'fixed',
-        width: '100%',
-        height: '100%',
-      }}
-    >
-      {starElements}
+    <>
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }}
+      >
+        <Box sx={{ height: '100vh' }}></Box>
+        <Box
+          sx={{
+            margin: { xs: 4, sm: 8 },
+            inlineSize: 'fit-content',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            alignItems: 'center',
+            rowGap: 8,
+            columnGap: 16,
+          }}
+        >
+          <Box sx={{ width: { xs: '100%', sm: '600px' } }}>
+            <Typography variant="h1" color="white">
+              Ollie Franklin
+            </Typography>
+            <Box mt={4}>
+              <Typography variant="h2" color="white">
+                A Wellington-based developer with a passion for front-end
+              </Typography>
+              <Grid container gap={4} mt={10}>
+                <Grid item>
+                  <OllieButton component={Link} to="/project" color="secondary">
+                    Personal Project
+                  </OllieButton>
+                </Grid>
+                <Grid item>
+                  <OllieButton
+                    color="primary"
+                    href="https://github.com/OllieFranklin"
+                    target="_blank"
+                  >
+                    Github
+                  </OllieButton>
+                </Grid>
+              </Grid>
+            </Box>
+          </Box>
 
-      <MainContainer />
-    </Box>
+          {/* <Box sx={{ width: 500, height: 350, backgroundColor: 'blue' }}></Box> */}
+
+          <Earth height={380} />
+        </Box>
+      </Box>
+
+      <Background />
+    </>
   );
 };

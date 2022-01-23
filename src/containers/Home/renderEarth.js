@@ -4,12 +4,12 @@ import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 import earthImage from '../../assets/Home/earth.png';
 import cloudModel from '../../assets/Home/cloud.glb';
 
-export default function renderEarth() {
+export default function renderEarth(canvasRef) {
   const scene = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(5, 1, 25, 30);
 
   const renderer = new THREE.WebGLRenderer({
-    canvas: document.querySelector('#earth-canvas'),
+    canvas: canvasRef,
     alpha: true,
     antialias: true,
   });

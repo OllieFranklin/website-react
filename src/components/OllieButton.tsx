@@ -1,15 +1,11 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
 import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 import { styled } from '@mui/material/styles';
 
 const StyledButton = styled(Button)(() => ({
-  textTransform: 'none',
-  fontFamily: 'Montserrat',
-  fontWeight: 600,
-  fontSize: '1.6rem',
-  lineHeight: '3.2rem',
-  borderRadius: 60,
+  borderRadius: 25,
   maxWidth: 300,
   width: '100%',
   color: '#181c22',
@@ -22,7 +18,9 @@ export default function OllieButton(props: React.PropsWithChildren<Props>) {
 
   return (
     <StyledButton color="secondary" variant="contained" {...rest}>
-      <Box mx={2}>{children}</Box>
+      <Box mx={2}>
+        <Typography variant="button">{children}</Typography>
+      </Box>
     </StyledButton>
   );
 }
