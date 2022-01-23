@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/website-react/static/css/main.a497d296.chunk.css",
-    "main.js": "/website-react/static/js/main.32d9769a.chunk.js",
-    "main.js.map": "/website-react/static/js/main.32d9769a.chunk.js.map",
+    "main.js": "/website-react/static/js/main.59f11c01.chunk.js",
+    "main.js.map": "/website-react/static/js/main.59f11c01.chunk.js.map",
     "runtime-main.js": "/website-react/static/js/runtime-main.cd8da4bb.js",
     "runtime-main.js.map": "/website-react/static/js/runtime-main.cd8da4bb.js.map",
-    "static/js/2.4e5b6c60.chunk.js": "/website-react/static/js/2.4e5b6c60.chunk.js",
-    "static/js/2.4e5b6c60.chunk.js.map": "/website-react/static/js/2.4e5b6c60.chunk.js.map",
+    "static/js/2.842a4a61.chunk.js": "/website-react/static/js/2.842a4a61.chunk.js",
+    "static/js/2.842a4a61.chunk.js.map": "/website-react/static/js/2.842a4a61.chunk.js.map",
     "index.html": "/website-react/index.html",
     "static/css/main.a497d296.chunk.css.map": "/website-react/static/css/main.a497d296.chunk.css.map",
-    "static/js/2.4e5b6c60.chunk.js.LICENSE.txt": "/website-react/static/js/2.4e5b6c60.chunk.js.LICENSE.txt",
+    "static/js/2.842a4a61.chunk.js.LICENSE.txt": "/website-react/static/js/2.842a4a61.chunk.js.LICENSE.txt",
     "static/media/cloud.d910dd8b.glb": "/website-react/static/media/cloud.d910dd8b.glb",
     "static/media/earth.f1cdf21a.png": "/website-react/static/media/earth.f1cdf21a.png",
     "static/media/index.css": "/website-react/static/media/nunito-v20-latin-regular.f0f97349.woff2",
@@ -18,8 +18,8 @@
   },
   "entrypoints": [
     "static/js/runtime-main.cd8da4bb.js",
-    "static/js/2.4e5b6c60.chunk.js",
+    "static/js/2.842a4a61.chunk.js",
     "static/css/main.a497d296.chunk.css",
-    "static/js/main.32d9769a.chunk.js"
+    "static/js/main.59f11c01.chunk.js"
   ]
 }
