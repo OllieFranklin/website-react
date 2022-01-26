@@ -6,7 +6,7 @@ import { Tetris } from './containers/Tetris';
 
 const App = () => {
   return (
-    <BrowserRouter basename="/website-react">
+    <BrowserRouter>
       <Routes>
         <Route path="/" exact element={<Home />} />
         <Route path="/tetris" exact element={<Tetris />} />
