@@ -1,25 +1,25 @@
 {
   "files": {
-    "main.css": "/website-react/static/css/main.a497d296.chunk.css",
-    "main.js": "/website-react/static/js/main.1ad2c54f.chunk.js",
-    "main.js.map": "/website-react/static/js/main.1ad2c54f.chunk.js.map",
-    "runtime-main.js": "/website-react/static/js/runtime-main.cd8da4bb.js",
-    "runtime-main.js.map": "/website-react/static/js/runtime-main.cd8da4bb.js.map",
-    "static/js/2.4e5b6c60.chunk.js": "/website-react/static/js/2.4e5b6c60.chunk.js",
-    "static/js/2.4e5b6c60.chunk.js.map": "/website-react/static/js/2.4e5b6c60.chunk.js.map",
-    "index.html": "/website-react/index.html",
-    "static/css/main.a497d296.chunk.css.map": "/website-react/static/css/main.a497d296.chunk.css.map",
-    "static/js/2.4e5b6c60.chunk.js.LICENSE.txt": "/website-react/static/js/2.4e5b6c60.chunk.js.LICENSE.txt",
-    "static/media/cloud.d910dd8b.glb": "/website-react/static/media/cloud.d910dd8b.glb",
-    "static/media/earth.f1cdf21a.png": "/website-react/static/media/earth.f1cdf21a.png",
-    "static/media/index.css": "/website-react/static/media/nunito-v20-latin-regular.f0f97349.woff2",
-    "static/media/star1.03f333b6.svg": "/website-react/static/media/star1.03f333b6.svg",
-    "static/media/star2.e76a0ee1.svg": "/website-react/static/media/star2.e76a0ee1.svg"
+    "main.css": "/static/css/main.54790bb3.chunk.css",
+    "main.js": "/static/js/main.1ad2c54f.chunk.js",
+    "main.js.map": "/static/js/main.1ad2c54f.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.d545b193.js",
+    "runtime-main.js.map": "/static/js/runtime-main.d545b193.js.map",
+    "static/js/2.4e5b6c60.chunk.js": "/static/js/2.4e5b6c60.chunk.js",
+    "static/js/2.4e5b6c60.chunk.js.map": "/static/js/2.4e5b6c60.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.54790bb3.chunk.css.map": "/static/css/main.54790bb3.chunk.css.map",
+    "static/js/2.4e5b6c60.chunk.js.LICENSE.txt": "/static/js/2.4e5b6c60.chunk.js.LICENSE.txt",
+    "static/media/cloud.d910dd8b.glb": "/static/media/cloud.d910dd8b.glb",
+    "static/media/earth.f1cdf21a.png": "/static/media/earth.f1cdf21a.png",
+    "static/media/index.css": "/static/media/nunito-v20-latin-regular.f0f97349.woff2",
+    "static/media/star1.03f333b6.svg": "/static/media/star1.03f333b6.svg",
+    "static/media/star2.e76a0ee1.svg": "/static/media/star2.e76a0ee1.svg"
   },
   "entrypoints": [
-    "static/js/runtime-main.cd8da4bb.js",
+    "static/js/runtime-main.d545b193.js",
     "static/js/2.4e5b6c60.chunk.js",
-    "static/css/main.a497d296.chunk.css",
+    "static/css/main.54790bb3.chunk.css",
     "static/js/main.1ad2c54f.chunk.js"
   ]
 }
