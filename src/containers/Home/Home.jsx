@@ -94,7 +94,9 @@ export const Home = () => {
             </Typography>
             <Box mt={4}>
               <Typography variant="h2" color="white">
-                A Wellington-based developer with a passion for front-end
+                {/* A Wellington-based developer with a passion for front-end */}
+                A software engineering student with a passion for front-end
+                development
               </Typography>
               <Grid container gap={4} mt={10}>
                 <Grid item>
