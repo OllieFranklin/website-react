@@ -24,12 +24,12 @@ const theme = responsiveFontSizes(
       h1: {
         fontFamily: 'Nunito',
         fontWeight: 600,
-        fontSize: '5rem',
+        fontSize: '4.6rem',
       },
       h2: {
         fontFamily: 'Nunito',
         fontWeight: 500,
-        fontSize: '2.5rem',
+        fontSize: '2.2rem',
       },
       h3: {
         fontFamily: 'Nunito',
@@ -49,14 +49,14 @@ const theme = responsiveFontSizes(
       button: {
         fontFamily: 'Montserrat',
         fontWeight: 600,
-        fontSize: '1.6rem',
+        fontSize: '1.4rem',
         textTransform: 'none',
       },
     },
     breakpoints: {
       values: {
         xs: 0,
-        sm: 650,
+        sm: 600,
         md: 900,
         lg: 1200,
         xl: 1536,

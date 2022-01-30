@@ -15,7 +15,7 @@ export default function renderEarth(canvasRef) {
   });
 
   renderer.setPixelRatio(window.devicePixelRatio);
-  renderer.setSize(320, 320);
+  renderer.setSize(300, 300);
   camera.position.setZ(30);
 
   const earthTexture = new THREE.TextureLoader().load(earthImage);

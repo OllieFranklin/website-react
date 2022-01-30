@@ -85,10 +85,10 @@ export const Home = () => {
             justifyContent: 'center',
             alignItems: 'center',
             rowGap: 8,
-            columnGap: 16,
+            columnGap: 12,
           }}
         >
-          <Box sx={{ width: { xs: '100%', sm: '600px' } }}>
+          <Box sx={{ width: { xs: '100%', sm: '550px' } }}>
             <Typography variant="h1" color="white">
               Ollie Franklin
             </Typography>
@@ -98,7 +98,7 @@ export const Home = () => {
                 A software engineering student with a passion for front-end
                 development
               </Typography>
-              <Grid container gap={4} mt={10}>
+              <Grid container gap={4} mt={6}>
                 <Grid item>
                   <OllieButton component={Link} to="/project" color="secondary">
                     Personal Project
@@ -119,7 +119,7 @@ export const Home = () => {
 
           {/* <Box sx={{ width: 500, height: 350, backgroundColor: 'blue' }}></Box> */}
 
-          <Earth height={380} />
+          <Earth />
         </Box>
       </Box>
 

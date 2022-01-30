@@ -8,6 +8,7 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        {console.log('App has rendered')}
         <Route path="/" exact element={<Home />} />
         <Route path="/tetris" exact element={<Tetris />} />
         <Route path="/project" exact element={<ProjectDescription />} />
