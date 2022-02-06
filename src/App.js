@@ -1,7 +1,8 @@
 import React from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import { Home, ProjectDescription } from './containers/Home';
+import { Home } from './containers/Home';
+import { ProjectDescription } from './containers/ProjectDescription';
 import { Tetris } from './containers/Tetris';
 
 const App = () => {

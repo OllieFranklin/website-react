@@ -10,7 +10,7 @@ import star1 from '../../assets/Home/star1.svg';
 import star2 from '../../assets/Home/star2.svg';
 import './Home.css';
 
-export const Home = () => {
+export default function Home() {
   const [starElements, setStarElements] = React.useState([]);
 
   React.useEffect(() => {
@@ -65,7 +65,6 @@ export const Home = () => {
     );
   };
 
-  // const MainContainer = () => {
   return (
     <>
       <Box
@@ -117,8 +116,6 @@ export const Home = () => {
             </Box>
           </Box>
 
-          {/* <Box sx={{ width: 500, height: 350, backgroundColor: 'blue' }}></Box> */}
-
           <Earth />
         </Box>
       </Box>
@@ -126,4 +123,4 @@ export const Home = () => {
       <Background />
     </>
   );
-};
+}

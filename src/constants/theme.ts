@@ -1,5 +1,14 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
+declare module '@mui/material/styles' {
+  interface Palette {
+    backgroundBlue: string;
+  }
+  interface PaletteOptions {
+    backgroundBlue: string;
+  }
+}
+
 const theme = responsiveFontSizes(
   createTheme({
     palette: {
@@ -18,6 +27,7 @@ const theme = responsiveFontSizes(
       text: {
         primary: '#1A1C1E',
       },
+      backgroundBlue: '#CEEAF4',
     },
     typography: {
       fontFamily: 'Nunito',

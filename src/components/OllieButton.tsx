@@ -12,8 +12,9 @@ export default function OllieButton(
   const theme = useTheme();
 
   const isOutlined = variant === 'outlined';
+  const isText = variant === 'text';
   const colour = color
-    ? isOutlined
+    ? isOutlined || isText
       ? `${color}.dark`
       : color
     : theme.palette.text.primary;

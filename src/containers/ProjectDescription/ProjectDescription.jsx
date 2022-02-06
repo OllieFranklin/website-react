@@ -1,17 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
-import { Link } from 'react-router-dom';
+import { useTheme } from '@mui/material/styles';
+
+import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
+import ComputerIcon from '@mui/icons-material/Computer';
+import AssessmentIcon from '@mui/icons-material/Assessment';
 
 import OllieButton from '../../components/OllieButton';
 import VideoPlayer from '../../components/VideoPlayer';
-import tetrisImage from '../../assets/Home/tetris-pattern.png';
-import video from '../../assets/Home/tetris-video.mp4';
+import tetrisImage from '../../assets/ProjectDescription/tetris-pattern.png';
+import video from '../../assets/ProjectDescription/tetris-video.mp4';
+import FeatureDescription from './FeatureDescription';
 
-import './ProjectDescription.css';
+export default function ProjectDescription() {
+  const { palette } = useTheme();
 
-export const ProjectDescription = () => {
   return (
     <Box
       sx={{
@@ -19,7 +25,6 @@ export const ProjectDescription = () => {
         flexDirection: 'column',
         alignItems: 'center',
       }}
-      pb={20}
     >
       <Typography variant="h1" mt={7} sx={{ fontWeight: '700' }}>
         Tetris Project
@@ -65,7 +70,7 @@ export const ProjectDescription = () => {
         >
           <path
             d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-            fill="#CEEAF4"
+            fill={palette.backgroundBlue}
           ></path>
         </svg>
       </Box>
@@ -73,11 +78,9 @@ export const ProjectDescription = () => {
       <Box
         px={10}
         pt={2}
-        pb={10}
         sx={{
           width: '100%',
-          // backgroundColor: '#F1F1EC',
-          backgroundColor: '#CEEAF4',
+          background: `linear-gradient(180deg, ${palette.backgroundBlue} 0%, white 60%)`,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -129,36 +132,60 @@ export const ProjectDescription = () => {
             style={{ width: '640px', height: '360px' }}
           />
         </Box>
+
+        <Typography mt={16} variant="h3">
+          Some of the features include...
+        </Typography>
+
+        <Box my={6}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4 }}>
+            <FeatureDescription
+              icon={
+                <VideogameAssetIcon sx={{ fontSize: '75px', color: 'white' }} />
+              }
+              heading="Exact Clone"
+              description="My version of the game plays exactly the same as the NES version"
+              button={
+                <OllieButton variant="text" color="primary">
+                  How I tested this
+                </OllieButton>
+              }
+            />
+            <FeatureDescription
+              icon={<ComputerIcon sx={{ fontSize: '75px', color: 'white' }} />}
+              heading="Modern UI"
+              description="Built in React, my main goal was to improve the UX from the original"
+              button={
+                <OllieButton
+                  variant="text"
+                  color="primary"
+                  component={Link}
+                  to="/tetris"
+                >
+                  See for yourself
+                </OllieButton>
+              }
+            />
+            <FeatureDescription
+              icon={
+                <AssessmentIcon sx={{ fontSize: '75px', color: 'white' }} />
+              }
+              heading="Extra Statistics"
+              description="The game provides additional statistics such as tetris rate, droughts, and burns"
+              button={
+                <OllieButton
+                  variant="text"
+                  color="primary"
+                  component={Link}
+                  to="/tetris"
+                >
+                  See for yourself
+                </OllieButton>
+              }
+            />
+          </Box>
+        </Box>
       </Box>
-
-      {/* <div class="custom-shape-divider-top-1643532000">
-        <svg
-          data-name="Layer 1"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 1200 120"
-          preserveAspectRatio="none"
-        >
-          <path
-            d="M985.66,92.83C906.67,72,823.78,31,743.84,14.19c-82.26-17.34-168.06-16.33-250.45.39-57.84,11.73-114,31.07-172,41.86A600.21,600.21,0,0,1,0,27.35V120H1200V95.8C1132.19,118.92,1055.71,111.31,985.66,92.83Z"
-            class="shape-fill"
-          ></path>
-        </svg>
-      </div> */}
-
-      <Box
-        sx={{
-          height: '250px',
-          width: '100%',
-          background: 'linear-gradient(180deg, #CEEAF4 0%, white 100%)',
-        }}
-      />
-      <Box
-        sx={{
-          height: '400px',
-          width: '100%',
-          background: 'white',
-        }}
-      />
     </Box>
   );
-};
+}
