@@ -16,7 +16,7 @@ const theme = responsiveFontSizes(
         contrastText: '#000000',
       },
       text: {
-        primary: '#000000',
+        primary: '#1A1C1E',
       },
     },
     typography: {
@@ -32,9 +32,9 @@ const theme = responsiveFontSizes(
         fontSize: '2.2rem',
       },
       h3: {
-        fontFamily: 'Nunito',
-        fontWeight: 400,
-        fontSize: '2rem',
+        fontFamily: 'Montserrat',
+        fontWeight: 600,
+        fontSize: '28px',
       },
       h4: {
         fontFamily: 'Montserrat',
@@ -43,13 +43,13 @@ const theme = responsiveFontSizes(
       },
       body1: {
         fontFamily: 'Montserrat',
-        fontWeight: 400,
-        fontSize: '1.3rem',
+        fontWeight: 500,
+        fontSize: '20px',
       },
       button: {
         fontFamily: 'Montserrat',
         fontWeight: 600,
-        fontSize: '1.4rem',
+        fontSize: '20px',
         textTransform: 'none',
       },
     },

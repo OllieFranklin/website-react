@@ -1,26 +1,40 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
+import React from 'react';
+import Button, { ButtonProps } from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { styled } from '@mui/material/styles';
+import { useTheme } from '@mui/material/styles';
 
-const StyledButton = styled(Button)(() => ({
-  borderRadius: 25,
-  maxWidth: 300,
-  width: '100%',
-  color: '#181c22',
-}));
+export default function OllieButton(
+  props: React.PropsWithChildren<ButtonProps>,
+) {
+  const { variant = 'contained', color, children, ...rest } = props;
 
-type Props = {};
+  const theme = useTheme();
 
-export default function OllieButton(props: React.PropsWithChildren<Props>) {
-  const { children, ...rest } = props;
+  const isOutlined = variant === 'outlined';
+  const colour = color
+    ? isOutlined
+      ? `${color}.dark`
+      : color
+    : theme.palette.text.primary;
 
   return (
-    <StyledButton color="secondary" variant="contained" {...rest}>
+    <Button
+      color={color}
+      variant={variant}
+      style={{ border: isOutlined ? '2px solid' : 'unset' }}
+      sx={{
+        borderRadius: '25px',
+        maxWidth: '300px',
+        width: '100%',
+        color: colour,
+        borderColor: colour,
+      }}
+      {...rest}
+    >
       <Box mx={2}>
         <Typography variant="button">{children}</Typography>
       </Box>
-    </StyledButton>
+    </Button>
   );
 }
