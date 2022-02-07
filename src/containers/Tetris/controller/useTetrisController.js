@@ -18,10 +18,25 @@ export const useTetrisController = () => {
   const board = React.useRef(null);
   const [stats, setStats] = React.useState({});
 
+  const handleKeyDown = React.useCallback(
+    event => handleKeyPress(event, true),
+    [],
+  );
+
+  const handleKeyUp = React.useCallback(
+    event => handleKeyPress(event, false),
+    [],
+  );
+
   React.useEffect(() => {
-    document.addEventListener('keydown', event => handleKeyPress(event, true));
-    document.addEventListener('keyup', event => handleKeyPress(event, false));
-  }, []);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('keyup', handleKeyUp);
+
+    return () => {
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('keyup', handleKeyUp);
+    };
+  }, [handleKeyDown, handleKeyUp]);
 
   const nextFrame = React.useCallback(() => {
     if (isPaused) return;

@@ -76,7 +76,6 @@ export default function ProjectDescription() {
       </Box>
 
       <Box
-        px={10}
         pt={2}
         sx={{
           width: '100%',
@@ -84,16 +83,16 @@ export default function ProjectDescription() {
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
+          paddingX: { lg: 10, md: 5, sm: 3, xs: 3 },
         }}
       >
         <Box
           sx={{
-            display: 'flex',
-            flexDirection: 'row',
-            gap: 8,
-            flexWrap: 'wrap',
             inlineSize: 'fit-content',
-            alignItems: 'center',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 8,
           }}
         >
           <Box sx={{ width: { xs: '100%', sm: '500px' } }}>
@@ -138,63 +137,74 @@ export default function ProjectDescription() {
               src={video}
               style={{ width: '640px', height: '360px' }}
             />
-            <Typography variant="caption" mt={1}>
-              Classic Tetris World Championships
-            </Typography>
+            <a
+              href="https://www.youtube.com/watch?v=FzyMIiIN4io"
+              target="_blank"
+              rel="noreferrer"
+            >
+              <Typography variant="caption" mt={1} sx={{ textAlign: 'center' }}>
+                Classic Tetris World Championships
+              </Typography>
+            </a>
           </Box>
         </Box>
 
-        <Typography mt={16} variant="h3">
+        <Typography mt={16} variant="h3" sx={{ textAlign: 'center' }}>
           Some of the features include...
         </Typography>
 
-        <Box my={6}>
-          <Box sx={{ display: 'flex', flexDirection: 'row', gap: 4 }}>
-            <FeatureDescription
-              icon={
-                <VideogameAssetIcon sx={{ fontSize: '75px', color: 'white' }} />
-              }
-              heading="Exact Clone"
-              description="My version of the game plays exactly the same as the NES version"
-              button={
-                <OllieButton variant="text" color="primary">
-                  How I tested this
-                </OllieButton>
-              }
-            />
-            <FeatureDescription
-              icon={<ComputerIcon sx={{ fontSize: '75px', color: 'white' }} />}
-              heading="Modern UI"
-              description="Built in React, my main goal was to improve the UX from the original"
-              button={
-                <OllieButton
-                  variant="text"
-                  color="primary"
-                  component={Link}
-                  to="/tetris"
-                >
-                  See for yourself
-                </OllieButton>
-              }
-            />
-            <FeatureDescription
-              icon={
-                <AssessmentIcon sx={{ fontSize: '75px', color: 'white' }} />
-              }
-              heading="Extra Statistics"
-              description="The game provides additional statistics such as tetris rate, droughts, and burns"
-              button={
-                <OllieButton
-                  variant="text"
-                  color="primary"
-                  component={Link}
-                  to="/tetris"
-                >
-                  See for yourself
-                </OllieButton>
-              }
-            />
-          </Box>
+        <Box
+          my={6}
+          sx={{
+            inlineSize: 'fit-content',
+            display: 'flex',
+            flexWrap: 'wrap',
+            justifyContent: 'center',
+            gap: 4,
+          }}
+        >
+          <FeatureDescription
+            icon={
+              <VideogameAssetIcon sx={{ fontSize: '75px', color: 'white' }} />
+            }
+            heading="Exact Clone"
+            description="My version of the game plays exactly the same as the NES version"
+            button={
+              <OllieButton variant="text" color="primary">
+                How I tested this
+              </OllieButton>
+            }
+          />
+          <FeatureDescription
+            icon={<ComputerIcon sx={{ fontSize: '75px', color: 'white' }} />}
+            heading="Modern UI"
+            description="Built in React, my main goal was to improve the UX from the original"
+            button={
+              <OllieButton
+                variant="text"
+                color="primary"
+                component={Link}
+                to="/tetris"
+              >
+                See for yourself
+              </OllieButton>
+            }
+          />
+          <FeatureDescription
+            icon={<AssessmentIcon sx={{ fontSize: '75px', color: 'white' }} />}
+            heading="Extra Statistics"
+            description="The game provides additional statistics such as tetris rate, droughts, and burns"
+            button={
+              <OllieButton
+                variant="text"
+                color="primary"
+                component={Link}
+                to="/tetris"
+              >
+                See for yourself
+              </OllieButton>
+            }
+          />
         </Box>
       </Box>
     </Box>

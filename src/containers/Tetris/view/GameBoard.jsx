@@ -1,4 +1,6 @@
 import React from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
 
 import { useTetrisController } from '../controller';
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
@@ -14,43 +16,40 @@ export const GameBoard = () => {
 
   const { board, startGame, stats } = useTetrisController();
 
-  // resize function for board
+  const handleResize = React.useCallback(() => {
+    // find a width for the board that's divisible by 10
+    // this ensures that all cells can be rendered on integer values
+
+    // set the board height to 90% page height
+    const height90 = 0.9 * pageRef.current.offsetHeight;
+    const boardHeight = height90 - (height90 % 20);
+
+    setCanvasStyles({
+      height: `${boardHeight}px`,
+      width: `${boardHeight * 0.5}px`,
+    });
+
+    // and make sure that the width & height of the canvas match the style width & height
+    if (canvasRef.current.height !== canvasRef.current.offsetHeight) {
+      canvasRef.current.height = canvasRef.current.offsetHeight;
+      canvasRef.current.width = canvasRef.current.offsetWidth;
+    }
+
+    // // also update the stats container to be the same height as the board
+    // document.querySelector('#stats-container').style.height =
+    //   this.canvas.style.height;
+
+    setCellSize(canvasRef.current.width / 10);
+
+    setBoardHasLoaded(true);
+  }, []);
 
   React.useEffect(() => {
-    const handleResize = () => {
-      if (!pageRef.current) return;
-
-      // find a width for the board that's divisible by 10
-      // this ensures that all cells can be rendered on integer values
-
-      // set the board height to 90% page height
-      const height90 = 0.9 * pageRef.current.offsetHeight;
-      const boardHeight = height90 - (height90 % 20);
-
-      setCanvasStyles({
-        height: `${boardHeight}px`,
-        width: `${boardHeight * 0.5}px`,
-      });
-
-      // and make sure that the width & height of the canvas match the style width & height
-      if (canvasRef.current.height !== canvasRef.current.offsetHeight) {
-        canvasRef.current.height = canvasRef.current.offsetHeight;
-        canvasRef.current.width = canvasRef.current.offsetWidth;
-      }
-
-      // // also update the stats container to be the same height as the board
-      // document.querySelector('#stats-container').style.height =
-      //   this.canvas.style.height;
-
-      setCellSize(canvasRef.current.width / 10);
-
-      setBoardHasLoaded(true);
-    };
-
     window.addEventListener('resize', handleResize);
-
     setTimeout(handleResize, 10);
-  }, []);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   // render function called each frame of game
   // handles displaying the game at the native framerate decided by requestAnimationFrame
@@ -96,21 +95,26 @@ export const GameBoard = () => {
   }, [board, cellSize]);
 
   return (
-    <div
-      className="my-align-items-center my-h-100"
-      id="game-container"
+    <Box
       ref={pageRef}
+      sx={{
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
     >
-      <div className="my-row">
-        <canvas
-          id="board"
-          className="my-card my-shadow-sm"
-          style={canvasStyles}
-          ref={canvasRef}
-        ></canvas>
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        <Paper>
+          <canvas id="board" style={canvasStyles} ref={canvasRef}></canvas>
+        </Paper>
+
+        {/* <Box
+          sx={{ border: 'solid 1px black', width: '160px', height: 'auto' }}
+        ></Box> */}
 
         {boardHasLoaded && <Stats stats={stats} cellSize={cellSize} />}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };

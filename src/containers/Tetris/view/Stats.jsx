@@ -1,4 +1,7 @@
 import React from 'react';
+import Box from '@mui/material/Box';
+import Paper from '@mui/material/Paper';
+
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 
 const StatsItem = ({ name, value }) => {
@@ -18,20 +21,20 @@ export const Stats = ({ stats, cellSize }) => {
 
   const canvasRef = React.useRef();
 
-  // resize function for next box
-  React.useEffect(() => {
-    const handleResize = () => {
-      // and make sure that the width & height of the canvas match the style width & height
-      if (canvasRef.current.height !== canvasRef.current.offsetHeight) {
-        canvasRef.current.height = canvasRef.current.offsetHeight;
-        canvasRef.current.width = canvasRef.current.offsetWidth;
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-
-    setTimeout(handleResize, 10);
+  const handleResize = React.useCallback(() => {
+    // make sure that the width & height of the canvas match the style width & height
+    if (canvasRef.current.height !== canvasRef.current.offsetHeight) {
+      canvasRef.current.height = canvasRef.current.offsetHeight;
+      canvasRef.current.width = canvasRef.current.offsetWidth;
+    }
   }, []);
+
+  React.useEffect(() => {
+    window.addEventListener('resize', handleResize);
+    setTimeout(handleResize, 10);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, [handleResize]);
 
   React.useEffect(() => {
     const renderNextBox = () => {
@@ -71,27 +74,27 @@ export const Stats = ({ stats, cellSize }) => {
   }, [nextPiece, cellSize]);
 
   return (
-    <div id="stats-container" className="my-d-md-flex">
-      <div className="my-row my-card my-shadow-sm" id="stats-panel-1">
+    <Box sx={{ height: 'auto', display: 'flex', flexDirection: 'column' }}>
+      <Paper>
         <div style={{ height: '20%' }}>
           <h4>
             <b>Next Piece</b>
           </h4>
         </div>
         <canvas id="next-box" ref={canvasRef}></canvas>
-      </div>
+      </Paper>
 
-      <div className="my-row my-card my-shadow-sm" id="stats-panel-2">
+      <Paper>
         <StatsItem name="Level" value={level} />
         <StatsItem name="Lines" value={lines} />
         <StatsItem name="Score" value={score} />
-      </div>
+      </Paper>
 
-      <div className="my-row my-card my-shadow-sm" id="stats-panel-3">
+      <Paper>
         <StatsItem name="Tetris Rate" value={`${tetrisRate}%`} />
         <StatsItem name="Drought" value={drought} />
         <StatsItem name="Burn" value={burn} />
-      </div>
-    </div>
+      </Paper>
+    </Box>
   );
 };

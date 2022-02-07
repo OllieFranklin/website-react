@@ -52,7 +52,6 @@ export default function Navigation() {
   return (
     <Box
       m={0}
-      px={4}
       pt={2}
       sx={{
         width: '100%',
@@ -61,7 +60,8 @@ export default function Navigation() {
         left: 0,
         display: 'flex',
         justifyContent: { xs: 'center', sm: 'flex-end' },
-        gap: 6,
+        gap: { xs: 3, sm: 6 },
+        paddingRight: { xs: 0, sm: 10 },
       }}
     >
       <NavItem path="/" darkMode={darkMode}>
