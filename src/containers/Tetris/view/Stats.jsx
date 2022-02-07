@@ -71,8 +71,8 @@ export const Stats = ({ stats, cellSize }) => {
   }, [nextPiece, cellSize]);
 
   return (
-    <div id="stats-container" className="d-md-flex">
-      <div className="row my-card shadow-sm" id="stats-panel-1">
+    <div id="stats-container" className="my-d-md-flex">
+      <div className="my-row my-card my-shadow-sm" id="stats-panel-1">
         <div style={{ height: '20%' }}>
           <h4>
             <b>Next Piece</b>
@@ -81,13 +81,13 @@ export const Stats = ({ stats, cellSize }) => {
         <canvas id="next-box" ref={canvasRef}></canvas>
       </div>
 
-      <div className="row my-card shadow-sm" id="stats-panel-2">
+      <div className="my-row my-card my-shadow-sm" id="stats-panel-2">
         <StatsItem name="Level" value={level} />
         <StatsItem name="Lines" value={lines} />
         <StatsItem name="Score" value={score} />
       </div>
 
-      <div className="row my-card shadow-sm" id="stats-panel-3">
+      <div className="my-row my-card my-shadow-sm" id="stats-panel-3">
         <StatsItem name="Tetris Rate" value={`${tetrisRate}%`} />
         <StatsItem name="Drought" value={drought} />
         <StatsItem name="Burn" value={burn} />

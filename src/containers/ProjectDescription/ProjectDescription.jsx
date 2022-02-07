@@ -26,7 +26,7 @@ export default function ProjectDescription() {
         alignItems: 'center',
       }}
     >
-      <Typography variant="h1" mt={7} sx={{ fontWeight: '700' }}>
+      <Typography variant="h1" mt={12} sx={{ fontWeight: '700' }}>
         Tetris Project
       </Typography>
 
@@ -127,10 +127,21 @@ export default function ProjectDescription() {
               </Grid>
             </Grid>
           </Box>
-          <VideoPlayer
-            src={video}
-            style={{ width: '640px', height: '360px' }}
-          />
+          <Box
+            sx={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            <VideoPlayer
+              src={video}
+              style={{ width: '640px', height: '360px' }}
+            />
+            <Typography variant="caption" mt={1}>
+              Classic Tetris World Championships
+            </Typography>
+          </Box>
         </Box>
 
         <Typography mt={16} variant="h3">

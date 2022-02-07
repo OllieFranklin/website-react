@@ -54,13 +54,18 @@ const theme = responsiveFontSizes(
       body1: {
         fontFamily: 'Montserrat',
         fontWeight: 500,
-        fontSize: '20px',
+        fontSize: '19px',
       },
       button: {
         fontFamily: 'Montserrat',
         fontWeight: 600,
-        fontSize: '20px',
+        fontSize: '19px',
         textTransform: 'none',
+      },
+      caption: {
+        fontFamily: 'Montserrat',
+        fontWeight: 500,
+        fontSize: '16px',
       },
     },
     breakpoints: {

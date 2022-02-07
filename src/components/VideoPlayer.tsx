@@ -4,14 +4,14 @@ import IconButton from '@mui/material/IconButton';
 import PauseCircleIcon from '@mui/icons-material/PauseCircle';
 import PlayCircleIcon from '@mui/icons-material/PlayCircle';
 
-type VideoPlayer = React.DetailedHTMLProps<
+type VideoPlayerProps = React.DetailedHTMLProps<
   React.VideoHTMLAttributes<HTMLVideoElement>,
   HTMLVideoElement
 >;
 
 //ffmpeg -i video.mp4 -c copy -an video2.mp4
 
-export default function OllieButton(props: VideoPlayer) {
+export default function VideoPlayer(props: VideoPlayerProps) {
   const { src, autoPlay, style = {}, ...rest } = props;
 
   const { width = 'unset', height = 'unset' } = style;

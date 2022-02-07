@@ -66,7 +66,7 @@ export default function Home() {
   };
 
   return (
-    <>
+    <Box>
       <Box
         sx={{
           display: 'flex',
@@ -86,6 +86,7 @@ export default function Home() {
             rowGap: 8,
             columnGap: 12,
           }}
+          py={6}
         >
           <Box sx={{ width: { xs: '100%', sm: '550px' } }}>
             <Typography variant="h1" color="white">
@@ -99,7 +100,12 @@ export default function Home() {
               </Typography>
               <Grid container gap={4} mt={6}>
                 <Grid item>
-                  <OllieButton component={Link} to="/project" color="secondary">
+                  <OllieButton
+                    component={Link}
+                    to="/project"
+                    color="secondary"
+                    size="large"
+                  >
                     Personal Project
                   </OllieButton>
                 </Grid>
@@ -108,6 +114,7 @@ export default function Home() {
                     color="primary"
                     href="https://github.com/OllieFranklin"
                     target="_blank"
+                    size="large"
                   >
                     Github
                   </OllieButton>
@@ -121,6 +128,6 @@ export default function Home() {
       </Box>
 
       <Background />
-    </>
+    </Box>
   );
 }

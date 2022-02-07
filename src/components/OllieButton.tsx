@@ -7,7 +7,13 @@ import { useTheme } from '@mui/material/styles';
 export default function OllieButton(
   props: React.PropsWithChildren<ButtonProps>,
 ) {
-  const { variant = 'contained', color, children, ...rest } = props;
+  const {
+    variant = 'contained',
+    color,
+    size = 'medium',
+    children,
+    ...rest
+  } = props;
 
   const theme = useTheme();
 
@@ -23,6 +29,7 @@ export default function OllieButton(
     <Button
       color={color}
       variant={variant}
+      size={size}
       style={{ border: isOutlined ? '2px solid' : 'unset' }}
       sx={{
         borderRadius: '25px',
@@ -34,7 +41,12 @@ export default function OllieButton(
       {...rest}
     >
       <Box mx={2}>
-        <Typography variant="button">{children}</Typography>
+        <Typography
+          sx={{ fontSize: size === 'large' ? '20px !important' : 'unset' }}
+          variant="button"
+        >
+          {children}
+        </Typography>
       </Box>
     </Button>
   );

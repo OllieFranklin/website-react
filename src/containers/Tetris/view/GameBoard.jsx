@@ -18,6 +18,8 @@ export const GameBoard = () => {
 
   React.useEffect(() => {
     const handleResize = () => {
+      if (!pageRef.current) return;
+
       // find a width for the board that's divisible by 10
       // this ensures that all cells can be rendered on integer values
 
@@ -94,11 +96,15 @@ export const GameBoard = () => {
   }, [board, cellSize]);
 
   return (
-    <div className="align-items-center h-100" id="game-container" ref={pageRef}>
-      <div className="row">
+    <div
+      className="my-align-items-center my-h-100"
+      id="game-container"
+      ref={pageRef}
+    >
+      <div className="my-row">
         <canvas
           id="board"
-          className="my-card shadow-sm"
+          className="my-card my-shadow-sm"
           style={canvasStyles}
           ref={canvasRef}
         ></canvas>
