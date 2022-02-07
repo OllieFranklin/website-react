@@ -1,18 +1,26 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Typography from '@mui/material/Typography';
 
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 
 const StatsItem = ({ name, value }) => {
   return (
-    <div style={{ height: '33%' }}>
-      <h4>
-        <b>{name}</b>
-        <span className="stat-sm">&nbsp;–&nbsp;&nbsp;{value || 0}</span>
-      </h4>
-      <h4 className="stat-lg">{value || 0}</h4>
-    </div>
+    <Box px={2}>
+      <Typography variant="h4">
+        <span style={{ fontWeight: '600' }}>{name}</span>
+        <span className="stat-sm">&nbsp;–&nbsp;{value || 0}</span>
+      </Typography>
+      <Typography
+        variant="h4"
+        className="stat-lg"
+        mt={1}
+        sx={{ textAlign: 'center' }}
+      >
+        {value || 0}
+      </Typography>
+    </Box>
   );
 };
 
@@ -74,23 +82,47 @@ export const Stats = ({ stats, cellSize }) => {
   }, [nextPiece, cellSize]);
 
   return (
-    <Box sx={{ height: 'auto', display: 'flex', flexDirection: 'column' }}>
-      <Paper>
-        <div style={{ height: '20%' }}>
-          <h4>
-            <b>Next Piece</b>
-          </h4>
-        </div>
-        <canvas id="next-box" ref={canvasRef}></canvas>
+    <Box
+      sx={{ height: 'auto', display: 'flex', flexDirection: 'column', gap: 3 }}
+    >
+      <Paper
+        style={{
+          flex: 2,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'space-evenly',
+        }}
+      >
+        <Typography variant="h4" sx={{ fontWeight: 600 }}>
+          Next Piece
+        </Typography>
+        <canvas ref={canvasRef} style={{ height: '50%', width: '210px' }} />
       </Paper>
 
-      <Paper>
+      <Paper
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          flex: 3,
+        }}
+      >
         <StatsItem name="Level" value={level} />
         <StatsItem name="Lines" value={lines} />
         <StatsItem name="Score" value={score} />
       </Paper>
 
-      <Paper>
+      <Paper
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-evenly',
+          alignItems: 'center',
+          flex: 3,
+        }}
+      >
         <StatsItem name="Tetris Rate" value={`${tetrisRate}%`} />
         <StatsItem name="Drought" value={drought} />
         <StatsItem name="Burn" value={burn} />

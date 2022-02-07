@@ -48,8 +48,8 @@ const theme = responsiveFontSizes(
       },
       h4: {
         fontFamily: 'Montserrat',
-        fontWeight: 400,
-        fontSize: '1.6rem',
+        fontWeight: 500,
+        fontSize: '26px',
       },
       body1: {
         fontFamily: 'Montserrat',

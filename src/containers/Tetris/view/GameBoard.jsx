@@ -104,7 +104,7 @@ export const GameBoard = () => {
         justifyContent: 'center',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
         <Paper>
           <canvas id="board" style={canvasStyles} ref={canvasRef}></canvas>
         </Paper>
