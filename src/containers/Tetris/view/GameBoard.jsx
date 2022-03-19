@@ -2,19 +2,16 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 
-import { useTetrisController } from '../controller';
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 import { Stats } from './Stats';
 
-export const GameBoard = () => {
+export const GameBoard = ({ board, stats }) => {
   const [boardHasLoaded, setBoardHasLoaded] = React.useState(false);
   const [canvasStyles, setCanvasStyles] = React.useState({});
   const [cellSize, setCellSize] = React.useState(0);
 
   const canvasRef = React.useRef();
   const pageRef = React.useRef();
-
-  const { board, startGame, stats } = useTetrisController();
 
   const handleResize = React.useCallback(() => {
     // find a width for the board that's divisible by 10
@@ -55,8 +52,6 @@ export const GameBoard = () => {
   // handles displaying the game at the native framerate decided by requestAnimationFrame
   // the game logic (i.e. what to show at any given moment) is run in a separate loop
   React.useEffect(() => {
-    startGame(8);
-
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
 
@@ -89,9 +84,6 @@ export const GameBoard = () => {
     };
 
     renderBoard();
-
-    // ignore startGame dependency
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [board, cellSize]);
 
   return (
@@ -105,8 +97,8 @@ export const GameBoard = () => {
       }}
     >
       <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
-        <Paper>
-          <canvas id="board" style={canvasStyles} ref={canvasRef}></canvas>
+        <Paper elevation={1}>
+          <canvas style={canvasStyles} ref={canvasRef}></canvas>
         </Paper>
 
         {/* <Box

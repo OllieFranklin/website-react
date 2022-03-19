@@ -1,20 +1,69 @@
 import React from 'react';
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Slider from '@mui/material/Slider';
+import OllieButton from '../../../components/OllieButton';
+import { Game, GravityBuilder } from '../model';
 
-export const LevelSelect = () => {
+function getLevelData(level) {
+  const dropRate = new GravityBuilder().withLevel(level).framesPerCell;
+  const linesUntilLevelUp = Game.getLinesUntilFirstLevelUp(level);
+
+  return { level, dropRate, linesUntilLevelUp };
+}
+
+export const LevelSelect = ({ handleOnStartGame }) => {
+  const [levelData, setLevelData] = React.useState(getLevelData(8));
+
+  const handleOnChangeSlider = event => {
+    const { target: { value: level = 0 } = {} } = event || {};
+
+    const newLevelData = getLevelData(level);
+    setLevelData(newLevelData);
+  };
+
+  const handleOnClickStart = () => {
+    handleOnStartGame(levelData.level);
+  };
+
   return (
-    <div id="level-selection-container" className="row h-100">
-      <div id="level-selection-page" className="d-flex col align-items-center">
-        <h1>Pick a Starting Level</h1>
-        <input type="range" min="0" max="19" id="level-range" />
-
-        <h2 id="level-select-value">&lt;LEVEL_SELECT_VALUE&gt;</h2>
-        <h4 id="drop-rate-desc">&lt;DROP_RATE_DESC&gt;</h4>
-        <h4 id="lines-to-level-up">&lt;LINES_TO_LEVEL&gt;</h4>
-
-        <button className="button" id="new-game-btn">
-          <b>Start</b>
-        </button>
-      </div>
-    </div>
+    <Box
+      sx={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        flexDirection: 'column',
+      }}
+    >
+      <Typography variant="h1">Pick a Starting Level</Typography>
+      <Box sx={{ width: 300 }}>
+        <Slider
+          aria-label="Level Select"
+          defaultValue={15}
+          getAriaValueText={value => `Level ${value}`}
+          valueLabelDisplay="off"
+          step={1}
+          min={0}
+          max={19}
+          color="primary"
+          onChange={handleOnChangeSlider}
+          value={levelData.level}
+        />
+      </Box>
+      <Typography variant="h2">{`Level ${levelData.level}`}</Typography>
+      <Typography variant="h3">{`${levelData.dropRate} frames/drop`}</Typography>
+      <Typography variant="h3">{`${levelData.linesUntilLevelUp} lines until level up`}</Typography>
+      <Box mt={16}>
+        <OllieButton
+          color="secondary"
+          size="large"
+          onClick={handleOnClickStart}
+        >
+          Start Game
+        </OllieButton>
+      </Box>
+    </Box>
   );
 };

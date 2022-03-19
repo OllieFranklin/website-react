@@ -45,10 +45,10 @@ export const Stats = ({ stats, cellSize }) => {
   }, [handleResize]);
 
   React.useEffect(() => {
-    const renderNextBox = () => {
-      const canvas = canvasRef.current;
-      const ctx = canvas.getContext('2d');
+    const canvas = canvasRef.current;
+    const ctx = canvas?.getContext('2d');
 
+    const renderNextBox = () => {
       if (!nextPiece) {
         return;
       }

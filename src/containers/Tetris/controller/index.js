@@ -1,3 +1,1 @@
-import { useTetrisController } from './useTetrisController';
-
-export { useTetrisController };
+export { useTetrisController } from './useTetrisController';

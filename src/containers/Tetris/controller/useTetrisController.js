@@ -17,6 +17,7 @@ export const useTetrisController = () => {
 
   const board = React.useRef(null);
   const [stats, setStats] = React.useState({});
+  const [isGameOver, setIsGameOver] = React.useState(false);
 
   const handleKeyDown = React.useCallback(
     event => handleKeyPress(event, true),
@@ -60,11 +61,11 @@ export const useTetrisController = () => {
       setStats(newStats);
     }
 
-    if (gameState.isGameOver) {
-      setIsPaused(true);
-      // WebpageController.gameOver();
+    const newIsGameOver = gameState.isGameOver;
+    if (newIsGameOver !== isGameOver) {
+      setIsGameOver(newIsGameOver);
     }
-  }, [stats, setStats, isPaused, setIsPaused]);
+  }, [stats, setStats, isPaused, isGameOver, setIsGameOver]);
 
   const pauseGame = () => {
     setIsPaused(true);
@@ -112,5 +113,6 @@ export const useTetrisController = () => {
     board,
     startGame,
     pauseGame,
+    isGameOver,
   };
 };

@@ -7,7 +7,7 @@ export const useTetrisView = () => {
     GAME_OVER: 'GAME_OVER',
   };
 
-  const [gameState, setGameState] = React.useState(GameStates.PLAYING);
+  const [gameState, setGameState] = React.useState(GameStates.LEVEL_SELECT);
 
   return { GameStates, gameState, setGameState };
 };
