@@ -12,8 +12,6 @@ import {
   MoveDown,
 } from './Move';
 
-export let FRAME_NUM = 1;
-
 enum State {
   ARE,
   PLAYING,
@@ -43,6 +41,7 @@ export class Game {
   private burn: number;
   private entryDelay: number;
   private downPressed: boolean;
+  private frameNum: number;
 
   public constructor(initialLevel: number, pieceOrder?: string[]) {
     this.moves = [];
@@ -74,6 +73,7 @@ export class Game {
     this.tetrisRate = 0;
     this.drought = 0;
     this.burn = 0;
+    this.frameNum = 0;
   }
 
   /**
@@ -88,6 +88,7 @@ export class Game {
     this.keyStates = { ...inputs };
 
     this.doFrame();
+    this.frameNum++;
 
     return {
       isGameOver: this.state === State.GAME_OVER,
@@ -175,13 +176,6 @@ export class Game {
   }
 
   private doFrame(): void {
-    FRAME_NUM++;
-
-    // gravity doesn't kick in until frame 91
-    if (FRAME_NUM === 91) {
-      this.gravity = new GravityBuilder().withLevel(this.initialLevel);
-    }
-
     if (this.state === State.LINE_CLEAR) {
       this.doLineClearFrame();
     } else if (this.state === State.ARE) {
@@ -206,6 +200,12 @@ export class Game {
 
       if (gravityDropping || softDropping) {
         this.moves.push(MoveDown);
+      }
+
+      // gravity doesn't kick in until frame 96
+      if (this.frameNum === 96) {
+        this.moves.push(MoveDown);
+        this.gravity = new GravityBuilder().withLevel(this.initialLevel);
       }
 
       for (const move of this.moves) {

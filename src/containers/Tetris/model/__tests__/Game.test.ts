@@ -1,5 +1,7 @@
 import { Game, KeyState } from '..';
-import testOutput from '../../test-output.json';
+import testOracles from './test_oracles';
+
+const numPrevBoards = 0;
 
 function gameStateBoardToJsonFileBoard(board: string[][]): string {
   return board
@@ -89,7 +91,7 @@ expect.extend({
     const pass = expected === received;
     if (pass) {
       return {
-        message: () => '',
+        message: () => 'Passed',
         pass: true,
       };
     } else {
@@ -101,31 +103,33 @@ expect.extend({
   },
 });
 
-test('Model matches test oracle', () => {
-  const { pieceOrder, startingLevel, frames } = testOutput;
+testOracles.forEach(
+  ({ data: { pieceOrder, startingLevel, frames }, fileName, description }) => {
+    test(`${description}`, () => {
+      const game = new Game(startingLevel, pieceOrder);
 
-  const game = new Game(startingLevel, pieceOrder);
+      let recievedFrameNum = 0;
+      const prevBoards = [];
 
-  let recievedFrameNum = 0;
-  const prevBoards = [];
+      for (let i = 0; i < frames.length; i++) {
+        const { boardState: expectedBoard, keyState } = frames[i];
+        const { frameNum: nextExpectedFrameNum = -1 } = frames[i + 1] || {};
 
-  for (let i = 0; i < frames.length; i++) {
-    const { boardState: expectedBoard, keyState } = frames[i];
-    const { frameNum: nextExpectedFrameNum = -1 } = frames[i + 1] || {};
+        while (recievedFrameNum < nextExpectedFrameNum) {
+          const gameState = game.nextFrame(keyState);
+          const recievedBoard = gameStateBoardToJsonFileBoard(gameState.board);
 
-    while (recievedFrameNum < nextExpectedFrameNum) {
-      const gameState = game.nextFrame(keyState);
-      const recievedBoard = gameStateBoardToJsonFileBoard(gameState.board);
+          const info = { frameNum: recievedFrameNum, prevBoards, keyState };
+          expect(expectedBoard).toMatchBoard(recievedBoard, info);
 
-      const info = { frameNum: recievedFrameNum, prevBoards, keyState };
-      expect(expectedBoard).toMatchBoard(recievedBoard, info);
+          recievedFrameNum++;
+        }
 
-      recievedFrameNum++;
-    }
-
-    prevBoards.push({ frame: recievedFrameNum, board: expectedBoard });
-    if (prevBoards.length > 30) {
-      prevBoards.shift();
-    }
-  }
-});
+        prevBoards.push({ frame: recievedFrameNum, board: expectedBoard });
+        if (prevBoards.length > numPrevBoards) {
+          prevBoards.shift();
+        }
+      }
+    });
+  },
+);
