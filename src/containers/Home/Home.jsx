@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import { Link } from 'react-router-dom';
 
 import Earth from './Earth';
-import OllieButton from '../../components/OllieButton';
+import Button from '../../components/Button';
 import star1 from '../../assets/Home/star1.svg';
 import star2 from '../../assets/Home/star2.svg';
 import './Home.css';
@@ -100,24 +100,24 @@ export default function Home() {
               </Typography>
               <Grid container gap={4} mt={6}>
                 <Grid item>
-                  <OllieButton
+                  <Button
                     component={Link}
                     to="/project"
                     color="secondary"
                     size="large"
                   >
                     Personal Project
-                  </OllieButton>
+                  </Button>
                 </Grid>
                 <Grid item>
-                  <OllieButton
+                  <Button
                     color="primary"
                     href="https://github.com/OllieFranklin"
                     target="_blank"
                     size="large"
                   >
                     Github
-                  </OllieButton>
+                  </Button>
                 </Grid>
               </Grid>
             </Box>

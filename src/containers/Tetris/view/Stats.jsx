@@ -2,24 +2,24 @@ import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 
 const StatsItem = ({ name, value }) => {
+  const isScreenTall = useMediaQuery('(min-height: 825px)');
+
   return (
     <Box px={2}>
       <Typography variant="h4">
         <span style={{ fontWeight: '600' }}>{name}</span>
-        <span className="stat-sm">&nbsp;–&nbsp;{value || 0}</span>
+        {!isScreenTall && <span>&nbsp;–&nbsp;{value || 0}</span>}
       </Typography>
-      <Typography
-        variant="h4"
-        className="stat-lg"
-        mt={1}
-        sx={{ textAlign: 'center' }}
-      >
-        {value || 0}
-      </Typography>
+      {isScreenTall && (
+        <Typography variant="h4" mt={1} sx={{ textAlign: 'center' }}>
+          {value || 0}
+        </Typography>
+      )}
     </Box>
   );
 };

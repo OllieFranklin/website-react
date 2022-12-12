@@ -1,9 +1,6 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
 
-type TypeBg = {
-  blue: string;
-  grey: string;
-};
+type TypeBg = { blue: string; grey: string };
 declare module '@mui/material/styles' {
   interface Palette {
     bg: TypeBg;
@@ -28,62 +25,25 @@ const theme = responsiveFontSizes(
         light: '#69ff91',
         contrastText: '#000000',
       },
-      text: {
-        primary: '#1A1C1E',
-      },
-      bg: {
-        blue: '#CEEAF4',
-        grey: '#EDEDED',
-      },
+      text: { primary: '#1A1C1E' },
+      bg: { blue: '#CEEAF4', grey: '#EDEDED' },
     },
     typography: {
       fontFamily: 'Nunito',
-      h1: {
-        fontFamily: 'Nunito',
-        fontWeight: 600,
-        fontSize: '4.6rem',
-      },
-      h2: {
-        fontFamily: 'Nunito',
-        fontWeight: 500,
-        fontSize: '2.2rem',
-      },
-      h3: {
-        fontFamily: 'Montserrat',
-        fontWeight: 600,
-        fontSize: '28px',
-      },
-      h4: {
-        fontFamily: 'Montserrat',
-        fontWeight: 500,
-        fontSize: '26px',
-      },
-      body1: {
-        fontFamily: 'Montserrat',
-        fontWeight: 500,
-        fontSize: '19px',
-      },
+      h1: { fontFamily: 'Nunito', fontWeight: 600, fontSize: '4.6rem' },
+      h2: { fontFamily: 'Nunito', fontWeight: 500, fontSize: '2.2rem' },
+      h3: { fontFamily: 'Montserrat', fontWeight: 600, fontSize: '28px' },
+      h4: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: '26px' },
+      body1: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: '19px' },
       button: {
         fontFamily: 'Montserrat',
         fontWeight: 600,
         fontSize: '19px',
         textTransform: 'none',
       },
-      caption: {
-        fontFamily: 'Montserrat',
-        fontWeight: 500,
-        fontSize: '16px',
-      },
+      caption: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: '16px' },
     },
-    breakpoints: {
-      values: {
-        xs: 0,
-        sm: 600,
-        md: 900,
-        lg: 1200,
-        xl: 1536,
-      },
-    },
+    breakpoints: { values: { xs: 0, sm: 600, md: 900, lg: 1200, xl: 1536 } },
   }),
 );
 

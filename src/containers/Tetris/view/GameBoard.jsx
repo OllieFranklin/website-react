@@ -1,6 +1,7 @@
 import React from 'react';
 import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
+import Stack from '@mui/material/Stack';
 
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 import { Stats } from './Stats';
@@ -96,7 +97,7 @@ export const GameBoard = ({ board, stats }) => {
         justifyContent: 'center',
       }}
     >
-      <Box sx={{ display: 'flex', flexDirection: 'row', gap: 3 }}>
+      <Stack direction="row" sx={{ gap: 3 }}>
         <Paper elevation={1}>
           <canvas style={canvasStyles} ref={canvasRef}></canvas>
         </Paper>
@@ -106,7 +107,7 @@ export const GameBoard = ({ board, stats }) => {
         ></Box> */}
 
         {boardHasLoaded && <Stats stats={stats} cellSize={cellSize} />}
-      </Box>
+      </Stack>
     </Box>
   );
 };

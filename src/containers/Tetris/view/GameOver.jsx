@@ -1,7 +1,7 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import OllieButton from '../../../components/OllieButton';
+import Button from '../../../components/Button';
 
 export const GameOver = ({ stats, handleOnShowLevelSelect }) => {
   return (
@@ -19,9 +19,9 @@ export const GameOver = ({ stats, handleOnShowLevelSelect }) => {
         Game Over
       </Typography>
       <Box mt={16}>
-        <OllieButton color="secondary" onClick={handleOnShowLevelSelect}>
+        <Button color="secondary" onClick={handleOnShowLevelSelect}>
           Continue
-        </OllieButton>
+        </Button>
       </Box>
     </Box>
   );

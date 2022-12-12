@@ -1,21 +1,20 @@
 import React from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
 export default function FeatureDescription(props) {
-  const { icon, heading, description, button } = props;
+  const { IconComponent, heading, description, button } = props;
 
   return (
-    <Box
+    <Stack
       sx={{
-        display: 'flex',
-        flexDirection: 'column',
+        m: 1,
+        p: 1,
         alignItems: 'center',
         maxWidth: '300px',
         textAlign: 'center',
       }}
-      m={1}
-      p={1}
     >
       <Box
         sx={{
@@ -28,15 +27,18 @@ export default function FeatureDescription(props) {
           justifyContent: 'center',
         }}
       >
-        {icon}
+        <IconComponent sx={{ fontSize: '75px', color: 'white' }} />
       </Box>
+
       <Typography variant="h3" mt={4}>
         {heading}
       </Typography>
-      <Typography variant="body1" mt={3} sx={{ flex: 1 }}>
+
+      <Typography variant="body1" sx={{ mt: 3, flex: 1 }}>
         {description}
       </Typography>
-      <Box mt={3}>{button}</Box>
-    </Box>
+
+      <Box sx={{ mt: 3 }}>{button}</Box>
+    </Stack>
   );
 }

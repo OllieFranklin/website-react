@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import Grid from '@mui/material/Grid';
 import { useTheme } from '@mui/material/styles';
@@ -9,7 +10,7 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import ComputerIcon from '@mui/icons-material/Computer';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
-import OllieButton from '../../components/OllieButton';
+import Button from '../../components/Button';
 import VideoPlayer from '../../components/VideoPlayer';
 import tetrisImage from '../../assets/ProjectDescription/tetris-pattern.png';
 import video from '../../assets/ProjectDescription/tetris-video.mp4';
@@ -18,36 +19,31 @@ import FeatureDescription from './FeatureDescription';
 export default function ProjectDescription() {
   const { palette } = useTheme();
 
+  const spaced = {
+    ':before': { content: '" "' },
+    ':after': { content: '" "' },
+  };
+
   return (
-    <Box
-      sx={{
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-      }}
-    >
-      <Typography variant="h1" mt={12} sx={{ fontWeight: '700' }}>
+    <Stack sx={{ alignItems: 'center' }}>
+      <Typography variant="h1" sx={{ mt: 12, fontWeight: '700' }}>
         Tetris Project
       </Typography>
 
-      <Box mt={6} sx={{ maxWidth: 590, textAlign: 'center' }}>
+      <Box sx={{ mt: 6, maxWidth: '590px', textAlign: 'center' }}>
         <Typography variant="h3">
-          An{' '}
-          {
-            <Box sx={{ display: 'inline', color: 'secondary.dark' }}>
-              exact clone
-            </Box>
-          }{' '}
-          of Classic NES Tetris with a{' '}
-          {
-            <Box sx={{ display: 'inline', color: 'primary.dark' }}>
-              modern user interface
-            </Box>
-          }
+          An
+          <Box sx={{ ...spaced, display: 'inline', color: 'secondary.dark' }}>
+            exact clone
+          </Box>
+          of Classic NES Tetris with a
+          <Box sx={{ ...spaced, display: 'inline', color: 'primary.dark' }}>
+            modern user interface
+          </Box>
         </Typography>
       </Box>
 
-      <Box mt={5} sx={{ width: '200px', height: '200px' }}>
+      <Box sx={{ mt: 5, width: '200px', height: '200px' }}>
         <img
           src={tetrisImage}
           alt="Tetris Project"
@@ -55,14 +51,7 @@ export default function ProjectDescription() {
         />
       </Box>
 
-      <Box
-        mt={8}
-        sx={{
-          width: '100%',
-          overflow: 'hidden',
-          lineHeight: 0,
-        }}
-      >
+      <Box sx={{ mt: 8, width: '100%', overflow: 'hidden', lineHeight: 0 }}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 1200 120"
@@ -75,15 +64,13 @@ export default function ProjectDescription() {
         </svg>
       </Box>
 
-      <Box
-        pt={2}
+      <Stack
         sx={{
+          pt: 2,
+          px: { lg: 10, md: 5, sm: 3, xs: 3 },
           width: '100%',
           background: `linear-gradient(180deg, ${palette.bg.blue} 0%, white 60%)`,
-          display: 'flex',
-          flexDirection: 'column',
           alignItems: 'center',
-          paddingX: { lg: 10, md: 5, sm: 3, xs: 3 },
         }}
       >
         <Box
@@ -97,42 +84,36 @@ export default function ProjectDescription() {
         >
           <Box sx={{ width: { xs: '100%', sm: '500px' } }}>
             <Typography variant="h3">About the project</Typography>
-            <Typography variant="body1" mt={4}>
+            <Typography variant="body1" sx={{ mt: 4 }}>
               After watching the Classic Tetris World Championships, I wanted to
               try NES Tetris myself
             </Typography>
-            <Typography variant="body1" mt={2}>
+            <Typography variant="body1" sx={{ mt: 2 }}>
               However, I was not a fan of the limited accessibility and
               30-year-old user interface
             </Typography>
-            <Typography variant="body1" mt={4}>
+            <Typography variant="body1" sx={{ mt: 4 }}>
               So I decided to make my own
             </Typography>
 
-            <Grid container gap={4} mt={6}>
+            <Grid container gap={4} sx={{ mt: 6 }}>
               <Grid item>
-                <OllieButton component={Link} to="/tetris" color="secondary">
+                <Button component={Link} to="/tetris" color="secondary">
                   Play the game
-                </OllieButton>
+                </Button>
               </Grid>
               <Grid item>
-                <OllieButton
+                <Button
                   variant="outlined"
                   href="https://github.com/OllieFranklin/website-react/tree/master/src/containers/Tetris"
                   target="_blank"
                 >
                   Source code
-                </OllieButton>
+                </Button>
               </Grid>
             </Grid>
           </Box>
-          <Box
-            sx={{
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'center',
-            }}
-          >
+          <Stack sx={{ alignItems: 'center' }}>
             <VideoPlayer
               src={video}
               style={{ width: '640px', height: '360px' }}
@@ -142,20 +123,20 @@ export default function ProjectDescription() {
               target="_blank"
               rel="noreferrer"
             >
-              <Typography variant="caption" mt={1} sx={{ textAlign: 'center' }}>
+              <Typography variant="caption" sx={{ mt: 1, textAlign: 'center' }}>
                 Classic Tetris World Championships
               </Typography>
             </a>
-          </Box>
+          </Stack>
         </Box>
 
-        <Typography mt={16} variant="h3" sx={{ textAlign: 'center' }}>
+        <Typography variant="h3" sx={{ mt: 16, textAlign: 'center' }}>
           Some of the features include...
         </Typography>
 
         <Box
-          my={6}
           sx={{
+            my: 6,
             inlineSize: 'fit-content',
             display: 'flex',
             flexWrap: 'wrap',
@@ -164,49 +145,47 @@ export default function ProjectDescription() {
           }}
         >
           <FeatureDescription
-            icon={
-              <VideogameAssetIcon sx={{ fontSize: '75px', color: 'white' }} />
-            }
+            IconComponent={VideogameAssetIcon}
             heading="Exact Clone"
             description="My version of the game plays exactly the same as the NES version"
             button={
-              <OllieButton variant="text" color="primary">
+              <Button variant="text" color="primary">
                 How I tested this
-              </OllieButton>
+              </Button>
             }
           />
           <FeatureDescription
-            icon={<ComputerIcon sx={{ fontSize: '75px', color: 'white' }} />}
+            IconComponent={ComputerIcon}
             heading="Modern UI"
             description="Built in React, my main goal was to improve the UX from the original"
             button={
-              <OllieButton
+              <Button
                 variant="text"
                 color="primary"
                 component={Link}
                 to="/tetris"
               >
                 See for yourself
-              </OllieButton>
+              </Button>
             }
           />
           <FeatureDescription
-            icon={<AssessmentIcon sx={{ fontSize: '75px', color: 'white' }} />}
+            IconComponent={AssessmentIcon}
             heading="Extra Statistics"
             description="The game provides additional statistics such as tetris rate, droughts, and burns"
             button={
-              <OllieButton
+              <Button
                 variant="text"
                 color="primary"
                 component={Link}
                 to="/tetris"
               >
                 See for yourself
-              </OllieButton>
+              </Button>
             }
           />
         </Box>
-      </Box>
-    </Box>
+      </Stack>
+    </Stack>
   );
 }

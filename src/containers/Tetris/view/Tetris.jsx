@@ -1,14 +1,12 @@
 import React from 'react';
 import Box from '@mui/material/Box';
-import { useTheme } from '@mui/material/styles';
+import useTheme from '@mui/material/styles/useTheme';
 
 import { GameOver } from './GameOver';
 import { LevelSelect } from './LevelSelect';
 import { GameBoard } from './GameBoard';
 import { useTetrisView } from './useTetrisView';
 import { useTetrisController } from '../controller';
-
-import './Tetris.css';
 
 export const Tetris = () => {
   const { palette } = useTheme();
@@ -35,8 +33,8 @@ export const Tetris = () => {
 
   return (
     <Box
-      pt={6}
       sx={{
+        pt: 6,
         background: palette.bg.grey,
         minHeight: '500px',
         overflowY: 'inherit',

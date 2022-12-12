@@ -2,7 +2,7 @@ import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import OllieButton from '../../../components/OllieButton';
+import Button from '../../../components/Button';
 import { Game, GravityBuilder } from '../model';
 
 function getLevelData(level) {
@@ -55,14 +55,10 @@ export const LevelSelect = ({ handleOnStartGame }) => {
       <Typography variant="h2">{`Level ${levelData.level}`}</Typography>
       <Typography variant="h3">{`${levelData.dropRate} frames/drop`}</Typography>
       <Typography variant="h3">{`${levelData.linesUntilLevelUp} lines until level up`}</Typography>
-      <Box mt={16}>
-        <OllieButton
-          color="secondary"
-          size="large"
-          onClick={handleOnClickStart}
-        >
+      <Box sx={{ mt: 16 }}>
+        <Button color="secondary" size="large" onClick={handleOnClickStart}>
           Start Game
-        </OllieButton>
+        </Button>
       </Box>
     </Box>
   );

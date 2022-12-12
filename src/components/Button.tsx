@@ -1,32 +1,27 @@
 import React from 'react';
-import Button, { ButtonProps } from '@mui/material/Button';
+import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
-import { useTheme } from '@mui/material/styles';
 
-export default function OllieButton(
-  props: React.PropsWithChildren<ButtonProps>,
-) {
+export default function Button(props: React.PropsWithChildren<MuiButtonProps>) {
   const {
-    variant = 'contained',
     color,
+    variant = 'contained',
     size = 'medium',
     children,
     ...rest
   } = props;
 
-  const theme = useTheme();
-
   const isOutlined = variant === 'outlined';
   const isText = variant === 'text';
-  const colour = color
+  const backgroundColour = color
     ? isOutlined || isText
       ? `${color}.dark`
       : color
-    : theme.palette.text.primary;
+    : 'text.primary';
 
   return (
-    <Button
+    <MuiButton
       color={color}
       variant={variant}
       size={size}
@@ -35,8 +30,8 @@ export default function OllieButton(
         borderRadius: '25px',
         maxWidth: '300px',
         width: '100%',
-        color: colour,
-        borderColor: colour,
+        color: backgroundColour,
+        borderColor: backgroundColour,
       }}
       {...rest}
     >
@@ -48,6 +43,6 @@ export default function OllieButton(
           {children}
         </Typography>
       </Box>
-    </Button>
+    </MuiButton>
   );
 }

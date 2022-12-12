@@ -78,9 +78,10 @@ export const useTetrisController = () => {
   };
 
   const handleKeyPress = (event, isPressed) => {
-    if (event.repeat) return;
+    const { repeat, keyCode } = event;
+    if (repeat) return;
 
-    switch (event.keyCode) {
+    switch (keyCode) {
       case 40: // DOWN
         keyState.current.down = isPressed;
         break;
@@ -108,11 +109,5 @@ export const useTetrisController = () => {
     };
   }, [nextFrame]);
 
-  return {
-    stats,
-    board,
-    startGame,
-    pauseGame,
-    isGameOver,
-  };
+  return { stats, board, startGame, pauseGame, isGameOver };
 };
