@@ -1,7 +1,9 @@
+import { BoardLetter } from './constants';
+
 export class Cell {
   public isOccupied: boolean;
   public isActiveTetromino: boolean;
-  public tetrominoLetter: string;
+  public tetrominoLetter: BoardLetter;
 
   public constructor() {
     this.isOccupied = false;
@@ -9,7 +11,7 @@ export class Cell {
     this.tetrominoLetter = ' ';
   }
 
-  public occupy(tetrominoLetter: string): void {
+  public occupy(tetrominoLetter: BoardLetter): void {
     this.isOccupied = true;
     this.tetrominoLetter = tetrominoLetter;
   }

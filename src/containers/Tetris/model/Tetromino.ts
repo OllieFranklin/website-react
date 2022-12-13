@@ -1,11 +1,16 @@
-import { TETROMINO_INIT_ROW, TETROMINO_INIT_COL } from './constants';
+import {
+  TETROMINO_INIT_ROW,
+  TETROMINO_INIT_COL,
+  TetrominoLetter,
+  BoardLetter,
+} from './constants';
 import { Orientation, TetrominoData } from './TetrominoData';
 
 export class Tetromino {
   public row: number;
   public col: number;
-  public letter: string;
-  public state!: string[][];
+  public letter: TetrominoLetter;
+  public state!: BoardLetter[][];
   public orientation: Orientation;
 
   private orientations: Orientation[];

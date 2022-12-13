@@ -6,10 +6,10 @@ import Slider from '@mui/material/Slider';
 
 import { routes } from '../../../constants/routes';
 import { Button } from '../../../components';
-import { Game, GravityBuilder } from '../model';
+import { Game, Gravity } from '../model';
 
 function getLevelData(level: number) {
-  const dropRate = new GravityBuilder().withLevel(level).getFramesPerCell();
+  const dropRate = new Gravity({ level }).framesPerCell;
   const linesUntilLevelUp = Game.getLinesUntilFirstLevelUp(level);
 
   return { level, dropRate, linesUntilLevelUp };

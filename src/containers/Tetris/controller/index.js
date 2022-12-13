@@ -1,1 +1,0 @@
-export { useTetrisController } from './useTetrisController';

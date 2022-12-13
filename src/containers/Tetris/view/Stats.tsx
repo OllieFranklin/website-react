@@ -5,7 +5,7 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
-import { GameState } from '../model';
+import { Statistics } from '../model';
 
 type StatsItemProps = {
   name: string;
@@ -33,15 +33,7 @@ const StatsItem: React.FC<StatsItemProps> = props => {
 };
 
 type StatsProps = {
-  stats: {
-    nextPiece: string[][];
-    level: number;
-    lines: number;
-    score: number;
-    tetrisRate: number;
-    drought: number;
-    burn: number;
-  };
+  stats: Statistics;
   cellSize: number;
 };
 
@@ -99,9 +91,8 @@ const Stats: React.FC<StatsProps> = props => {
 
           const cell = tetromino[row][col];
 
-          // @ts-ignore
-          const texture = tetrominoTexturesDefault[cell];
-          if (texture) {
+          if (cell !== ' ') {
+            const texture = tetrominoTexturesDefault[cell];
             ctx.drawImage(texture, x, y, cellSize, cellSize);
           }
         }

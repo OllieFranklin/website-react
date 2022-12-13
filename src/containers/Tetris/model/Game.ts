@@ -1,8 +1,7 @@
-import { GameState } from './GameState';
 import { AutoShift } from './AutoShift';
 import { Board } from './Board';
-import { GravityBuilder, Gravity } from './Gravity';
-import { KeyState } from './KeyState';
+import { Gravity } from './Gravity';
+import { KeyState, GameState, TetrominoLetter } from './constants';
 import {
   Move,
   MoveLeft,
@@ -43,12 +42,12 @@ export class Game {
   private downPressed: boolean;
   private frameNum: number;
 
-  public constructor(initialLevel: number, pieceOrder?: string[]) {
+  public constructor(initialLevel: number, pieceOrder?: TetrominoLetter[]) {
     this.moves = [];
     this.DAS = new AutoShift();
     this.board = new Board(pieceOrder);
-    this.gravity = new GravityBuilder().withSpeed(Infinity);
-    this.softDrop = new GravityBuilder().withSpeed(2);
+    this.gravity = new Gravity({ speed: Infinity });
+    this.softDrop = new Gravity({ speed: 2 });
 
     this.keyStates = {
       down: false,
@@ -137,8 +136,8 @@ export class Game {
     }
 
     if (downPressed) {
-      this.softDrop.setCounter(-1);
-      this.gravity.setCounter(0);
+      this.softDrop.counter = -1;
+      this.gravity.counter = 0;
       this.moves.push(MoveDown);
 
       // the user just pressed down
@@ -193,6 +192,8 @@ export class Game {
         } else {
           this.drought++;
         }
+
+        this.DAS.moveNextFrame();
       }
     } else if (this.state === State.PLAYING) {
       const gravityDropping = !this.downPressed && this.gravity.isDropping();
@@ -205,7 +206,7 @@ export class Game {
       // gravity doesn't kick in until frame 96
       if (this.frameNum === 96) {
         this.moves.push(MoveDown);
-        this.gravity = new GravityBuilder().withLevel(this.initialLevel);
+        this.gravity = new Gravity({ level: this.initialLevel });
       }
 
       for (const move of this.moves) {
@@ -216,10 +217,7 @@ export class Game {
       }
       this.moves = [];
 
-      let autoShiftMove = this.DAS.getNextMove();
-      if (autoShiftMove != null) {
-        this.moves.push(autoShiftMove);
-      }
+      this.DAS.step(move => this.moves.push(move));
     }
   }
 
@@ -290,14 +288,14 @@ export class Game {
 
   private levelUp(): void {
     this.level++;
-    this.gravity = new GravityBuilder().withLevel(this.level);
+    this.gravity = new Gravity({ level: this.level });
   }
 
   private static getEntryDelay(activeTetrominoRow: number): number {
     return 10 + Math.floor((Math.min(activeTetrominoRow, 17) + 2) / 4) * 2;
   }
 
-  private static getLinesUntilFirstLevelUp(initLevel: number): number {
+  public static getLinesUntilFirstLevelUp(initLevel: number): number {
     if (initLevel < 9) return 10 * initLevel + 10;
 
     if (initLevel < 16) return 100;

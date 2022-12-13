@@ -1,7 +1,7 @@
 import { Game, KeyState } from '..';
 import testOracles from './test_oracles';
 
-const numPrevBoards = 0;
+const numPrevBoards = 300;
 
 function gameStateBoardToJsonFileBoard(board: string[][]): string {
   return board
@@ -89,22 +89,15 @@ declare global {
 expect.extend({
   toMatchBoard(expected: string, received: string, info: info) {
     const pass = expected === received;
-    if (pass) {
-      return {
-        message: () => 'Passed',
-        pass: true,
-      };
-    } else {
-      return {
-        message: () => getCustomFailureMessage(expected, received, info),
-        pass: false,
-      };
-    }
+    const message = () =>
+      pass ? 'Passed' : getCustomFailureMessage(expected, received, info);
+
+    return { message, pass };
   },
 });
 
 testOracles.forEach(
-  ({ data: { pieceOrder, startingLevel, frames }, fileName, description }) => {
+  ({ data: { pieceOrder, startingLevel, frames }, description }) => {
     test(`${description}`, () => {
       const game = new Game(startingLevel, pieceOrder);
 
@@ -115,6 +108,11 @@ testOracles.forEach(
         const { boardState: expectedBoard, keyState } = frames[i];
         const { frameNum: nextExpectedFrameNum = -1 } = frames[i + 1] || {};
 
+        prevBoards.push({ frame: recievedFrameNum, board: expectedBoard });
+        if (prevBoards.length > numPrevBoards) {
+          prevBoards.shift();
+        }
+
         while (recievedFrameNum < nextExpectedFrameNum) {
           const gameState = game.nextFrame(keyState);
           const recievedBoard = gameStateBoardToJsonFileBoard(gameState.board);
@@ -123,11 +121,6 @@ testOracles.forEach(
           expect(expectedBoard).toMatchBoard(recievedBoard, info);
 
           recievedFrameNum++;
-        }
-
-        prevBoards.push({ frame: recievedFrameNum, board: expectedBoard });
-        if (prevBoards.length > numPrevBoards) {
-          prevBoards.shift();
         }
       }
     });

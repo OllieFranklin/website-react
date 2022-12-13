@@ -41,13 +41,9 @@ export const MoveRight: Move = (board: Board) => {
   return false;
 };
 
-export const RotateCW: Move = (board: Board) => {
-  return rotate(board, true);
-};
+export const RotateCW: Move = (board: Board) => rotate(board, true);
 
-export const RotateACW: Move = (board: Board) => {
-  return rotate(board, false);
-};
+export const RotateACW: Move = (board: Board) => rotate(board, false);
 
 function rotate(board: Board, isClockwise: boolean): boolean {
   const tetromino = board.activeTetromino;

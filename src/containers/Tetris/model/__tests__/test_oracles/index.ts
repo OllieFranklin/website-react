@@ -20,6 +20,10 @@ import testGravityLevel18 from './test-gravity-level-18.json';
 import testGravityLevel19 from './test-gravity-level-19.json';
 
 import testDasHoldLeft from './test-das-hold-left.json';
+import testDasHoldRight from './test-das-hold-right.json';
+
+import testRotationClockwise from './test-rotation-clockwise.json';
+import testRotationAntiClockwise from './test-rotation-anticlockwise.json';
 
 const oracles = [
   {
@@ -107,6 +111,20 @@ const oracles = [
     description:
       'Test the Delayed Auto-Shift when the left button is held down',
   },
+  // {
+  //   data: testDasHoldRight,
+  //   description:
+  //     'Test the Delayed Auto-Shift when the right button is held down',
+  // },
+  // {
+  //   data: testRotationClockwise,
+  //   description: 'Test clockwise rotation when no movement buttons are pressed',
+  // },
+  // {
+  //   data: testRotationAntiClockwise,
+  //   description:
+  //     'Test anti-clockwise rotation when no movement buttons are pressed',
+  // },
 ];
 
 export default oracles;

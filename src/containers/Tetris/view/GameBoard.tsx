@@ -4,14 +4,12 @@ import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
+import { BoardLetter, Statistics } from '../model';
 import { Stats } from './Stats';
 
-// todo: find a better way to get this
-type Tetromino = keyof typeof tetrominoTexturesDefault;
-
 type GameBoardProps = {
-  board: React.MutableRefObject<Tetromino[][]>;
-  stats: any;
+  board: React.MutableRefObject<BoardLetter[][]>;
+  stats: Statistics;
 };
 
 const GameBoard: React.FC<GameBoardProps> = props => {
@@ -88,9 +86,9 @@ const GameBoard: React.FC<GameBoardProps> = props => {
           const x = col * cellSize;
 
           const cell = board.current[row][col];
-          const texture = tetrominoTexturesDefault[cell];
 
-          if (texture) {
+          if (cell !== ' ') {
+            const texture = tetrominoTexturesDefault[cell];
             ctx.drawImage(texture, x, y, cellSize, cellSize);
           }
         }

@@ -3,10 +3,11 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 
 import { Button } from '../../../components';
+import { Statistics } from '../model';
 
 type GameOverProps = {
-  stats: any;
-  handleOnShowLevelSelect: any;
+  stats: Statistics;
+  handleOnShowLevelSelect: () => void;
 };
 
 const GameOver: React.FC<GameOverProps> = props => {

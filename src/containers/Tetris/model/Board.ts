@@ -1,42 +1,15 @@
 import {
-  TETROMINO_TYPES,
   TETROMINO_INIT_COL,
   TETROMINO_INIT_ROW,
-  VISIBLE_ROWS,
-  ROWS,
-  COLS,
+  BOARD_VISIBLE_ROWS,
+  BOARD_ROWS,
+  BOARD_COLS,
+  TetrominoLetter,
+  BoardLetter,
 } from './constants';
 import { Cell } from './Cell';
 import { Tetromino } from './Tetromino';
-import {
-  I_TetrominoData,
-  J_TetrominoData,
-  L_TetrominoData,
-  O_TetrominoData,
-  S_TetrominoData,
-  T_TetrominoData,
-  Z_TetrominoData,
-} from './TetrominoData';
-
-const tetrominoData = [
-  I_TetrominoData,
-  J_TetrominoData,
-  L_TetrominoData,
-  O_TetrominoData,
-  S_TetrominoData,
-  T_TetrominoData,
-  Z_TetrominoData,
-];
-
-const tetrominoDataObject = {
-  [I_TetrominoData.letter]: I_TetrominoData,
-  [J_TetrominoData.letter]: J_TetrominoData,
-  [L_TetrominoData.letter]: L_TetrominoData,
-  [O_TetrominoData.letter]: O_TetrominoData,
-  [S_TetrominoData.letter]: S_TetrominoData,
-  [T_TetrominoData.letter]: T_TetrominoData,
-  [Z_TetrominoData.letter]: Z_TetrominoData,
-};
+import { tetrominoDataObject, tetrominoData } from './TetrominoData';
 
 export class Board {
   public activeTetromino!: Tetromino;
@@ -50,23 +23,23 @@ export class Board {
    * Used for automated testing. Allows a predefined piece order to be used
    * instead of a random piece each time
    */
-  private pieceOrder: string[] | undefined;
+  private pieceOrder?: TetrominoLetter[];
   private pieceIndex: number;
 
-  public constructor(pieceOrder?: string[]) {
+  public constructor(pieceOrder?: TetrominoLetter[]) {
     this.pieceOrder = pieceOrder;
     this.pieceIndex = 0;
 
-    this.cells = new Array(ROWS);
+    this.cells = new Array(BOARD_ROWS);
 
     this.newActiveTetromino();
 
     this.numRowsToMoveBy = [];
     this.linesToClear = [];
 
-    for (let row = 0; row < ROWS; row++) {
-      this.cells[row] = new Array(COLS);
-      for (let col = 0; col < COLS; col++) {
+    for (let row = 0; row < BOARD_ROWS; row++) {
+      this.cells[row] = new Array(BOARD_COLS);
+      for (let col = 0; col < BOARD_COLS; col++) {
         this.cells[row][col] = new Cell();
       }
     }
@@ -85,9 +58,9 @@ export class Board {
     this.linesToClear = [];
 
     // figure out which rows need to be cleared and by how many rows each row needs to move down
-    for (let row = 0; row < ROWS; row++) {
+    for (let row = 0; row < BOARD_ROWS; row++) {
       let lineIsFilled = true;
-      for (let col = 0; col < COLS; col++) {
+      for (let col = 0; col < BOARD_COLS; col++) {
         if (!this.cells[row][col].isOccupied) {
           lineIsFilled = false;
           break;
@@ -105,19 +78,19 @@ export class Board {
 
   public clearLines(columnIndex: number): void {
     for (const row of this.linesToClear) {
-      const col1 = Math.floor(COLS / 2) - 1 - columnIndex;
-      const col2 = Math.floor(COLS / 2) + columnIndex;
+      const col1 = Math.floor(BOARD_COLS / 2) - 1 - columnIndex;
+      const col2 = Math.floor(BOARD_COLS / 2) + columnIndex;
       this.cells[row][col1].clear();
       this.cells[row][col2].clear();
     }
   }
 
   public moveLinesDown(): void {
-    for (let row = 1; row < ROWS; row++) {
+    for (let row = 1; row < BOARD_ROWS; row++) {
       const numRows = this.numRowsToMoveBy[row];
       if (numRows === 0) continue;
 
-      for (let col = 0; col < COLS; col++) {
+      for (let col = 0; col < BOARD_COLS; col++) {
         const cell = this.cells[row][col];
 
         if (cell.isOccupied)
@@ -137,7 +110,7 @@ export class Board {
       const data = tetrominoDataObject[this.pieceOrder[index]];
       this.nextTetromino = new Tetromino(data);
     } else {
-      const randomIndex = Math.floor(Math.random() * TETROMINO_TYPES.length);
+      const randomIndex = Math.floor(Math.random() * tetrominoData.length);
       this.nextTetromino = new Tetromino(tetrominoData[randomIndex]);
     }
 
@@ -154,7 +127,7 @@ export class Board {
   }
 
   public canPlaceActiveTetromino(row: number, col: number): boolean {
-    if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
+    if (row < 0 || col < 0 || row >= BOARD_ROWS || col >= BOARD_COLS) {
       return false;
     }
 
@@ -172,7 +145,7 @@ export class Board {
   }
 
   public placeActiveTetromino(row: number, col: number): void {
-    if (row < 0 || col < 0 || row >= ROWS || col >= COLS) {
+    if (row < 0 || col < 0 || row >= BOARD_ROWS || col >= BOARD_COLS) {
       throw new Error('Out of bounds value for tetromino position');
     }
 
@@ -199,14 +172,14 @@ export class Board {
     return this.linesToClear.length;
   }
 
-  public getState(): string[][] {
-    const state = new Array<string[]>(VISIBLE_ROWS);
+  public getState(): BoardLetter[][] {
+    const state = new Array<BoardLetter[]>(BOARD_VISIBLE_ROWS);
 
-    for (let row = 0; row < VISIBLE_ROWS; row++) {
-      state[row] = new Array<string>(COLS);
-      for (let col = 0; col < COLS; col++) {
+    for (let row = 0; row < BOARD_VISIBLE_ROWS; row++) {
+      state[row] = new Array<BoardLetter>(BOARD_COLS);
+      for (let col = 0; col < BOARD_COLS; col++) {
         state[row][col] =
-          this.cells[VISIBLE_ROWS - (row + 1)][col].tetrominoLetter;
+          this.cells[BOARD_VISIBLE_ROWS - (row + 1)][col].tetrominoLetter;
       }
     }
 
