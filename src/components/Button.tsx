@@ -1,15 +1,22 @@
 import React from 'react';
 import MuiButton, { ButtonProps as MuiButtonProps } from '@mui/material/Button';
-import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
-export default function Button(props: React.PropsWithChildren<MuiButtonProps>) {
+type ButtonProps = MuiButtonProps & {
+  // Absolutely no idea why I have to specify these three but it won't work otherwise
+  target?: string;
+  component?: any;
+  to?: string;
+};
+
+const Button: React.FC<ButtonProps> = props => {
   const {
     color,
     variant = 'contained',
     size = 'medium',
     children,
-    ...rest
+    sx,
+    ...restProps
   } = props;
 
   const isOutlined = variant === 'outlined';
@@ -32,17 +39,18 @@ export default function Button(props: React.PropsWithChildren<MuiButtonProps>) {
         width: '100%',
         color: backgroundColour,
         borderColor: backgroundColour,
+        ...sx,
       }}
-      {...rest}
+      {...restProps}
     >
-      <Box mx={2}>
-        <Typography
-          sx={{ fontSize: size === 'large' ? '20px !important' : 'unset' }}
-          variant="button"
-        >
-          {children}
-        </Typography>
-      </Box>
+      <Typography
+        sx={{ mx: 2, fontSize: size === 'large' ? '20px !important' : 'unset' }}
+        variant="button"
+      >
+        {children}
+      </Typography>
     </MuiButton>
   );
-}
+};
+
+export { Button };

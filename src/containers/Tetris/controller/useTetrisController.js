@@ -15,7 +15,7 @@ export const useTetrisController = () => {
     rotateACW: false,
   });
 
-  const board = React.useRef(null);
+  const board = React.useRef([[]]);
   const [stats, setStats] = React.useState({});
   const [isGameOver, setIsGameOver] = React.useState(false);
 

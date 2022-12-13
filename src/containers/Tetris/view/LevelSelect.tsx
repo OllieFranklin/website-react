@@ -1,24 +1,31 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Slider from '@mui/material/Slider';
-import Button from '../../../components/Button';
+
+import { routes } from '../../../constants/routes';
+import { Button } from '../../../components';
 import { Game, GravityBuilder } from '../model';
 
-function getLevelData(level) {
-  const dropRate = new GravityBuilder().withLevel(level).framesPerCell;
+function getLevelData(level: number) {
+  const dropRate = new GravityBuilder().withLevel(level).getFramesPerCell();
   const linesUntilLevelUp = Game.getLinesUntilFirstLevelUp(level);
 
   return { level, dropRate, linesUntilLevelUp };
 }
 
-export const LevelSelect = ({ handleOnStartGame }) => {
+type LevelSelectProps = {
+  handleOnStartGame: (level: number) => void;
+};
+
+const LevelSelect: React.FC<LevelSelectProps> = props => {
+  const { handleOnStartGame } = props;
+
   const [levelData, setLevelData] = React.useState(getLevelData(8));
 
-  const handleOnChangeSlider = event => {
-    const { target: { value: level = 0 } = {} } = event || {};
-
-    const newLevelData = getLevelData(level);
+  const handleOnChangeSlider = (event: Event, value: number | number[]) => {
+    const newLevelData = getLevelData(value as number);
     setLevelData(newLevelData);
   };
 
@@ -59,7 +66,18 @@ export const LevelSelect = ({ handleOnStartGame }) => {
         <Button color="secondary" size="large" onClick={handleOnClickStart}>
           Start Game
         </Button>
+        <Button
+          sx={{ pt: 2 }}
+          variant="text"
+          size="large"
+          component={Link}
+          to={routes.tetris.test.path}
+        >
+          Test Game
+        </Button>
       </Box>
     </Box>
   );
 };
+
+export { LevelSelect };

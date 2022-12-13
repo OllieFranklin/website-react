@@ -1,20 +1,23 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { Link } from 'react-router-dom';
 
-import Earth from './Earth';
-import Button from '../../components/Button';
+import { routes } from '../../constants/routes';
+import { Earth } from './Earth';
+import { Button } from '../../components';
 import star1 from '../../assets/Home/star1.svg';
 import star2 from '../../assets/Home/star2.svg';
 import './Home.css';
 
-export default function Home() {
-  const [starElements, setStarElements] = React.useState([]);
+type HomeProps = {};
+
+const Home: React.FC<HomeProps> = props => {
+  const [starElements, setStarElements] = React.useState<JSX.Element[]>([]);
 
   React.useEffect(() => {
-    const getRandomStar = (source, key) => {
+    const getRandomStar = (source: string, key: string) => {
       let left = Math.random();
       let top = Math.random();
 
@@ -66,7 +69,7 @@ export default function Home() {
   };
 
   return (
-    <Box>
+    <>
       <Box
         sx={{
           display: 'flex',
@@ -102,7 +105,7 @@ export default function Home() {
                 <Grid item>
                   <Button
                     component={Link}
-                    to="/project"
+                    to={routes.projectDescription.path}
                     color="secondary"
                     size="large"
                   >
@@ -128,6 +131,8 @@ export default function Home() {
       </Box>
 
       <Background />
-    </Box>
+    </>
   );
-}
+};
+
+export { Home };

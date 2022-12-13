@@ -10,13 +10,16 @@ import VideogameAssetIcon from '@mui/icons-material/VideogameAsset';
 import ComputerIcon from '@mui/icons-material/Computer';
 import AssessmentIcon from '@mui/icons-material/Assessment';
 
-import Button from '../../components/Button';
-import VideoPlayer from '../../components/VideoPlayer';
+import { routes } from '../../constants/routes';
+import { Button, VideoPlayer } from '../../components';
 import tetrisImage from '../../assets/ProjectDescription/tetris-pattern.png';
+// @ts-ignore
 import video from '../../assets/ProjectDescription/tetris-video.mp4';
-import FeatureDescription from './FeatureDescription';
+import { FeatureDescription } from './FeatureDescription';
 
-export default function ProjectDescription() {
+type ProjectDescriptionProps = {};
+
+const ProjectDescription: React.FC<ProjectDescriptionProps> = props => {
   const { palette } = useTheme();
 
   const spaced = {
@@ -98,7 +101,11 @@ export default function ProjectDescription() {
 
             <Grid container gap={4} sx={{ mt: 6 }}>
               <Grid item>
-                <Button component={Link} to="/tetris" color="secondary">
+                <Button
+                  component={Link}
+                  to={routes.tetris.path}
+                  color="secondary"
+                >
                   Play the game
                 </Button>
               </Grid>
@@ -163,7 +170,7 @@ export default function ProjectDescription() {
                 variant="text"
                 color="primary"
                 component={Link}
-                to="/tetris"
+                to={routes.tetris.path}
               >
                 See for yourself
               </Button>
@@ -178,7 +185,7 @@ export default function ProjectDescription() {
                 variant="text"
                 color="primary"
                 component={Link}
-                to="/tetris"
+                to={routes.tetris.path}
               >
                 See for yourself
               </Button>
@@ -188,4 +195,6 @@ export default function ProjectDescription() {
       </Stack>
     </Stack>
   );
-}
+};
+
+export { ProjectDescription };

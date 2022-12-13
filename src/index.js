@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import './index.css';
-import theme from './constants/theme';
+import { theme } from './constants';
 import App from './App';
 
 ReactDOM.render(

@@ -31,11 +31,12 @@ export class GravityBuilder {
 export interface Gravity {
   isDropping(): boolean;
   setCounter(value: number): void;
+  getFramesPerCell(): number;
 }
 
 class GravityImpl implements Gravity {
-  private counter: number;
   private framesPerCell: number;
+  private counter: number;
 
   public constructor(framesPerCell: number) {
     this.framesPerCell = framesPerCell;
@@ -55,5 +56,9 @@ class GravityImpl implements Gravity {
 
   public setCounter(value: number): void {
     this.counter = value;
+  }
+
+  public getFramesPerCell(): number {
+    return this.framesPerCell;
   }
 }

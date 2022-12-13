@@ -1,27 +1,27 @@
 import React from 'react';
-import { useLocation, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 
+import { routes, useCurrentRoute, Route } from '../constants/routes';
+
 type NavItemProps = {
-  path: string;
-  darkMode?: boolean;
+  itemRoute: Route;
 };
 
-export function NavItem(props: React.PropsWithChildren<NavItemProps>) {
-  const { path, darkMode = false, children } = props;
+const NavItem: React.FC<NavItemProps> = props => {
+  const { itemRoute, children } = props;
 
-  const location = useLocation();
-  const isCurrentPath = location.pathname === path;
+  const { currentRoute } = useCurrentRoute();
+  const itemIsCurrentRoute = itemRoute.path === currentRoute.path;
 
   return (
     <Box>
-      <Link to={path} style={{ textDecoration: 'none' }}>
+      <Link to={itemRoute.path} style={{ textDecoration: 'none' }}>
         <Typography
           variant="button"
           sx={{
-            color: darkMode ? 'white' : 'text.primary',
-            // @ts-ignore
+            color: currentRoute.isDarkMode ? 'white' : 'text.primary',
             '&:hover': { '& div': { width: '100%' } },
             display: 'flex',
             flexDirection: 'column',
@@ -31,9 +31,11 @@ export function NavItem(props: React.PropsWithChildren<NavItemProps>) {
           {children}
           <Box
             sx={{
-              width: isCurrentPath ? '100%' : '0',
+              width: itemIsCurrentRoute ? '100%' : '0',
               height: 4,
-              backgroundColor: darkMode ? 'secondary.main' : 'secondary.dark',
+              backgroundColor: currentRoute.isDarkMode
+                ? 'secondary.main'
+                : 'secondary.dark',
               transitionDuration: '300ms',
             }}
           />
@@ -41,19 +43,18 @@ export function NavItem(props: React.PropsWithChildren<NavItemProps>) {
       </Link>
     </Box>
   );
-}
+};
 
-export default function Navigation() {
-  const { pathname } = useLocation();
+type NavigationProps = {};
 
-  // home page is in dark mode
-  const darkMode = pathname === '/';
+const Navigation: React.FC<NavigationProps> = props => {
+  const navRoutes = [routes.home, routes.projectDescription, routes.tetris];
 
   return (
     <Box
-      m={0}
-      pt={2}
       sx={{
+        m: 0,
+        pt: 2,
         width: '100%',
         position: 'absolute',
         top: 0,
@@ -64,15 +65,13 @@ export default function Navigation() {
         paddingRight: { xs: 0, sm: 10 },
       }}
     >
-      <NavItem path="/" darkMode={darkMode}>
-        Home
-      </NavItem>
-      <NavItem path="/project" darkMode={darkMode}>
-        About project
-      </NavItem>
-      <NavItem path="/tetris" darkMode={darkMode}>
-        Project
-      </NavItem>
+      {navRoutes.map(route => (
+        <NavItem key={route.path} itemRoute={route}>
+          {route.name}
+        </NavItem>
+      ))}
     </Box>
   );
-}
+};
+
+export { Navigation };

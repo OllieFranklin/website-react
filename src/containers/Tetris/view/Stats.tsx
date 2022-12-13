@@ -5,8 +5,16 @@ import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
+import { GameState } from '../model';
 
-const StatsItem = ({ name, value }) => {
+type StatsItemProps = {
+  name: string;
+  value: number | string;
+};
+
+const StatsItem: React.FC<StatsItemProps> = props => {
+  const { name, value } = props;
+
   const isScreenTall = useMediaQuery('(min-height: 825px)');
 
   return (
@@ -24,12 +32,30 @@ const StatsItem = ({ name, value }) => {
   );
 };
 
-export const Stats = ({ stats, cellSize }) => {
-  const { nextPiece, level, lines, score, tetrisRate, drought, burn } = stats;
+type StatsProps = {
+  stats: {
+    nextPiece: string[][];
+    level: number;
+    lines: number;
+    score: number;
+    tetrisRate: number;
+    drought: number;
+    burn: number;
+  };
+  cellSize: number;
+};
 
-  const canvasRef = React.useRef();
+const Stats: React.FC<StatsProps> = props => {
+  const {
+    stats: { nextPiece, level, lines, score, tetrisRate, drought, burn },
+    cellSize,
+  } = props;
+
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   const handleResize = React.useCallback(() => {
+    if (canvasRef.current == null) return;
+
     // make sure that the width & height of the canvas match the style width & height
     if (canvasRef.current.height !== canvasRef.current.offsetHeight) {
       canvasRef.current.height = canvasRef.current.offsetHeight;
@@ -45,8 +71,11 @@ export const Stats = ({ stats, cellSize }) => {
   }, [handleResize]);
 
   React.useEffect(() => {
+    if (canvasRef.current == null) return;
+
     const canvas = canvasRef.current;
     const ctx = canvas?.getContext('2d');
+    if (ctx == null) return;
 
     const renderNextBox = () => {
       if (!nextPiece) {
@@ -70,6 +99,7 @@ export const Stats = ({ stats, cellSize }) => {
 
           const cell = tetromino[row][col];
 
+          // @ts-ignore
           const texture = tetrominoTexturesDefault[cell];
           if (texture) {
             ctx.drawImage(texture, x, y, cellSize, cellSize);
@@ -130,3 +160,5 @@ export const Stats = ({ stats, cellSize }) => {
     </Box>
   );
 };
+
+export { Stats };

@@ -4,8 +4,10 @@ import Box from '@mui/material/Box';
 import renderEarth from './renderEarth';
 import renderBlob from './renderBlob';
 
-export default function Earth() {
-  const canvasRef = React.useRef();
+type EarthProps = {};
+
+const Earth: React.FC<EarthProps> = props => {
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
 
   React.useEffect(() => {
     renderEarth(canvasRef.current);
@@ -16,7 +18,7 @@ export default function Earth() {
     <Box
       sx={{
         width: { xs: '100%', sm: '550px' },
-        height: 340,
+        height: '340px',
         display: 'flex',
         justifyContent: 'center',
         position: 'relative',
@@ -51,4 +53,6 @@ export default function Earth() {
       </Box>
     </Box>
   );
-}
+};
+
+export { Earth };

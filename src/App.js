@@ -3,13 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import store from './redux/store';
 import { Provider } from 'react-redux';
 
-import { Home } from './containers/Home';
-import { ProjectDescription } from './containers/ProjectDescription';
-import { Tetris } from './containers/Tetris';
-
-import { Counter } from './features/counter/Counter';
-
-import Navigation from './components/Navigation';
+import { flatRoutes, routes } from './constants';
+import { Navigation } from './components';
 
 const App = () => {
   return (
@@ -17,10 +12,10 @@ const App = () => {
       <BrowserRouter>
         <Navigation />
         <Routes>
-          <Route path="/" exact element={<Home />} />
-          <Route path="/tetris" exact element={<Tetris />} />
-          <Route path="/project" exact element={<ProjectDescription />} />
-          <Route path="/redux" exact element={<Counter />} />
+          {Object.values(flatRoutes).map(({ path, Component }) => (
+            <Route key={path} path={path} exact element={<Component />} />
+          ))}
+          <Route path="*" exact element={<routes.notFound.Component />} />
         </Routes>
       </BrowserRouter>
     </Provider>

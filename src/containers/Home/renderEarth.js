@@ -1,14 +1,14 @@
-import * as THREE from 'three';
+import * as Three from 'three';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 import earthImage from '../../assets/Home/earth.png';
 import cloudModel from '../../assets/Home/cloud.glb';
 
 export default function renderEarth(canvasRef) {
-  const scene = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(5, 1, 25, 30);
+  const scene = new Three.Scene();
+  const camera = new Three.PerspectiveCamera(5, 1, 25, 30);
 
-  const renderer = new THREE.WebGLRenderer({
+  const renderer = new Three.WebGLRenderer({
     canvas: canvasRef,
     alpha: true,
     antialias: true,
@@ -18,10 +18,10 @@ export default function renderEarth(canvasRef) {
   renderer.setSize(300, 300);
   camera.position.setZ(30);
 
-  const earthTexture = new THREE.TextureLoader().load(earthImage);
-  const earth = new THREE.Mesh(
-    new THREE.SphereGeometry(1),
-    new THREE.MeshBasicMaterial({
+  const earthTexture = new Three.TextureLoader().load(earthImage);
+  const earth = new Three.Mesh(
+    new Three.SphereGeometry(1),
+    new Three.MeshBasicMaterial({
       map: earthTexture,
     }),
   );
@@ -35,7 +35,7 @@ export default function renderEarth(canvasRef) {
         const cloud = gltf.scene;
 
         // apply white material
-        const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const material = new Three.MeshBasicMaterial({ color: 0xffffff });
         cloud.traverse(o => {
           if (o.isMesh) o.material = material;
         });
@@ -72,7 +72,7 @@ export default function renderEarth(canvasRef) {
     }
   }
 
-  const group = new THREE.Group();
+  const group = new Three.Group();
   group.add(earth);
   scene.add(group);
 

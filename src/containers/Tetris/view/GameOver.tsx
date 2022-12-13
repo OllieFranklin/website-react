@@ -1,9 +1,17 @@
 import React from 'react';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
-import Button from '../../../components/Button';
 
-export const GameOver = ({ stats, handleOnShowLevelSelect }) => {
+import { Button } from '../../../components';
+
+type GameOverProps = {
+  stats: any;
+  handleOnShowLevelSelect: any;
+};
+
+const GameOver: React.FC<GameOverProps> = props => {
+  const { handleOnShowLevelSelect } = props;
+
   return (
     <Box
       sx={{
@@ -12,13 +20,10 @@ export const GameOver = ({ stats, handleOnShowLevelSelect }) => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        flexDirection: 'column',
       }}
     >
-      <Typography variant="h1" size="large">
-        Game Over
-      </Typography>
-      <Box mt={16}>
+      <Typography variant="h1">Game Over</Typography>
+      <Box sx={{ mt: 16 }}>
         <Button color="secondary" onClick={handleOnShowLevelSelect}>
           Continue
         </Button>
@@ -26,3 +31,5 @@ export const GameOver = ({ stats, handleOnShowLevelSelect }) => {
     </Box>
   );
 };
+
+export { GameOver };

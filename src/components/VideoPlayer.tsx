@@ -11,7 +11,7 @@ type VideoPlayerProps = React.DetailedHTMLProps<
 
 //ffmpeg -i video.mp4 -c copy -an video2.mp4
 
-export default function VideoPlayer(props: VideoPlayerProps) {
+const VideoPlayer: React.FC<VideoPlayerProps> = props => {
   const { src, autoPlay, style = {}, ...rest } = props;
 
   const { width = 'unset', height = 'unset' } = style;
@@ -73,4 +73,6 @@ export default function VideoPlayer(props: VideoPlayerProps) {
       </Box>
     </Box>
   );
-}
+};
+
+export { VideoPlayer };

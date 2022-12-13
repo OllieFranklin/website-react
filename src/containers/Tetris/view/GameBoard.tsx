@@ -6,15 +6,27 @@ import Stack from '@mui/material/Stack';
 import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
 import { Stats } from './Stats';
 
-export const GameBoard = ({ board, stats }) => {
+// todo: find a better way to get this
+type Tetromino = keyof typeof tetrominoTexturesDefault;
+
+type GameBoardProps = {
+  board: React.MutableRefObject<Tetromino[][]>;
+  stats: any;
+};
+
+const GameBoard: React.FC<GameBoardProps> = props => {
+  const { board, stats } = props;
+
   const [boardHasLoaded, setBoardHasLoaded] = React.useState(false);
   const [canvasStyles, setCanvasStyles] = React.useState({});
   const [cellSize, setCellSize] = React.useState(0);
 
-  const canvasRef = React.useRef();
-  const pageRef = React.useRef();
+  const canvasRef = React.useRef<HTMLCanvasElement>(null);
+  const pageRef = React.useRef<HTMLDivElement>(null);
 
   const handleResize = React.useCallback(() => {
+    if (pageRef.current == null || canvasRef.current == null) return;
+
     // find a width for the board that's divisible by 10
     // this ensures that all cells can be rendered on integer values
 
@@ -53,11 +65,14 @@ export const GameBoard = ({ board, stats }) => {
   // handles displaying the game at the native framerate decided by requestAnimationFrame
   // the game logic (i.e. what to show at any given moment) is run in a separate loop
   React.useEffect(() => {
+    if (canvasRef.current == null) return;
+
     const canvas = canvasRef.current;
     const ctx = canvas.getContext('2d');
+    if (ctx === null) return;
 
     const renderBoard = () => {
-      if (!board.current) {
+      if (!board) {
         requestAnimationFrame(renderBoard);
         return;
       }
@@ -102,12 +117,10 @@ export const GameBoard = ({ board, stats }) => {
           <canvas style={canvasStyles} ref={canvasRef}></canvas>
         </Paper>
 
-        {/* <Box
-          sx={{ border: 'solid 1px black', width: '160px', height: 'auto' }}
-        ></Box> */}
-
         {boardHasLoaded && <Stats stats={stats} cellSize={cellSize} />}
       </Stack>
     </Box>
   );
 };
+
+export { GameBoard };

@@ -3,7 +3,14 @@ import Box from '@mui/material/Box';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 
-export default function FeatureDescription(props) {
+type FeatureDescriptionProps = {
+  IconComponent: any;
+  heading: string;
+  description: string;
+  button: any;
+};
+
+const FeatureDescription: React.FC<FeatureDescriptionProps> = props => {
   const { IconComponent, heading, description, button } = props;
 
   return (
@@ -41,4 +48,6 @@ export default function FeatureDescription(props) {
       <Box sx={{ mt: 3 }}>{button}</Box>
     </Stack>
   );
-}
+};
+
+export { FeatureDescription };
