@@ -41,7 +41,7 @@ const routes: Routes = {
   },
   projectDescription: {
     ...notFound,
-    path: '/project',
+    path: '/about-project',
     name: 'About project',
     Component: ProjectDescription,
   },

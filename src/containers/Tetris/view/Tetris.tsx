@@ -4,7 +4,7 @@ import useTheme from '@mui/material/styles/useTheme';
 
 import { GameOver } from './GameOver';
 import { LevelSelect } from './LevelSelect';
-import { GameBoard } from './GameBoard';
+import { GameBoardWithStats } from './GameBoardWithStats';
 import { useTetrisView } from './useTetrisView';
 import { useTetrisController } from '../controller';
 
@@ -13,7 +13,8 @@ type TetrisProps = {};
 const Tetris: React.FC<TetrisProps> = props => {
   const { palette } = useTheme();
   const { GameStates, gameState, setGameState } = useTetrisView();
-  const { board, startGame, stats, isGameOver } = useTetrisController();
+  const { boardRef, nextPieceRef, startGame, stats, isGameOver } =
+    useTetrisController();
 
   React.useEffect(() => {
     if (gameState !== GameStates.PLAYING) return;
@@ -48,7 +49,11 @@ const Tetris: React.FC<TetrisProps> = props => {
       )}
 
       {gameState === GameStates.PLAYING && (
-        <GameBoard board={board} stats={stats} />
+        <GameBoardWithStats
+          boardRef={boardRef}
+          nextPieceRef={nextPieceRef}
+          stats={stats}
+        />
       )}
 
       {gameState === GameStates.GAME_OVER && (

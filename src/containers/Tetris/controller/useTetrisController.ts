@@ -15,13 +15,13 @@ const useTetrisController = () => {
     rotateACW: false,
   });
 
-  const board = React.useRef<BoardLetter[][]>([[]]);
+  const boardRef = React.useRef<BoardLetter[][]>([[]]);
+  const nextPieceRef = React.useRef<BoardLetter[][]>([[]]);
   const [stats, setStats] = React.useState<Statistics>({
     burn: 0,
     drought: 0,
     level: 0,
     lines: 0,
-    nextPiece: [[]],
     score: 0,
     tetrisRate: 0,
   });
@@ -51,9 +51,10 @@ const useTetrisController = () => {
     if (isPaused || game.current === null) return;
 
     const gameState = game.current.nextFrame(keyState.current);
-    board.current = gameState.board;
+    boardRef.current = gameState.board;
+    nextPieceRef.current = gameState.nextPiece;
 
-    const newStats = gameState as Statistics;
+    const newStats = gameState.statistics;
 
     if (!isEqual(stats, newStats)) {
       setStats(newStats);
@@ -107,7 +108,7 @@ const useTetrisController = () => {
     };
   }, [nextFrame]);
 
-  return { stats, board, startGame, pauseGame, isGameOver };
+  return { stats, boardRef, nextPieceRef, startGame, pauseGame, isGameOver };
 };
 
 export { useTetrisController };

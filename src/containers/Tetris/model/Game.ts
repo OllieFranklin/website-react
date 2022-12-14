@@ -93,12 +93,14 @@ export class Game {
       isGameOver: this.state === State.GAME_OVER,
       board: this.board.getState(),
       nextPiece: this.board.nextTetromino.state,
-      level: this.level,
-      lines: this.totalLinesCleared,
-      score: this.score,
-      tetrisRate: this.tetrisRate,
-      drought: this.drought,
-      burn: this.burn,
+      statistics: {
+        level: this.level,
+        lines: this.totalLinesCleared,
+        score: this.score,
+        tetrisRate: this.tetrisRate,
+        drought: this.drought,
+        burn: this.burn,
+      },
     };
   }
 

@@ -21,6 +21,7 @@ const GameOver: React.FC<GameOverProps> = props => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'column',
       }}
     >
       <Typography variant="h1">Game Over</Typography>

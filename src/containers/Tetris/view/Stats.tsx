@@ -4,8 +4,9 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { tetrominoTexturesDefault } from '../../../assets/Tetris/tetrominoes';
-import { Statistics } from '../model';
+import { Statistics, BoardLetter } from '../model';
+import { TetrisBoard } from '../../../components';
+import { TetrominoTextureSet } from '../../../hooks';
 
 type StatsItemProps = {
   name: string;
@@ -33,74 +34,19 @@ const StatsItem: React.FC<StatsItemProps> = props => {
 };
 
 type StatsProps = {
-  stats: Statistics;
+  nextPieceRef: React.MutableRefObject<BoardLetter[][]>;
   cellSize: number;
+  tetrominoTextures: TetrominoTextureSet;
+  stats: Statistics;
 };
 
 const Stats: React.FC<StatsProps> = props => {
   const {
-    stats: { nextPiece, level, lines, score, tetrisRate, drought, burn },
+    nextPieceRef,
     cellSize,
+    tetrominoTextures,
+    stats: { level, lines, score, tetrisRate, drought, burn },
   } = props;
-
-  const canvasRef = React.useRef<HTMLCanvasElement>(null);
-
-  const handleResize = React.useCallback(() => {
-    if (canvasRef.current == null) return;
-
-    // make sure that the width & height of the canvas match the style width & height
-    if (canvasRef.current.height !== canvasRef.current.offsetHeight) {
-      canvasRef.current.height = canvasRef.current.offsetHeight;
-      canvasRef.current.width = canvasRef.current.offsetWidth;
-    }
-  }, []);
-
-  React.useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    setTimeout(handleResize, 10);
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, [handleResize]);
-
-  React.useEffect(() => {
-    if (canvasRef.current == null) return;
-
-    const canvas = canvasRef.current;
-    const ctx = canvas?.getContext('2d');
-    if (ctx == null) return;
-
-    const renderNextBox = () => {
-      if (!nextPiece) {
-        return;
-      }
-
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      const tetromino = nextPiece;
-      const rows = tetromino.length;
-      const cols = tetromino[0].length;
-
-      const left = Math.round((canvas.width - cols * cellSize) * 0.5);
-      const top = Math.round((canvas.height - rows * cellSize) * 0.5);
-
-      for (let row = 0; row < rows; row++) {
-        const y = top + row * cellSize;
-
-        for (let col = 0; col < cols; col++) {
-          const x = left + col * cellSize;
-
-          const cell = tetromino[row][col];
-
-          if (cell !== ' ') {
-            const texture = tetrominoTexturesDefault[cell];
-            ctx.drawImage(texture, x, y, cellSize, cellSize);
-          }
-        }
-      }
-    };
-
-    requestAnimationFrame(renderNextBox);
-  }, [nextPiece, cellSize]);
 
   return (
     <Box
@@ -118,7 +64,11 @@ const Stats: React.FC<StatsProps> = props => {
         <Typography variant="h4" sx={{ fontWeight: 600 }}>
           Next Piece
         </Typography>
-        <canvas ref={canvasRef} style={{ height: '50%', width: '210px' }} />
+        <TetrisBoard
+          cellSize={cellSize}
+          boardRef={nextPieceRef}
+          tetrominoTextures={tetrominoTextures}
+        />
       </Paper>
 
       <Paper

@@ -22,6 +22,11 @@ export type Statistics = {
   tetrisRate: number;
   drought: number;
   burn: number;
+};
+
+export type GameState = {
+  isGameOver: boolean;
+  board: BoardLetter[][];
   /**
    * Represents a tetromino in its initial orientation
    * as either a 3x2 or 4x1 array
@@ -29,9 +34,5 @@ export type Statistics = {
    *        ["L", " ", " "] ]
    */
   nextPiece: BoardLetter[][];
-};
-
-export type GameState = Statistics & {
-  isGameOver: boolean;
-  board: BoardLetter[][];
+  statistics: Statistics;
 };
