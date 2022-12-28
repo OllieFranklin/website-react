@@ -15,8 +15,8 @@ const useTetrisController = () => {
     rotateACW: false,
   });
 
-  const boardRef = React.useRef<BoardLetter[][]>([[]]);
-  const nextPieceRef = React.useRef<BoardLetter[][]>([[]]);
+  const boardRef = React.useRef<BoardLetter[][]>([]);
+  const nextPieceRef = React.useRef<BoardLetter[][]>([]);
   const [stats, setStats] = React.useState<Statistics>({
     burn: 0,
     drought: 0,

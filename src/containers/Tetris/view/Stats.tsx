@@ -64,11 +64,13 @@ const Stats: React.FC<StatsProps> = props => {
         <Typography variant="h4" sx={{ fontWeight: 600 }}>
           Next Piece
         </Typography>
-        <TetrisBoard
-          cellSize={cellSize}
-          boardRef={nextPieceRef}
-          tetrominoTextures={tetrominoTextures}
-        />
+        {false && (
+          <TetrisBoard
+            cellSize={cellSize}
+            boardRef={nextPieceRef}
+            tetrominoTextures={tetrominoTextures}
+          />
+        )}
       </Paper>
 
       <Paper
