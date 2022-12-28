@@ -1,123 +1,139 @@
 import React from 'react';
 
 import { BoardLetter } from '../containers/Tetris/model';
-import {
-  TetrominoTextureSet,
-  tetrominoTexturesDefault as tetrominoTextures,
-} from '../hooks';
+import { TetrominoTextureSet } from '../hooks';
 
 type TetrisBoardProps = {
-  tetrominoTextures: TetrominoTextureSet;
   boardRef: React.MutableRefObject<BoardLetter[][]>;
+  tetrominoTextures: TetrominoTextureSet;
   cellSize: number;
+  numRows: number;
+  numCols: number;
+  isDebug: boolean;
 };
 
 const TetrisBoard: React.FC<TetrisBoardProps> = props => {
-  const { boardRef, cellSize } = props;
+  const { boardRef, tetrominoTextures, cellSize, numRows, numCols, isDebug } =
+    props;
 
-  const numRows = boardRef.current?.length ?? 0;
-  const numCols = boardRef.current?.[0]?.length ?? 0;
+  const height = cellSize * numRows;
+  const width = cellSize * numCols;
 
-  const [canvasSize, setCanvasSize] = React.useState({
-    width: '0px',
-    height: '0px',
-  });
   const canvasRef = React.useRef<HTMLCanvasElement>(null);
-  const requestID = React.useRef<number | null>(null);
+  const animationRequestID = React.useRef<number | null>(null);
 
-  const updateCanvasSize = React.useCallback((node: HTMLDivElement) => {
-    if (node !== null) {
-      const { width, height } = node.getBoundingClientRect();
-      setCanvasSize({ width: `${width}px`, height: `${height}px` });
-    }
-  }, []);
+  const fpsDataRef = React.useRef({
+    filterStrength: 60, // Use 60-frame weighted average
+    textUpdateFrequency: 60, // Update fpsText every 60 frames
+    frameTime: 0,
+    lastLoop: Date.now(),
+    framesSinceLastUpdate: 0,
+    fpsText: '',
+  });
 
-  // make sure that the width & height of the canvas matches the style width & height
-  React.useEffect(() => {
-    if (canvasRef.current === null) return;
+  const renderFPS = React.useCallback(
+    (ctx: CanvasRenderingContext2D) => {
+      ctx.textAlign = 'right';
+      ctx.textBaseline = 'top';
+      ctx.font = 'bold 20px sans-serif';
+      const textPadding = 10;
+      ctx.lineWidth = 6;
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = 'white';
+      ctx.strokeText(
+        fpsDataRef.current.fpsText,
+        width - textPadding,
+        textPadding,
+      );
+      ctx.fillText(
+        fpsDataRef.current.fpsText,
+        width - textPadding,
+        textPadding,
+      );
+    },
+    [width],
+  );
 
-    canvasRef.current.height = canvasRef.current.offsetHeight;
-    canvasRef.current.width = canvasRef.current.offsetWidth;
-  }, [canvasRef.current?.offsetHeight, canvasRef.current?.offsetWidth]);
-
-  // https://javascript.plainenglish.io/canvas-animation-inside-react-components-with-requestanimationframe-c5d594afc1b
-  const renderBoard = () => {
+  const renderBoard = React.useCallback(() => {
     const canvas = canvasRef.current;
     if (canvas === null) return;
 
     const ctx = canvas.getContext('2d');
     if (ctx === null) return;
 
-    const board = boardRef.current;
-    if (board === null) return;
+    ctx.clearRect(0, 0, canvas.offsetWidth, canvas.offsetHeight);
 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-    const rows = board?.length ?? 0;
-    const cols = board?.[0]?.length ?? 0;
-    for (let row = 0; row < rows; row++) {
+    const board = boardRef.current;
+    for (let row = 0; row < numRows; row++) {
       const y = row * cellSize;
-      for (let col = 0; col < cols; col++) {
-        const x = col * cellSize;
-        const cell = board[row][col];
-        if (cell !== ' ') {
+      for (let col = 0; col < numCols; col++) {
+        const cell = board?.[row]?.[col];
+        if (cell && cell !== ' ') {
+          const x = col * cellSize;
           const texture = tetrominoTextures[cell];
           ctx.drawImage(texture, x, y, cellSize, cellSize);
         }
       }
     }
+
+    if (isDebug && fpsDataRef.current.frameTime > 0) {
+      renderFPS(ctx);
+    }
+  }, [
+    boardRef,
+    numCols,
+    numRows,
+    cellSize,
+    isDebug,
+    tetrominoTextures,
+    renderFPS,
+  ]);
+
+  const updateFPS = () => {
+    const { lastLoop, frameTime, filterStrength, textUpdateFrequency } =
+      fpsDataRef.current;
+    const thisLoop = Date.now();
+
+    fpsDataRef.current.lastLoop = thisLoop;
+    fpsDataRef.current.frameTime =
+      frameTime + (thisLoop - lastLoop - frameTime) / filterStrength;
+    fpsDataRef.current.framesSinceLastUpdate++;
+
+    if (fpsDataRef.current.framesSinceLastUpdate > textUpdateFrequency) {
+      const fps = Math.round(1000 / fpsDataRef.current.frameTime);
+      fpsDataRef.current.fpsText = `${fps} fps`;
+      fpsDataRef.current.framesSinceLastUpdate = 0;
+    }
   };
 
-  const tick = () => {
-    // if (!canvasRef.current) return;
-
+  const tick = React.useCallback(() => {
+    updateFPS();
     renderBoard();
-    requestID.current = requestAnimationFrame(tick);
-  };
+    animationRequestID.current = requestAnimationFrame(tick);
+  }, [renderBoard]);
 
   React.useEffect(() => {
-    requestID.current = requestAnimationFrame(tick);
+    animationRequestID.current = requestAnimationFrame(tick);
 
     return () => {
-      if (requestID.current !== null) {
-        cancelAnimationFrame(requestID.current);
+      if (animationRequestID.current !== null) {
+        cancelAnimationFrame(animationRequestID.current);
       }
     };
-  }, []);
-
-  // // render function called each frame of game
-  // // handles displaying the game at the native framerate decided by requestAnimationFrame
-  // // the game logic (i.e. what to show at any given moment) is run in a separate loop
-  // React.useEffect(() => {
-  //   if (canvasRef.current == null || requestID.current !== null) return;
-
-  //   var filterStrength = 20;
-  //   var frameTime = 0,
-  //     lastLoop = new Date(),
-  //     thisLoop;
-
-  //   console.log('we got here');
-  //   requestID.current = requestAnimationFrame(renderBoard);
-
-  //   return () => {
-  //     if (requestID.current !== null) {
-  //       cancelAnimationFrame(requestID.current);
-  //       requestID.current = null;
-  //     }
-  //   };
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [boardRef]);
+  }, [tick]);
 
   return (
-    <div ref={updateCanvasSize}>
+    <div
+      style={{
+        height: `${height}px`,
+        width: `${width}px`,
+      }}
+    >
       <canvas
-        height={canvasSize.height}
-        width={canvasSize.width}
-        style={{
-          height: `${cellSize * numRows}px`,
-          width: `${cellSize * numCols}px`,
-        }}
         ref={canvasRef}
+        height={height}
+        width={width}
+        style={{ height: `${height}px`, width: `${width}px` }}
       ></canvas>
     </div>
   );

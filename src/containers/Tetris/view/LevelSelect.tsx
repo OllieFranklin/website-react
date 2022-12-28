@@ -22,7 +22,7 @@ type LevelSelectProps = {
 const LevelSelect: React.FC<LevelSelectProps> = props => {
   const { handleOnStartGame } = props;
 
-  const [levelData, setLevelData] = React.useState(getLevelData(8));
+  const [levelData, setLevelData] = React.useState(getLevelData(18));
 
   const handleOnChangeSlider = (event: Event, value: number | number[]) => {
     const newLevelData = getLevelData(value as number);

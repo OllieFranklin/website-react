@@ -25,10 +25,8 @@ const GameBoardWithStats: React.FC<GameBoardWithStatsProps> = props => {
   const handleResize = React.useCallback(() => {
     if (pageRef.current == null) return;
 
-    // find a width for the board that's divisible by 10
-    // this ensures that all cells can be rendered on integer values
-
-    // set the board height to 90% page height
+    // find an integer cell size that will result in the board
+    // taking up around 90% of the screen height
     const height90 = 0.9 * pageRef.current.offsetHeight;
     const numRows = 20;
     const newCellSize = (height90 - (height90 % numRows)) / numRows;
@@ -56,9 +54,12 @@ const GameBoardWithStats: React.FC<GameBoardWithStatsProps> = props => {
       <Stack direction="row" sx={{ gap: 3 }}>
         <Paper elevation={1} sx={{ lineHeight: 0 }}>
           <TetrisBoard
-            tetrominoTextures={tetrominoTexturesDefault}
             boardRef={boardRef}
+            tetrominoTextures={tetrominoTexturesDefault}
             cellSize={cellSize}
+            numRows={20}
+            numCols={10}
+            isDebug
           />
         </Paper>
 

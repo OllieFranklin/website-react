@@ -1,5 +1,6 @@
 import React from 'react';
 import Box from '@mui/material/Box';
+import Stack from '@mui/material/Stack';
 import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -19,13 +20,13 @@ const StatsItem: React.FC<StatsItemProps> = props => {
   const isScreenTall = useMediaQuery('(min-height: 825px)');
 
   return (
-    <Box px={2}>
+    <Box sx={{ px: 2 }}>
       <Typography variant="h4">
         <span style={{ fontWeight: '600' }}>{name}</span>
         {!isScreenTall && <span>&nbsp;–&nbsp;{value || 0}</span>}
       </Typography>
       {isScreenTall && (
-        <Typography variant="h4" mt={1} sx={{ textAlign: 'center' }}>
+        <Typography variant="h4" sx={{ mt: 1, textAlign: 'center' }}>
           {value || 0}
         </Typography>
       )}
@@ -49,9 +50,7 @@ const Stats: React.FC<StatsProps> = props => {
   } = props;
 
   return (
-    <Box
-      sx={{ height: 'auto', display: 'flex', flexDirection: 'column', gap: 3 }}
-    >
+    <Stack sx={{ minWidth: `${cellSize * 5}px`, gap: 3 }}>
       <Paper
         style={{
           flex: 2,
@@ -64,13 +63,23 @@ const Stats: React.FC<StatsProps> = props => {
         <Typography variant="h4" sx={{ fontWeight: 600 }}>
           Next Piece
         </Typography>
-        {false && (
+        <Box
+          sx={{
+            height: `${cellSize * 2}px`,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
           <TetrisBoard
-            cellSize={cellSize}
             boardRef={nextPieceRef}
             tetrominoTextures={tetrominoTextures}
+            numRows={nextPieceRef.current.length}
+            numCols={nextPieceRef.current?.[0]?.length ?? 0}
+            cellSize={cellSize}
+            isDebug={false}
           />
-        )}
+        </Box>
       </Paper>
 
       <Paper
@@ -100,7 +109,7 @@ const Stats: React.FC<StatsProps> = props => {
         <StatsItem name="Drought" value={drought} />
         <StatsItem name="Burn" value={burn} />
       </Paper>
-    </Box>
+    </Stack>
   );
 };
 

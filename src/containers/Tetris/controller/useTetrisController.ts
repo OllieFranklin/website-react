@@ -101,10 +101,10 @@ const useTetrisController = () => {
   };
 
   React.useEffect(() => {
-    const timer = setInterval(nextFrame, 1000 / 60);
+    const intervalID = setInterval(nextFrame, 1000 / 60);
 
     return () => {
-      clearInterval(timer);
+      clearInterval(intervalID);
     };
   }, [nextFrame]);
 
