@@ -5,6 +5,7 @@ import { Home } from '../containers/Home';
 import { NotFound } from '../containers/NotFound';
 import { ProjectDescription } from '../containers/ProjectDescription';
 import { Tetris } from '../containers/Tetris';
+import { TetrisTestUI } from '../containers/Tetris/view/TestUI/TetrisTestUI';
 import { Counter } from '../features/counter/Counter';
 
 type Route = {
@@ -54,7 +55,7 @@ const routes: Routes = {
       ...notFound,
       path: '/tetris/testing',
       name: 'Tetris test',
-      Component: Tetris,
+      Component: TetrisTestUI,
     },
   },
   redux: {

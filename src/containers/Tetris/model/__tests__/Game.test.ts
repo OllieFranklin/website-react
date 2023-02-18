@@ -1,7 +1,7 @@
-import { Game, KeyState } from '..';
-import testOracles from './test_oracles';
+import { Game, KeyState, TetrominoLetter } from '..';
+import { testOracles } from './test_oracles';
 
-const numPrevBoards = 300;
+const numPrevBoards = 5;
 
 function gameStateBoardToJsonFileBoard(board: string[][]): string {
   return board
@@ -99,7 +99,7 @@ expect.extend({
 testOracles.forEach(
   ({ data: { pieceOrder, startingLevel, frames }, description }) => {
     test(`${description}`, () => {
-      const game = new Game(startingLevel, pieceOrder);
+      const game = new Game(startingLevel, pieceOrder as TetrominoLetter[]);
 
       let recievedFrameNum = 0;
       const prevBoards = [];

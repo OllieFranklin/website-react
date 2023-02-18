@@ -25,7 +25,7 @@ import testDasHoldRight from './test-das-hold-right.json';
 import testRotationClockwise from './test-rotation-clockwise.json';
 import testRotationAntiClockwise from './test-rotation-anticlockwise.json';
 
-const oracles = [
+const testOracles = [
   {
     data: testGravityLevel0,
     description: 'Test Level 0 gravity when no other buttons are pressed',
@@ -127,4 +127,4 @@ const oracles = [
   // },
 ];
 
-export default oracles;
+export { testOracles };
