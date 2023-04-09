@@ -22,8 +22,8 @@ import testGravityLevel19 from './test-gravity-level-19.json';
 import testDasHoldLeft from './test-das-hold-left.json';
 import testDasHoldRight from './test-das-hold-right.json';
 
-import testRotationClockwise from './test-rotation-clockwise.json';
-import testRotationAntiClockwise from './test-rotation-anticlockwise.json';
+// import testRotationClockwise from './test-rotation-clockwise.json';
+// import testRotationAntiClockwise from './test-rotation-anticlockwise.json';
 
 const testOracles = [
   {
