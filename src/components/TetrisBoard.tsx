@@ -9,12 +9,18 @@ type TetrisBoardProps = {
   cellSize: number;
   numRows: number;
   numCols: number;
-  isDebug: boolean;
+  isDebug?: boolean;
 };
 
 const TetrisBoard: React.FC<TetrisBoardProps> = props => {
-  const { boardRef, tetrominoTextures, cellSize, numRows, numCols, isDebug } =
-    props;
+  const {
+    boardRef,
+    tetrominoTextures,
+    cellSize,
+    numRows,
+    numCols,
+    isDebug = true,
+  } = props;
 
   const height = cellSize * numRows;
   const width = cellSize * numCols;
@@ -134,7 +140,7 @@ const TetrisBoard: React.FC<TetrisBoardProps> = props => {
         height={height}
         width={width}
         style={{ height: `${height}px`, width: `${width}px` }}
-      ></canvas>
+      />
     </div>
   );
 };

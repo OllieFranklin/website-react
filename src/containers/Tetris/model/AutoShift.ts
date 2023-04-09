@@ -15,14 +15,15 @@ export class AutoShift {
     this.direction = Direction.DISABLED;
   }
 
-  public step(onMove: (m: Move) => void): void {
+  public step(onMove: null | ((m: Move) => void)): void {
     if (this.direction === Direction.DISABLED) return;
 
     this.counter++;
+    if (onMove === null) return;
 
-    if (this.counter < 16) return;
+    if (this.counter < 17) return;
 
-    this.counter = 10;
+    this.counter = 11;
     this.direction === Direction.LEFT ? onMove(MoveLeft) : onMove(MoveRight);
   }
 

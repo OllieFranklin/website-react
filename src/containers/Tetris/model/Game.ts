@@ -180,6 +180,8 @@ export class Game {
     if (this.state === State.LINE_CLEAR) {
       this.doLineClearFrame();
     } else if (this.state === State.ARE) {
+      this.DAS.step(null);
+
       if (this.entryDelay > 1) {
         this.entryDelay--;
       } else {
@@ -195,7 +197,9 @@ export class Game {
           this.drought++;
         }
 
-        this.DAS.moveNextFrame();
+        this.moves = this.moves.filter(
+          move => move !== MoveLeft && move !== MoveRight,
+        );
       }
     } else if (this.state === State.PLAYING) {
       const gravityDropping = !this.downPressed && this.gravity.isDropping();
@@ -211,6 +215,8 @@ export class Game {
         this.gravity = new Gravity({ level: this.initialLevel });
       }
 
+      this.DAS.step(move => this.moves.push(move));
+
       for (const move of this.moves) {
         let moveWasSuccessful = move(this.board);
         if (!moveWasSuccessful && move === MoveDown) {
@@ -218,8 +224,6 @@ export class Game {
         }
       }
       this.moves = [];
-
-      this.DAS.step(move => this.moves.push(move));
     }
   }
 

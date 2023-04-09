@@ -111,11 +111,11 @@ const testOracles = [
     description:
       'Test the Delayed Auto-Shift when the left button is held down',
   },
-  // {
-  //   data: testDasHoldRight,
-  //   description:
-  //     'Test the Delayed Auto-Shift when the right button is held down',
-  // },
+  {
+    data: testDasHoldRight,
+    description:
+      'Test the Delayed Auto-Shift when the right button is held down',
+  },
   // {
   //   data: testRotationClockwise,
   //   description: 'Test clockwise rotation when no movement buttons are pressed',
