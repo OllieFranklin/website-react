@@ -12,62 +12,39 @@ import star2 from '../../assets/Home/star2.svg';
 import { featureFlags } from '../../constants/featureFlags';
 import './Home.css';
 
+type StarProps = { source: string; key: string };
+
+const Star: React.FC<StarProps> = ({ source, key }) => {
+  let left = Math.random();
+  let top = Math.random();
+
+  const styles = {
+    animationDuration: `${5 + Math.random() * 10}s`,
+    animationDelay: `${10 * (0.5 - Math.random())}s`,
+    left: `${left * 100}%`,
+    top: `${top * 100}%`,
+  };
+
+  return (
+    <img src={source} style={styles} className="star" key={key} alt={key} />
+  );
+};
+
 type HomeProps = {};
 
 const Home: React.FC<HomeProps> = props => {
-  const [starElements, setStarElements] = React.useState<JSX.Element[]>([]);
-
-  React.useEffect(() => {
-    const getRandomStar = (source: string, key: string) => {
-      let left = Math.random();
-      let top = Math.random();
-
-      const styles = {
-        animationDuration: `${5 + Math.random() * 10}s`,
-        animationDelay: `${10 * (0.5 - Math.random())}s`,
-        left: `${left * 100}%`,
-        top: `${top * 100}%`,
-      };
-
-      return (
-        <img src={source} style={styles} className="star" key={key} alt={key} />
-      );
-    };
-
+  const starElements = React.useMemo(() => {
     const screenWidth =
       window.innerWidth || document.documentElement.clientWidth;
     const screenHeight =
       window.innerHeight || document.documentElement.clientHeight;
     const numStars = (screenWidth * screenHeight) / 25000;
 
-    const stars = [];
-
-    for (let i = 0; i < numStars; i++) {
+    return Array.from({ length: numStars }).map((_, i) => {
       const source = i % 2 ? star1 : star2;
-      const key = `star${i}`;
-      stars.push(getRandomStar(source, key));
-    }
-
-    setStarElements(stars);
+      return <Star source={source} key={`star${i}`} />;
+    });
   }, []);
-
-  const Background = () => {
-    return (
-      <Box
-        sx={{
-          backgroundColor: '#2f3742',
-          position: 'fixed',
-          width: '100vw',
-          height: '100vh',
-          top: 0,
-          left: 0,
-          zIndex: -1,
-        }}
-      >
-        {starElements}
-      </Box>
-    );
-  };
 
   return (
     <>
@@ -93,14 +70,27 @@ const Home: React.FC<HomeProps> = props => {
           py={6}
         >
           <Box sx={{ width: { xs: '100%', sm: '550px' } }}>
-            <Typography variant="h1" color="white">
+            <Typography
+              variant="h1"
+              color="white"
+              sx={{
+                background: '#2f3742',
+                boxShadow: '0px 0px 20px 20px #2f3742',
+              }}
+            >
               Ollie Franklin
             </Typography>
             <Box mt={4}>
-              <Typography variant="h2" color="white">
-                {/* A Wellington-based developer with a passion for front-end */}
-                A software engineering student with a passion for front-end
-                development
+              <Typography
+                variant="h2"
+                color="white"
+                sx={{
+                  background: '#2f3742',
+                  boxShadow: '0px 0px 20px 20px #2f3742',
+                }}
+              >
+                A software developer who loves creating interesting things with
+                code
               </Typography>
               <Grid container gap={4} mt={6}>
                 <Grid item>
@@ -135,7 +125,19 @@ const Home: React.FC<HomeProps> = props => {
         </Box>
       </Box>
 
-      <Background />
+      <Box
+        sx={{
+          backgroundColor: '#2f3742',
+          position: 'fixed',
+          width: '100vw',
+          height: '100vh',
+          top: 0,
+          left: 0,
+          zIndex: -1,
+        }}
+      >
+        {starElements}
+      </Box>
     </>
   );
 };

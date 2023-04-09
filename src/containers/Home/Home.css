@@ -18,13 +18,3 @@
     opacity: 1;
   }
 }
-
-@keyframes shimmy {
-  25% {
-    transform: rotate(3deg) translate(-50%, -48%);
-  }
-
-  75% {
-    transform: rotate(-3deg) translateY(-50%, -52%);
-  }
-}
