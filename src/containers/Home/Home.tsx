@@ -9,6 +9,7 @@ import { Earth } from './Earth';
 import { Button } from '../../components';
 import star1 from '../../assets/Home/star1.svg';
 import star2 from '../../assets/Home/star2.svg';
+import { featureFlags } from '../../constants/featureFlags';
 import './Home.css';
 
 type HomeProps = {};
@@ -105,7 +106,11 @@ const Home: React.FC<HomeProps> = props => {
                 <Grid item>
                   <Button
                     component={Link}
-                    to={routes.projectDescription.path}
+                    to={
+                      featureFlags.enableProjectDescription
+                        ? routes.projectDescription.path
+                        : routes.tetris.path
+                    }
                     color="secondary"
                     size="large"
                   >

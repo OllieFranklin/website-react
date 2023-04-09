@@ -65,11 +65,13 @@ const Navigation: React.FC<NavigationProps> = props => {
         paddingRight: { xs: 0, sm: 10 },
       }}
     >
-      {navRoutes.map(route => (
-        <NavItem key={route.path} itemRoute={route}>
-          {route.name}
-        </NavItem>
-      ))}
+      {navRoutes
+        .filter(route => route.isEnabled)
+        .map(route => (
+          <NavItem key={route.path} itemRoute={route}>
+            {route.name}
+          </NavItem>
+        ))}
     </Box>
   );
 };

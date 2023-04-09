@@ -7,6 +7,7 @@ import Slider from '@mui/material/Slider';
 import { routes } from '../../../constants/routes';
 import { Button } from '../../../components';
 import { Game, Gravity } from '../model';
+import { featureFlags } from '../../../constants/featureFlags';
 
 function getLevelData(level: number) {
   const dropRate = new Gravity({ level }).framesPerCell;
@@ -83,15 +84,17 @@ const LevelSelect: React.FC<LevelSelectProps> = props => {
         <Button color="secondary" size="large" onClick={handleOnClickStart}>
           Start Game
         </Button>
-        <Button
-          sx={{ pt: 2 }}
-          variant="text"
-          size="large"
-          component={Link}
-          to={routes.tetris.test.path}
-        >
-          Test Game
-        </Button>
+        {featureFlags.enableTestUI && (
+          <Button
+            sx={{ pt: 2 }}
+            variant="text"
+            size="large"
+            component={Link}
+            to={routes.tetris.test.path}
+          >
+            Test Game
+          </Button>
+        )}
       </Box>
     </Box>
   );

@@ -9,9 +9,11 @@ const App = () => {
     <BrowserRouter>
       <Navigation />
       <Routes>
-        {Object.values(flatRoutes).map(({ path, Component }) => (
-          <Route key={path} path={path} exact element={<Component />} />
-        ))}
+        {Object.values(flatRoutes)
+          .filter(({ isEnabled }) => isEnabled)
+          .map(({ path, Component }) => (
+            <Route key={path} path={path} exact element={<Component />} />
+          ))}
         <Route path="*" exact element={<routes.notFound.Component />} />
       </Routes>
     </BrowserRouter>

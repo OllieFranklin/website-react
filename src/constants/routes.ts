@@ -6,12 +6,14 @@ import { NotFound } from '../containers/NotFound';
 import { ProjectDescription } from '../containers/ProjectDescription';
 import { Tetris } from '../containers/Tetris';
 import { TetrisTestUI } from '../containers/Tetris/view/TestUI/TetrisTestUI';
+import { featureFlags } from './featureFlags';
 
 type Route = {
   path: string;
   name: string;
   Component: React.ComponentType;
   isDarkMode: boolean;
+  isEnabled: boolean;
 };
 
 type Routes = {
@@ -23,40 +25,45 @@ type Routes = {
   notFound: Route;
 };
 
-const notFound: Route = {
-  path: '/not-found',
-  name: 'Not found',
-  Component: NotFound,
+const defaultRoute = {
   isDarkMode: false,
+  isEnabled: true,
 };
 
 const routes: Routes = {
   home: {
-    ...notFound,
+    ...defaultRoute,
     path: '/',
     name: 'Home',
     Component: Home,
     isDarkMode: true,
   },
   projectDescription: {
-    ...notFound,
+    ...defaultRoute,
     path: '/about-project',
     name: 'About project',
     Component: ProjectDescription,
+    isEnabled: !!featureFlags.enableProjectDescription,
   },
   tetris: {
-    ...notFound,
+    ...defaultRoute,
     path: '/tetris',
     name: 'Project',
     Component: Tetris,
     test: {
-      ...notFound,
+      ...defaultRoute,
       path: '/tetris/testing',
       name: 'Tetris test',
       Component: TetrisTestUI,
+      isEnabled: !!featureFlags.enableTestUI,
     },
   },
-  notFound,
+  notFound: {
+    ...defaultRoute,
+    path: '/not-found',
+    name: 'Not found',
+    Component: NotFound,
+  },
 };
 
 type KeysEnum<T> = { [P in keyof Required<T>]: true };
@@ -65,6 +72,7 @@ const routeKeys: KeysEnum<Route> = {
   name: true,
   Component: true,
   isDarkMode: true,
+  isEnabled: true,
 };
 const routeKeysArray = Object.keys(routeKeys);
 
@@ -82,7 +90,7 @@ function useCurrentRoute() {
   const { pathname } = useLocation();
 
   const currentRoute: Route =
-    flatRoutes.find(({ path }) => path === pathname) || notFound;
+    flatRoutes.find(({ path }) => path === pathname) || routes.notFound;
 
   return { currentRoute };
 }
