@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { BoardLetter } from '../containers/Tetris/model';
-import { TetrominoTextureSet } from '../hooks';
+import { TetrominoTextureSet } from '../constants/textures';
 
 type TetrisBoardProps = {
   boardRef: React.MutableRefObject<BoardLetter[][]>;

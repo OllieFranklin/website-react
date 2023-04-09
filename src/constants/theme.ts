@@ -33,7 +33,7 @@ const theme = responsiveFontSizes(
       h1: { fontFamily: 'Nunito', fontWeight: 600, fontSize: '4.6rem' },
       h2: { fontFamily: 'Nunito', fontWeight: 500, fontSize: '2.2rem' },
       h3: { fontFamily: 'Montserrat', fontWeight: 600, fontSize: '28px' },
-      h4: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: '26px' },
+      h4: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: '24px' },
       body1: { fontFamily: 'Montserrat', fontWeight: 500, fontSize: '19px' },
       button: {
         fontFamily: 'Montserrat',

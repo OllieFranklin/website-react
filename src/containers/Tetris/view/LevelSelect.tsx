@@ -40,12 +40,14 @@ const LevelSelect: React.FC<LevelSelectProps> = props => {
         height: '100%',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'center',
+        // justifyContent: 'center',
         flexDirection: 'column',
       }}
     >
-      <Typography variant="h1">Pick a Starting Level</Typography>
-      <Box sx={{ width: 300 }}>
+      <Typography variant="h1" sx={{ mt: 14 }}>
+        Pick a Starting Level
+      </Typography>
+      <Box sx={{ width: 300, pt: 5 }}>
         <Slider
           aria-label="Level Select"
           defaultValue={15}
@@ -59,10 +61,25 @@ const LevelSelect: React.FC<LevelSelectProps> = props => {
           value={levelData.level}
         />
       </Box>
-      <Typography variant="h2">{`Level ${levelData.level}`}</Typography>
-      <Typography variant="h3">{`${levelData.dropRate} frames/drop`}</Typography>
-      <Typography variant="h3">{`${levelData.linesUntilLevelUp} lines until level up`}</Typography>
-      <Box sx={{ mt: 16 }}>
+      <Typography
+        variant="h2"
+        sx={{ pt: 2, fontWeight: 600 }}
+      >{`Level ${levelData.level}`}</Typography>
+      <Typography
+        variant="h4"
+        sx={{ pt: 2, fontWeight: 500 }}
+      >{`${levelData.dropRate} frames/drop`}</Typography>
+      <Typography
+        variant="h4"
+        sx={{ pt: 1, fontWeight: 500 }}
+      >{`${levelData.linesUntilLevelUp} lines until level up`}</Typography>
+      <Box
+        sx={{
+          mt: 10,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
         <Button color="secondary" size="large" onClick={handleOnClickStart}>
           Start Game
         </Button>

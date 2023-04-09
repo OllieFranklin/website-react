@@ -6,7 +6,6 @@ import { NotFound } from '../containers/NotFound';
 import { ProjectDescription } from '../containers/ProjectDescription';
 import { Tetris } from '../containers/Tetris';
 import { TetrisTestUI } from '../containers/Tetris/view/TestUI/TetrisTestUI';
-import { Counter } from '../features/counter/Counter';
 
 type Route = {
   path: string;
@@ -21,7 +20,6 @@ type Routes = {
   tetris: Route & {
     test: Route;
   };
-  redux: Route;
   notFound: Route;
 };
 
@@ -57,12 +55,6 @@ const routes: Routes = {
       name: 'Tetris test',
       Component: TetrisTestUI,
     },
-  },
-  redux: {
-    ...notFound,
-    path: '/redux',
-    name: 'Redux demo',
-    Component: Counter,
   },
   notFound,
 };

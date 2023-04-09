@@ -7,7 +7,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import { Statistics, BoardLetter } from '../model';
 import { TetrisBoard } from '../../../components';
-import { TetrominoTextureSet } from '../../../hooks';
+import { TetrominoTextureSet } from '../../../constants/textures';
 
 type StatsItemProps = {
   name: string;

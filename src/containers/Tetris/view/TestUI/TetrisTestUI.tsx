@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import useTheme from '@mui/material/styles/useTheme';
 
 import { TetrisBoard } from '../../../../components';
-import { tetrominoTexturesDefault } from '../../../../hooks';
+import { tetrominoTexturesDefault } from '../../../../constants/textures';
 import { useTetrisTestOracle } from './useTetrisTestOracle';
 
 type TetrisTestUIProps = {};

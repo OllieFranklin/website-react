@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack';
 
 import { BoardLetter, Statistics } from '../model';
 import { Stats } from './Stats';
-import { tetrominoTexturesDefault } from '../../../hooks';
+import { tetrominoTexturesDefault } from '../../../constants/textures';
 import { TetrisBoard } from '../../../components';
 
 type GameBoardWithStatsProps = {
