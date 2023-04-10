@@ -5,9 +5,9 @@ import Typography from '@mui/material/Typography';
 
 import { routes, useCurrentRoute, Route } from '../constants/routes';
 
-type NavItemProps = {
+type NavItemProps = React.PropsWithChildren<{
   itemRoute: Route;
-};
+}>;
 
 const NavItem: React.FC<NavItemProps> = props => {
   const { itemRoute, children } = props;
