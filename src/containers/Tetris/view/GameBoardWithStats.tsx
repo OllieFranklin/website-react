@@ -59,7 +59,7 @@ const GameBoardWithStats: React.FC<GameBoardWithStatsProps> = props => {
             cellSize={cellSize}
             numRows={20}
             numCols={10}
-            isDebug
+            isDebug={false}
           />
         </Paper>
 
