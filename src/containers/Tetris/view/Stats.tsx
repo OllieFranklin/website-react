@@ -5,7 +5,7 @@ import Paper from '@mui/material/Paper';
 import Typography from '@mui/material/Typography';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
-import { Statistics, BoardLetter } from '../model';
+import { BoardLetter, InGameStatistics } from '../model';
 import { TetrisBoard } from '../../../components';
 import { TetrominoTextureSet } from '../../../constants/textures';
 
@@ -38,7 +38,7 @@ type StatsProps = {
   nextPieceRef: React.MutableRefObject<BoardLetter[][]>;
   cellSize: number;
   tetrominoTextures: TetrominoTextureSet;
-  stats: Statistics;
+  stats: InGameStatistics;
 };
 
 const Stats: React.FC<StatsProps> = props => {

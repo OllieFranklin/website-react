@@ -48,17 +48,17 @@ const Tetris: React.FC<TetrisProps> = props => {
         <LevelSelect handleOnStartGame={handleOnStartGame} />
       )}
 
-      {gameState === GameStates.PLAYING && (
+      {gameState === GameStates.PLAYING && stats?.type === 'inGame' && (
         <GameBoardWithStats
           boardRef={boardRef}
           nextPieceRef={nextPieceRef}
-          stats={stats}
+          stats={stats.value}
         />
       )}
 
-      {gameState === GameStates.GAME_OVER && (
+      {gameState === GameStates.GAME_OVER && stats?.type === 'gameOver' && (
         <GameOver
-          stats={stats}
+          stats={stats.value}
           handleOnShowLevelSelect={handleOnShowLevelSelect}
         />
       )}

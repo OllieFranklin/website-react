@@ -89,19 +89,36 @@ export class Game {
     this.doFrame();
     this.frameNum++;
 
-    return {
-      isGameOver: this.state === State.GAME_OVER,
-      board: this.board.getState(),
-      nextPiece: this.board.nextTetromino.state,
-      statistics: {
-        level: this.level,
-        lines: this.totalLinesCleared,
-        score: this.score,
-        tetrisRate: this.tetrisRate,
-        drought: this.drought,
-        burn: this.burn,
-      },
-    };
+    const isGameOver = this.state === State.GAME_OVER;
+    if (isGameOver) {
+      return {
+        isGameOver,
+        board: this.board.getState(),
+        nextPiece: this.board.nextTetromino.state,
+        statistics: {
+          lines: this.totalLinesCleared,
+          score: this.score,
+          tetrisRate: this.tetrisRate,
+          finalLevel: this.level,
+          longestDrought: 0,
+          startingLevel: 0,
+        },
+      };
+    } else {
+      return {
+        isGameOver,
+        board: this.board.getState(),
+        nextPiece: this.board.nextTetromino.state,
+        statistics: {
+          level: this.level,
+          lines: this.totalLinesCleared,
+          score: this.score,
+          tetrisRate: this.tetrisRate,
+          drought: this.drought,
+          burn: this.burn,
+        },
+      };
+    }
   }
 
   private handleKeysPressed(inputs: KeyState): void {

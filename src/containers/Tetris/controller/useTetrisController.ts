@@ -1,7 +1,13 @@
 import React from 'react';
 import { isEqual } from 'lodash';
 
-import { Game, KeyState, BoardLetter, Statistics } from '../model';
+import {
+  Game,
+  KeyState,
+  BoardLetter,
+  InGameStatistics,
+  GameOverStatistics,
+} from '../model';
 
 const useTetrisController = () => {
   const [isPaused, setIsPaused] = React.useState<boolean>(true);
@@ -17,14 +23,11 @@ const useTetrisController = () => {
 
   const boardRef = React.useRef<BoardLetter[][]>([]);
   const nextPieceRef = React.useRef<BoardLetter[][]>([]);
-  const [stats, setStats] = React.useState<Statistics>({
-    burn: 0,
-    drought: 0,
-    level: 0,
-    lines: 0,
-    score: 0,
-    tetrisRate: 0,
-  });
+  const [stats, setStats] = React.useState<
+    | null
+    | { type: 'inGame'; value: InGameStatistics }
+    | { type: 'gameOver'; value: GameOverStatistics }
+  >(null);
   const [isGameOver, setIsGameOver] = React.useState<boolean>(false);
 
   const handleKeyDown = React.useCallback(
@@ -54,15 +57,16 @@ const useTetrisController = () => {
     boardRef.current = gameState.board;
     nextPieceRef.current = gameState.nextPiece;
 
-    const newStats = gameState.statistics;
-
-    if (!isEqual(stats, newStats)) {
-      setStats(newStats);
+    if (!isEqual(stats, gameState.statistics)) {
+      if (gameState.isGameOver) {
+        setStats({ type: 'gameOver', value: gameState.statistics });
+      } else {
+        setStats({ type: 'inGame', value: gameState.statistics });
+      }
     }
 
-    const newIsGameOver = gameState.isGameOver;
-    if (newIsGameOver !== isGameOver) {
-      setIsGameOver(newIsGameOver);
+    if (gameState.isGameOver !== isGameOver) {
+      setIsGameOver(gameState.isGameOver);
     }
   }, [stats, setStats, isPaused, isGameOver, setIsGameOver]);
 
@@ -90,10 +94,10 @@ const useTetrisController = () => {
       case 'ArrowRight':
         keyState.current.right = isPressed;
         break;
-      case 'z': // Z
+      case 'z':
         keyState.current.rotateCW = isPressed;
         break;
-      case 'x': // X
+      case 'x':
         keyState.current.rotateACW = isPressed;
         break;
       default:

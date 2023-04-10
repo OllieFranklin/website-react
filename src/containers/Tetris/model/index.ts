@@ -3,7 +3,8 @@ export { Gravity } from './Gravity';
 export type {
   TetrominoLetter,
   BoardLetter,
-  Statistics,
+  GameOverStatistics,
+  InGameStatistics,
   GameState,
   KeyState,
 } from './constants';

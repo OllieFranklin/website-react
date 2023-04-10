@@ -15,7 +15,7 @@ export type KeyState = {
   rotateACW: boolean;
 };
 
-export type Statistics = {
+export type InGameStatistics = {
   level: number;
   lines: number;
   score: number;
@@ -24,8 +24,16 @@ export type Statistics = {
   burn: number;
 };
 
-export type GameState = {
-  isGameOver: boolean;
+export type GameOverStatistics = {
+  score: number;
+  lines: number;
+  startingLevel: number;
+  finalLevel: number;
+  tetrisRate: number;
+  longestDrought: number;
+};
+
+type BaseGameState = {
   board: BoardLetter[][];
   /**
    * Represents a tetromino in its initial orientation
@@ -34,5 +42,8 @@ export type GameState = {
    *        ["L", " ", " "] ]
    */
   nextPiece: BoardLetter[][];
-  statistics: Statistics;
 };
+
+export type GameState =
+  | (BaseGameState & { isGameOver: false; statistics: InGameStatistics })
+  | (BaseGameState & { isGameOver: true; statistics: GameOverStatistics });

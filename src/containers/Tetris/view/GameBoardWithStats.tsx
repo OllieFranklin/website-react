@@ -3,7 +3,7 @@ import Box from '@mui/material/Box';
 import Paper from '@mui/material/Paper';
 import Stack from '@mui/material/Stack';
 
-import { BoardLetter, Statistics } from '../model';
+import { BoardLetter, InGameStatistics } from '../model';
 import { Stats } from './Stats';
 import { tetrominoTexturesDefault } from '../../../constants/textures';
 import { TetrisBoard } from '../../../components';
@@ -11,7 +11,7 @@ import { TetrisBoard } from '../../../components';
 type GameBoardWithStatsProps = {
   boardRef: React.MutableRefObject<BoardLetter[][]>;
   nextPieceRef: React.MutableRefObject<BoardLetter[][]>;
-  stats: Statistics;
+  stats: InGameStatistics;
 };
 
 const GameBoardWithStats: React.FC<GameBoardWithStatsProps> = props => {

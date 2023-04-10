@@ -41,7 +41,6 @@ const LevelSelect: React.FC<LevelSelectProps> = props => {
         height: '100%',
         display: 'flex',
         alignItems: 'center',
-        // justifyContent: 'center',
         flexDirection: 'column',
       }}
     >
