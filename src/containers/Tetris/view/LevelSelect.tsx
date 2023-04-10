@@ -42,7 +42,7 @@ const LevelSelect: React.FC<LevelSelectProps> = props => {
         handleOnStartGame(levelData.level);
       }
     },
-    [levelData],
+    [handleOnStartGame, levelData],
   );
 
   React.useEffect(() => {

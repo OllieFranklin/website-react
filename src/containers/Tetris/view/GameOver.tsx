@@ -41,11 +41,14 @@ type GameOverProps = {
 const GameOver: React.FC<GameOverProps> = props => {
   const { stats, handleOnShowLevelSelect } = props;
 
-  const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
-    if (!event.repeat && event.key === 'Enter') {
-      handleOnShowLevelSelect();
-    }
-  }, []);
+  const handleKeyDown = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (!event.repeat && event.key === 'Enter') {
+        handleOnShowLevelSelect();
+      }
+    },
+    [handleOnShowLevelSelect],
+  );
 
   React.useEffect(() => {
     document.addEventListener('keydown', handleKeyDown);
