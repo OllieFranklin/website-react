@@ -41,6 +41,7 @@ export class Game {
   private entryDelay: number;
   private downPressed: boolean;
   private frameNum: number;
+  private longestDrought: number;
 
   public constructor(initialLevel: number, pieceOrder?: TetrominoLetter[]) {
     this.moves = [];
@@ -73,6 +74,7 @@ export class Game {
     this.drought = 0;
     this.burn = 0;
     this.frameNum = 0;
+    this.longestDrought = 0;
   }
 
   /**
@@ -100,8 +102,8 @@ export class Game {
           score: this.score,
           tetrisRate: this.tetrisRate,
           finalLevel: this.level,
-          longestDrought: 0,
-          startingLevel: 0,
+          longestDrought: this.longestDrought,
+          startingLevel: this.initialLevel,
         },
       };
     } else {
@@ -209,6 +211,9 @@ export class Game {
 
         // update drought counter
         if (this.board.nextTetromino.letter === 'I') {
+          if (this.drought > this.longestDrought) {
+            this.longestDrought = this.drought;
+          }
           this.drought = 0;
         } else {
           this.drought++;

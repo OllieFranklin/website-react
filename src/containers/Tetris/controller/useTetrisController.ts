@@ -70,8 +70,8 @@ const useTetrisController = () => {
     }
   }, [stats, setStats, isPaused, isGameOver, setIsGameOver]);
 
-  const pauseGame = () => {
-    setIsPaused(true);
+  const togglePlayPause = () => {
+    setIsPaused(p => !p);
   };
 
   const startGame = (level: number) => {
@@ -112,7 +112,14 @@ const useTetrisController = () => {
     };
   }, [nextFrame]);
 
-  return { stats, boardRef, nextPieceRef, startGame, pauseGame, isGameOver };
+  return {
+    stats,
+    boardRef,
+    nextPieceRef,
+    startGame,
+    togglePlayPause,
+    isGameOver,
+  };
 };
 
 export { useTetrisController };

@@ -12,10 +12,11 @@ type GameBoardWithStatsProps = {
   boardRef: React.MutableRefObject<BoardLetter[][]>;
   nextPieceRef: React.MutableRefObject<BoardLetter[][]>;
   stats: InGameStatistics;
+  togglePlayPause: () => void;
 };
 
 const GameBoardWithStats: React.FC<GameBoardWithStatsProps> = props => {
-  const { boardRef, nextPieceRef, stats } = props;
+  const { boardRef, nextPieceRef, stats, togglePlayPause } = props;
 
   const [cellSize, setCellSize] = React.useState(-1);
   const pageRef = React.useRef<HTMLDivElement>(null);
@@ -34,12 +35,26 @@ const GameBoardWithStats: React.FC<GameBoardWithStatsProps> = props => {
     setCellSize(newCellSize);
   }, []);
 
+  const handleKeyDown = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (!event.repeat && event.key === 'Enter') {
+        togglePlayPause();
+      }
+    },
+    [togglePlayPause],
+  );
+
   React.useEffect(() => {
     window.addEventListener('resize', handleResize);
     setTimeout(handleResize, 10);
 
     return () => window.removeEventListener('resize', handleResize);
   }, [handleResize]);
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <Box

@@ -26,13 +26,29 @@ const LevelSelect: React.FC<LevelSelectProps> = props => {
   const [levelData, setLevelData] = React.useState(getLevelData(18));
 
   const handleOnChangeSlider = (event: Event, value: number | number[]) => {
-    const newLevelData = getLevelData(value as number);
-    setLevelData(newLevelData);
+    if (typeof value === 'number') {
+      const newLevelData = getLevelData(value);
+      setLevelData(newLevelData);
+    }
   };
 
   const handleOnClickStart = () => {
     handleOnStartGame(levelData.level);
   };
+
+  const handleKeyDown = React.useCallback(
+    (event: KeyboardEvent) => {
+      if (!event.repeat && event.key === 'Enter') {
+        handleOnStartGame(levelData.level);
+      }
+    },
+    [levelData],
+  );
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <Box

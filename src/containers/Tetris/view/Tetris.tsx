@@ -13,16 +13,14 @@ type TetrisProps = {};
 const Tetris: React.FC<TetrisProps> = props => {
   const { palette } = useTheme();
   const { GameStates, gameState, setGameState } = useTetrisView();
-  const { boardRef, nextPieceRef, startGame, stats, isGameOver } =
-    useTetrisController();
-
-  React.useEffect(() => {
-    if (gameState !== GameStates.PLAYING) return;
-
-    if (isGameOver) {
-      setGameState(GameStates.GAME_OVER);
-    }
-  }, [gameState, isGameOver, setGameState, GameStates]);
+  const {
+    boardRef,
+    nextPieceRef,
+    startGame,
+    stats,
+    isGameOver,
+    togglePlayPause,
+  } = useTetrisController();
 
   const handleOnShowLevelSelect = () => {
     setGameState(GameStates.LEVEL_SELECT);
@@ -33,6 +31,12 @@ const Tetris: React.FC<TetrisProps> = props => {
 
     setGameState(GameStates.PLAYING);
   };
+
+  React.useEffect(() => {
+    if (gameState === GameStates.PLAYING && isGameOver) {
+      setGameState(GameStates.GAME_OVER);
+    }
+  }, [gameState, isGameOver, setGameState, GameStates]);
 
   return (
     <Box
@@ -53,6 +57,7 @@ const Tetris: React.FC<TetrisProps> = props => {
           boardRef={boardRef}
           nextPieceRef={nextPieceRef}
           stats={stats.value}
+          togglePlayPause={togglePlayPause}
         />
       )}
 

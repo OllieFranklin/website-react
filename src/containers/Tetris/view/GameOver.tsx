@@ -22,6 +22,7 @@ const GameOverStat: React.FC<GameOverStatProps> = props => {
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+        gap: 1,
       }}
     >
       <Typography variant="h4" sx={{ fontWeight: '600' }}>
@@ -39,6 +40,17 @@ type GameOverProps = {
 
 const GameOver: React.FC<GameOverProps> = props => {
   const { stats, handleOnShowLevelSelect } = props;
+
+  const handleKeyDown = React.useCallback((event: KeyboardEvent) => {
+    if (!event.repeat && event.key === 'Enter') {
+      handleOnShowLevelSelect();
+    }
+  }, []);
+
+  React.useEffect(() => {
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [handleKeyDown]);
 
   return (
     <Box

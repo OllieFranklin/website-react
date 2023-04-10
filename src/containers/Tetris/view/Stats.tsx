@@ -93,7 +93,7 @@ const Stats: React.FC<StatsProps> = props => {
       >
         <StatsItem name="Level" value={level} />
         <StatsItem name="Lines" value={lines} />
-        <StatsItem name="Score" value={score} />
+        <StatsItem name="Score" value={Number(score).toLocaleString()} />
       </Paper>
 
       <Paper
