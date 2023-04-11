@@ -26,7 +26,8 @@
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
-    "deploy": "netlify deploy -d .",
+    "predeploy": "npm run build",
+    "deploy": "netlify deploy --prod -d ./build",
     "build": "react-scripts build",
     "test": "react-scripts test --testPathIgnorePatterns=test_oracles",
     "eject": "react-scripts eject"
