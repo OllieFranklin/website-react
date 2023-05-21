@@ -12,9 +12,9 @@ import star2 from '../../assets/Home/star2.svg';
 import { featureFlags } from '../../constants/featureFlags';
 import './Home.css';
 
-type StarProps = { source: string; key: string };
+type StarProps = { source: string };
 
-const Star: React.FC<StarProps> = ({ source, key }) => {
+const Star: React.FC<StarProps> = ({ source }) => {
   let left = Math.random();
   let top = Math.random();
 
@@ -25,9 +25,7 @@ const Star: React.FC<StarProps> = ({ source, key }) => {
     top: `${top * 100}%`,
   };
 
-  return (
-    <img src={source} style={styles} className="star" key={key} alt={key} />
-  );
+  return <img src={source} style={styles} className="star" alt="Star" />;
 };
 
 type HomeProps = {};
