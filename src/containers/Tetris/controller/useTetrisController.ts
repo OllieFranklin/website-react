@@ -9,6 +9,50 @@ import {
   GameOverStatistics,
 } from '../model';
 
+type UserInput =
+  | { type: 'keyboard'; key: string }
+  | { type: 'controller'; something: any };
+
+type Action =
+  | 'up'
+  | 'down'
+  | 'left'
+  | 'right'
+  | 'rotateCW'
+  | 'rotateACW'
+  | 'togglePause'
+  | 'continue';
+type Controls = { [key in Action]: UserInput[] };
+
+const defaultControls: Controls = {
+  up: [{ type: 'keyboard', key: 'ArrowUp' }],
+  down: [{ type: 'keyboard', key: 'ArrowDown' }],
+  left: [{ type: 'keyboard', key: 'ArrowLeft' }],
+  right: [{ type: 'keyboard', key: 'ArrowRight' }],
+  rotateCW: [{ type: 'keyboard', key: 'z' }],
+  rotateACW: [{ type: 'keyboard', key: 'x' }],
+  togglePause: [{ type: 'keyboard', key: 'Enter' }],
+  continue: [{ type: 'keyboard', key: 'Enter' }],
+};
+
+const controls = defaultControls;
+
+const actionsByKey = (() => {
+  const actions = new Map<string, Action[]>();
+
+  for (const action of Object.keys(controls) as Action[]) {
+    for (const input of controls[action]) {
+      if (input.type !== 'keyboard') continue;
+      const { key } = input;
+
+      const currentActions = actions.get(key) ?? [];
+      actions.set(key, [...currentActions, action]);
+    }
+  }
+
+  return actions;
+})();
+
 const useTetrisController = () => {
   const [isPaused, setIsPaused] = React.useState<boolean>(true);
 
@@ -84,23 +128,26 @@ const useTetrisController = () => {
     const { repeat, key } = event;
     if (repeat) return;
 
-    switch (key) {
-      case 'ArrowDown':
-        keyState.current.down = isPressed;
-        break;
-      case 'ArrowLeft':
-        keyState.current.left = isPressed;
-        break;
-      case 'ArrowRight':
-        keyState.current.right = isPressed;
-        break;
-      case 'z':
-        keyState.current.rotateCW = isPressed;
-        break;
-      case 'x':
-        keyState.current.rotateACW = isPressed;
-        break;
-      default:
+    const actions = actionsByKey.get(key) ?? [];
+
+    for (const action of actions) {
+      switch (action) {
+        case 'down':
+          keyState.current.down = isPressed;
+          break;
+        case 'left':
+          keyState.current.left = isPressed;
+          break;
+        case 'right':
+          keyState.current.right = isPressed;
+          break;
+        case 'rotateCW':
+          keyState.current.rotateCW = isPressed;
+          break;
+        case 'rotateACW':
+          keyState.current.rotateACW = isPressed;
+          break;
+      }
     }
   };
 
