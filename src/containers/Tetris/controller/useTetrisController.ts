@@ -57,7 +57,7 @@ const useTetrisController = () => {
     boardRef.current = gameState.board;
     nextPieceRef.current = gameState.nextPiece;
 
-    if (!isEqual(stats, gameState.statistics)) {
+    if (!isEqual(stats?.value, gameState.statistics)) {
       if (gameState.isGameOver) {
         setStats({ type: 'gameOver', value: gameState.statistics });
       } else {
@@ -107,9 +107,7 @@ const useTetrisController = () => {
   React.useEffect(() => {
     const intervalID = setInterval(nextFrame, 1000 / 60);
 
-    return () => {
-      clearInterval(intervalID);
-    };
+    return () => clearInterval(intervalID);
   }, [nextFrame]);
 
   return {
