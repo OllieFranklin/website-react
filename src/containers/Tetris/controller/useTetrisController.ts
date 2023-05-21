@@ -1,4 +1,5 @@
 import React from 'react';
+import z from 'zod';
 import isEqual from 'lodash/isEqual';
 
 import {
@@ -9,33 +10,29 @@ import {
   GameOverStatistics,
 } from '../model';
 
-type UserInput =
-  | { type: 'keyboard'; key: string }
-  | { type: 'controller'; something: any };
+const UserInputSchema = z.union([
+  z.object({ type: z.literal('keyboard'), key: z.string() }),
+  z.object({ type: z.literal('controller'), something: z.any() }),
+]);
+const UserInputsSchema = z.array(UserInputSchema);
 
-type Action =
-  | 'up'
-  | 'down'
-  | 'left'
-  | 'right'
-  | 'rotateCW'
-  | 'rotateACW'
-  | 'togglePause'
-  | 'continue';
-type Controls = { [key in Action]: UserInput[] };
+const ControlsSchema = z.object({
+  up: UserInputsSchema.default([{ type: 'keyboard', key: 'ArrowUp' }]),
+  down: UserInputsSchema.default([{ type: 'keyboard', key: 'ArrowDown' }]),
+  left: UserInputsSchema.default([{ type: 'keyboard', key: 'ArrowLeft' }]),
+  right: UserInputsSchema.default([{ type: 'keyboard', key: 'ArrowRight' }]),
+  rotateCW: UserInputsSchema.default([{ type: 'keyboard', key: 'z' }]),
+  rotateACW: UserInputsSchema.default([{ type: 'keyboard', key: 'x' }]),
+  togglePause: UserInputsSchema.default([{ type: 'keyboard', key: 'Enter' }]),
+  continue: UserInputsSchema.default([{ type: 'keyboard', key: 'Enter' }]),
+});
 
-const defaultControls: Controls = {
-  up: [{ type: 'keyboard', key: 'ArrowUp' }],
-  down: [{ type: 'keyboard', key: 'ArrowDown' }],
-  left: [{ type: 'keyboard', key: 'ArrowLeft' }],
-  right: [{ type: 'keyboard', key: 'ArrowRight' }],
-  rotateCW: [{ type: 'keyboard', key: 'z' }],
-  rotateACW: [{ type: 'keyboard', key: 'x' }],
-  togglePause: [{ type: 'keyboard', key: 'Enter' }],
-  continue: [{ type: 'keyboard', key: 'Enter' }],
-};
+type Action = keyof z.infer<typeof ControlsSchema>;
 
-const controls = defaultControls;
+const controlsJSON = window.localStorage.getItem('tetrisControls') ?? '{}';
+const controls = ControlsSchema.parse(JSON.parse(controlsJSON));
+
+window.localStorage.setItem('tetrisControls', JSON.stringify(controls));
 
 const actionsByKey = (() => {
   const actions = new Map<string, Action[]>();
