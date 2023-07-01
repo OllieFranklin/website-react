@@ -5,14 +5,20 @@ import useTheme from '@mui/material/styles/useTheme';
 import { GameOver } from './GameOver';
 import { LevelSelect } from './LevelSelect';
 import { GameBoardWithStats } from './GameBoardWithStats';
-import { useTetrisView } from './useTetrisView';
 import { useTetrisController } from '../controller';
+
+enum GameStates {
+  LEVEL_SELECT,
+  PLAYING,
+  GAME_OVER,
+}
 
 type TetrisProps = {};
 
 const Tetris: React.FC<TetrisProps> = props => {
+  const [gameState, setGameState] = React.useState(GameStates.LEVEL_SELECT);
+
   const { palette } = useTheme();
-  const { GameStates, gameState, setGameState } = useTetrisView();
   const {
     boardRef,
     nextPieceRef,
