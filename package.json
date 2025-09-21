@@ -12,6 +12,7 @@
     "@testing-library/user-event": "^14.4.3",
     "kute.js": "^2.2.2",
     "lodash": "^4.17.21",
+    "random": "^5.4.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.0.2",
@@ -23,7 +24,8 @@
   "devDependencies": {
     "@types/lodash": "^4.14.178",
     "@types/react": "^18.0.33",
-    "@types/three": "^0.150.1"
+    "@types/three": "^0.150.1",
+    "netlify-cli": "^23.6.0"
   },
   "scripts": {
     "start": "react-scripts --openssl-legacy-provider start",
@@ -31,7 +33,8 @@
     "deploy": "netlify deploy --prod -d ./build",
     "build": "react-scripts build",
     "test": "react-scripts test --testPathIgnorePatterns=test_oracles",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "netlify": "netlify"
   },
   "eslintConfig": {
     "extends": [

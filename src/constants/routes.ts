@@ -6,6 +6,7 @@ import { NotFound } from '../containers/NotFound';
 import { ProjectDescription } from '../containers/ProjectDescription';
 import { Tetris } from '../containers/Tetris';
 import { TetrisTestUI } from '../containers/Tetris/view/TestUI/TetrisTestUI';
+import { Bridge } from '../containers/Bridge';
 import { featureFlags } from './featureFlags';
 
 type Route = {
@@ -22,6 +23,7 @@ type Routes = {
   tetris: Route & {
     test: Route;
   };
+  bridge: Route;
   notFound: Route;
 };
 
@@ -57,6 +59,12 @@ const routes: Routes = {
       Component: TetrisTestUI,
       isEnabled: !!featureFlags.enableTestUI,
     },
+  },
+  bridge: {
+    ...defaultRoute,
+    path: '/bridge',
+    name: 'Bridge',
+    Component: Bridge,
   },
   notFound: {
     ...defaultRoute,
