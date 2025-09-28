@@ -8,6 +8,10 @@ export const CONTRACT_SUITS: ContractSuit[] = ['C', 'D', 'H', 'S', 'NT'];
 export const NUM_RANKS = 13;
 export const BOOK_TRICKS = 6;
 
+export function isRed(suit: ContractSuit): suit is 'D' | 'H' {
+  return suit === 'D' || suit === 'H';
+}
+
 export type Contract = {
   vulnerable: boolean;
   contractTricks: number;

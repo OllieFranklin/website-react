@@ -4,9 +4,13 @@ import Stack from '@mui/material/Stack';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
 import { BaseTrickScore, Contract } from '../model/constants';
-import { contractToString } from '../model/contract';
-import { getBaseTrickTotal, getTotal, scoreContract } from '../model/bridgeScoring';
+import {
+  getBaseTrickTotal,
+  getTotal,
+  scoreContract,
+} from '../model/bridgeScoring';
 import { FlipCard } from './FlipCard';
+import { ContractName } from './ContractName';
 
 type CardHeaderProps = { heading: string; children?: React.ReactNode };
 const CardHeader: React.FC<CardHeaderProps> = props => {
@@ -51,16 +55,17 @@ function baseTrickScoreToString(
   if (firstTrickDifferent && firstTrickScore) {
     terms.push(`1 × ${firstTrickScore}`);
   }
-  if (numOtherTricks && otherTricksScore) {
-    const numOthers = firstTrickDifferent ? numOtherTricks : numOtherTricks + 1;
-    terms.push(`${numOthers} × ${otherTricksScore}`);
+
+  const numTricks = firstTrickDifferent
+    ? numOtherTricks
+    : (numOtherTricks ?? 0) + 1;
+  if (numTricks) {
+    terms.push(`${numTricks} × ${otherTricksScore}`);
   }
+
   let string = terms.join(' + ');
   if (string && multiplier && multiplier > 1) {
-    if (terms.length > 1) {
-      string = `(${string})`;
-    }
-    string = `${string} × ${multiplier}`;
+    string = `(${string}) × ${multiplier}`;
   }
   return string || undefined;
 }
@@ -79,11 +84,6 @@ type ScoreComponentRow = {
 
 const ContractCard: React.FC<ContractCardProps> = props => {
   const { contract, showFront, handleFlip } = props;
-
-  const contractString = React.useMemo(
-    () => contractToString(contract),
-    [contract],
-  );
 
   const [totalScore, scoreRows] = React.useMemo<
     [number, ScoreComponentRow[]]
@@ -131,7 +131,7 @@ const ContractCard: React.FC<ContractCardProps> = props => {
           <CardHeader heading="Contract" />
           <CardBody>
             <Stack direction="column" sx={{ alignItems: 'flex-end' }}>
-              <Typography variant="h1">{contractString}</Typography>
+              <ContractName typographyVariant="h1" contract={contract} />
               <Chip
                 sx={{ width: 'min-content' }}
                 label={contract.vulnerable ? 'Vulnerable' : 'Non-vulnerable'}
@@ -148,7 +148,7 @@ const ContractCard: React.FC<ContractCardProps> = props => {
               direction="row"
               sx={{ height: '100%', gap: 1, alignItems: 'center' }}
             >
-              <Typography variant="body1">{contractString}</Typography>
+              <ContractName typographyVariant="body1" contract={contract} />
               <Chip
                 size="small"
                 label={contract.vulnerable ? 'Vul' : 'Non-vul'}
