@@ -26,17 +26,19 @@ const ContractName: React.FC<ContractNameProps> = props => {
 
   return (
     <Typography variant={typographyVariant}>
-      {beforeSuit}
+      <Box component="span">{beforeSuit}</Box>
       <Box
+        component="span"
         sx={({ palette }) => ({
           display: 'inline',
           color: isRed(contract.suit) ? palette.error.dark : undefined,
-          fontSize: contract.suit !== 'NT' ? '120%' : undefined,
+          fontFamily:
+            contract.suit !== 'NT' ? '"Noto Sans Symbols 2"' : undefined,
         })}
       >
         {suit}
       </Box>
-      {afterSuit}
+      <Box component="span">{afterSuit}</Box>
     </Typography>
   );
 };
