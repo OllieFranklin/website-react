@@ -15,6 +15,7 @@ type Route = {
   Component: React.ComponentType;
   isDarkMode: boolean;
   isEnabled: boolean;
+  showNav: boolean;
 };
 
 type Routes = {
@@ -30,7 +31,8 @@ type Routes = {
 const defaultRoute = {
   isDarkMode: false,
   isEnabled: true,
-};
+  showNav: true,
+} satisfies Partial<Route>;
 
 const routes: Routes = {
   home: {
@@ -65,6 +67,7 @@ const routes: Routes = {
     path: '/bridge',
     name: 'Bridge',
     Component: Bridge,
+    showNav: false,
   },
   notFound: {
     ...defaultRoute,
@@ -81,6 +84,7 @@ const routeKeys: KeysEnum<Route> = {
   Component: true,
   isDarkMode: true,
   isEnabled: true,
+  showNav: true,
 };
 const routeKeysArray = Object.keys(routeKeys);
 

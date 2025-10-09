@@ -7,12 +7,12 @@ import { routes, useCurrentRoute, Route } from '../constants/routes';
 
 type NavItemProps = React.PropsWithChildren<{
   itemRoute: Route;
+  currentRoute: Route;
 }>;
 
 const NavItem: React.FC<NavItemProps> = props => {
-  const { itemRoute, children } = props;
+  const { itemRoute, currentRoute, children } = props;
 
-  const { currentRoute } = useCurrentRoute();
   const itemIsCurrentRoute = itemRoute.path === currentRoute.path;
 
   return (
@@ -50,6 +50,11 @@ type NavigationProps = {};
 const Navigation: React.FC<NavigationProps> = props => {
   const navRoutes = [routes.home, routes.projectDescription, routes.tetris];
 
+  const { currentRoute } = useCurrentRoute();
+
+  if (!currentRoute.showNav) {
+    return null;
+  }
   return (
     <Box
       sx={{
@@ -68,7 +73,11 @@ const Navigation: React.FC<NavigationProps> = props => {
       {navRoutes
         .filter(route => route.isEnabled)
         .map(route => (
-          <NavItem key={route.path} itemRoute={route}>
+          <NavItem
+            key={route.path}
+            itemRoute={route}
+            currentRoute={currentRoute}
+          >
             {route.name}
           </NavItem>
         ))}
